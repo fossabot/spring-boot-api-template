@@ -22,18 +22,20 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.validator;
+package com.phoenix.core.map;
 
-import com.phoenix.common.StringUtils.ValidateString;
 import com.phoenix.core.domain.User;
-import com.phoenix.core.exception.UserValidationException;
+import com.phoenix.core.model.RegisterUser;
 
-public class UserValidator {
-    public static void validateCreateUser(final User user) {
-        if (user == null) throw new UserValidationException("User should not be null");
-        if (ValidateString.isBlank(user.getEmail())) throw new UserValidationException("Email should not be null.");
+public class RegisterUserMapUser implements Mapper<RegisterUser, User>{
+
+    @Override
+    public User convert(RegisterUser registerUser) {
+        return null;
     }
 
-    private UserValidator() {
+    @Override
+    public RegisterUser revert(User user) {
+        return null;
     }
 }

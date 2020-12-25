@@ -36,7 +36,7 @@
         <module>MODULE-CORE</module>
         <module>MODULE-INFRASTRUCTURE</module>
         <module>MODULE-USER-INTERFACE</module>
-        <module>MODULE_COMMON</module>
+        <module>MODULE-COMMON</module>
     </modules>
 
     <properties>

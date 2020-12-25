@@ -24,7 +24,12 @@
 
 package com.phoenix.core.bussiness;
 
+import com.phoenix.common.StringUtils.ValidateString;
 import com.phoenix.core.domain.User;
+import com.phoenix.core.exception.UserAlreadyExistsException;
+import com.phoenix.core.exception.UserValidationException;
+import com.phoenix.core.map.Mapper;
+import com.phoenix.core.model.RegisterUser;
 import com.phoenix.core.port.PasswordEncoderPort;
 import com.phoenix.core.port.UserRepositoryPort;
 
@@ -32,29 +37,52 @@ public class CreateUserUseCase {
 
     private final UserRepositoryPort userRepository;
     private final PasswordEncoderPort passwordEncoder;
+    private final Mapper registerUserMapUser;
 
     public CreateUserUseCase(UserRepositoryPort userRepository,
-                             PasswordEncoderPort passwordEncoder
-    ) {
+                             PasswordEncoderPort passwordEncoder,
+                             Mapper registerUserMapUser) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.registerUserMapUser = registerUserMapUser;
     }
 
 
-    public boolean execute(User user) {
-        //0. Validate user
-
+    public boolean execute(RegisterUser registerUser) {
         try {
-            //1.Mã hóa mật khẩu
+            //0. Validate user
+            validateRegisterUser(registerUser);
+
+            //1. Convert RegisterUser -> User
+            User user = (User) registerUserMapUser.convert(registerUser);
+
+            //2. Mã hóa mật khẩu
             String password = passwordEncoder.encode(user.getPassword());
             user.setPassword(password);
 
-            //2.Lưu user vào db.
+            //3. Lưu user vào db.
             userRepository.save(user);
 
             return true;
         } catch (Exception e) {
             return false;
         }
+    }
+
+    /**
+     * @param registerUser :
+     *                     throw UserValidation nếu sai.
+     */
+    private void validateRegisterUser(RegisterUser registerUser) {
+        if (registerUser == null)
+            throw new UserValidationException("User should not be null");
+        if (ValidateString.isBlank(registerUser.getEmail()))
+            throw new UserValidationException("Email should not be null.");
+        if (ValidateString.isNullOrNotBlank(registerUser.getEmail()))
+            throw new UserValidationException("Email can be null but not blank.");
+        if (userRepository.findByEmail(registerUser.getEmail()).isPresent())
+            throw new UserAlreadyExistsException(registerUser.getEmail() + " is already exist.");
+        if (userRepository.findByUsername("Email: " + registerUser.getUsername()).isPresent())
+            throw new UserAlreadyExistsException("Username: " + registerUser.getUsername() + " is already exist.");
     }
 }

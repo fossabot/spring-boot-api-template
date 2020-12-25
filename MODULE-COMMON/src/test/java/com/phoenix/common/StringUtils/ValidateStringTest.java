@@ -22,18 +22,26 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.validator;
+package com.phoenix.common.StringUtils;
 
-import com.phoenix.common.StringUtils.ValidateString;
-import com.phoenix.core.domain.User;
-import com.phoenix.core.exception.UserValidationException;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class UserValidator {
-    public static void validateCreateUser(final User user) {
-        if (user == null) throw new UserValidationException("User should not be null");
-        if (ValidateString.isBlank(user.getEmail())) throw new UserValidationException("Email should not be null.");
+public class ValidateStringTest {
+    @Test
+    public void testIsBlank(){
+        Assert.assertTrue(ValidateString.isBlank(""));
+        Assert.assertFalse(ValidateString.isBlank("abc"));
+        Assert.assertFalse(ValidateString.isBlank("abc cdf"));
+        Assert.assertFalse(ValidateString.isBlank("     cdf"));
     }
 
-    private UserValidator() {
+    @Test
+    public void testIsNullOrNotBlank(){
+        Assert.assertFalse(ValidateString.isNullOrNotBlank(""));
+        Assert.assertTrue(ValidateString.isNullOrNotBlank("abc"));
+        Assert.assertTrue(ValidateString.isNullOrNotBlank("abc cdf"));
+        Assert.assertTrue(ValidateString.isNullOrNotBlank("     cdf"));
+        Assert.assertTrue(ValidateString.isNullOrNotBlank(null));
     }
 }

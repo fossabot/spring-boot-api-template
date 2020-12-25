@@ -8,15 +8,15 @@
         <outputRelativeToContentRoot value="true" />
         <module name="MODULE-INFRASTRUCTURE" />
         <module name="MODULE-USER-INTERFACE" />
+        <module name="MODULE-COMMON" />
         <module name="MODULE-CORE" />
-        <module name="MODULE_COMMON" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="MODULE-COMMON" target="11" />
       <module name="MODULE-CORE" target="11" />
       <module name="MODULE-INFRASTRUCTURE" target="11" />
       <module name="MODULE-USER-INTERFACE" target="11" />
-      <module name="MODULE_COMMON" target="11" />
       <module name="spring-boot-api-template" target="11" />
     </bytecodeTargetLevel>
   </component>

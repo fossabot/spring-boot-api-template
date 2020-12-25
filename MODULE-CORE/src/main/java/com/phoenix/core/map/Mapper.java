@@ -22,18 +22,12 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.validator;
+package com.phoenix.core.map;
 
-import com.phoenix.common.StringUtils.ValidateString;
-import com.phoenix.core.domain.User;
-import com.phoenix.core.exception.UserValidationException;
-
-public class UserValidator {
-    public static void validateCreateUser(final User user) {
-        if (user == null) throw new UserValidationException("User should not be null");
-        if (ValidateString.isBlank(user.getEmail())) throw new UserValidationException("Email should not be null.");
-    }
-
-    private UserValidator() {
-    }
+/**
+ * Convert qua lại giữa 2 object T và E
+ */
+public interface Mapper<T,E> {
+    E convert(T t);
+    T revert(E e);
 }
