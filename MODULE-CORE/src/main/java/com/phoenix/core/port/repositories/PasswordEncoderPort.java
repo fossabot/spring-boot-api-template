@@ -22,14 +22,8 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.port;
+package com.phoenix.core.port.repositories;
 
-import com.phoenix.core.domain.User;
-
-import java.util.Optional;
-
-public interface UserRepositoryPort {
-    public void save(User user);
-    public Optional findByEmail(String email);
-    public Optional findByUsername(String username);
+public interface PasswordEncoderPort {
+    public String encode(String password);
 }

@@ -30,8 +30,8 @@ import com.phoenix.core.exception.UserAlreadyExistsException;
 import com.phoenix.core.exception.UserValidationException;
 import com.phoenix.core.map.Mapper;
 import com.phoenix.core.model.RegisterUser;
-import com.phoenix.core.port.PasswordEncoderPort;
-import com.phoenix.core.port.UserRepositoryPort;
+import com.phoenix.core.port.repositories.PasswordEncoderPort;
+import com.phoenix.core.port.repositories.UserRepositoryPort;
 
 public class CreateUserUseCase {
 

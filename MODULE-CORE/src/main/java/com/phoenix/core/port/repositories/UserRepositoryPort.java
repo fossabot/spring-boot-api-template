@@ -22,29 +22,14 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.bussiness;
+package com.phoenix.core.port.repositories;
 
-import com.phoenix.common.Security.TokenProvider;
-import com.phoenix.core.model.payload.LoginUser;
-import com.phoenix.core.port.security.AuthenticationManagerPort;
+import com.phoenix.core.domain.User;
 
-public class LoginUseCase {
-    private final AuthenticationManagerPort authenticationManager;
-    private final TokenProvider tokenProvider;
+import java.util.Optional;
 
-    public LoginUseCase(AuthenticationManagerPort authenticationManager,
-                        TokenProvider tokenProvider) {
-        this.authenticationManager = authenticationManager;
-        this.tokenProvider = tokenProvider;
-    }
-
-    public String execute(LoginUser user) {
-        // Xác thực user.
-        authenticationManager.authenticate(user.getUsername(), user.getPassword());
-
-        //Tạo token
-        String token = tokenProvider.generateToken();
-
-        return token;
-    }
+public interface UserRepositoryPort {
+    public void save(User user);
+    public Optional findByEmail(String email);
+    public Optional findByUsername(String username);
 }

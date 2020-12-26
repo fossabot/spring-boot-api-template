@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.port;
+package com.phoenix.common.Security;
 
-public interface PasswordEncoderPort {
-    public String encode(String password);
+public interface TokenProvider {
+    public String  generateToken();
 }
