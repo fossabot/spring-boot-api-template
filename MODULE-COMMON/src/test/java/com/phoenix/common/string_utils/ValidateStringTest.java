@@ -22,52 +22,26 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.model.payload;
+package com.phoenix.common.string_utils;
 
-public class LoginUser {
-    private String username;
-    private String password;
-    private String email;
+import org.junit.Assert;
+import org.junit.Test;
 
-    public LoginUser(String username, String password, String email) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
+public class ValidateStringTest {
+    @Test
+    public void testIsBlank(){
+        Assert.assertTrue(ValidateString.isBlank(""));
+        Assert.assertFalse(ValidateString.isBlank("abc"));
+        Assert.assertFalse(ValidateString.isBlank("abc cdf"));
+        Assert.assertFalse(ValidateString.isBlank("     cdf"));
     }
 
-    public LoginUser() {
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public String toString() {
-        return "LoginUser{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+    @Test
+    public void testIsNullOrNotBlank(){
+        Assert.assertFalse(ValidateString.isNullOrNotBlank(""));
+        Assert.assertTrue(ValidateString.isNullOrNotBlank("abc"));
+        Assert.assertTrue(ValidateString.isNullOrNotBlank("abc cdf"));
+        Assert.assertTrue(ValidateString.isNullOrNotBlank("     cdf"));
+        Assert.assertTrue(ValidateString.isNullOrNotBlank(null));
     }
 }

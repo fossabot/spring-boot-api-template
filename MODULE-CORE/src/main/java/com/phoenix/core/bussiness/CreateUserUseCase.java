@@ -24,7 +24,7 @@
 
 package com.phoenix.core.bussiness;
 
-import com.phoenix.common.StringUtils.ValidateString;
+import com.phoenix.common.string_utils.ValidateString;
 import com.phoenix.core.domain.User;
 import com.phoenix.core.exception.UserAlreadyExistsException;
 import com.phoenix.core.exception.UserValidationException;
@@ -48,37 +48,37 @@ public class CreateUserUseCase {
     }
 
 
-    public boolean execute(RegisterUser registerUser) {
-        try {
-            //0. Validate user
-            validateRegisterUser(registerUser);
+    /**
+     * @param registerUser : thông tin user đăng kí
+     *
+     * Thực thi use case create user.
+     * Nếu có bất kì lỗi nào sẽ ném ra 1 Exception
+     */
+    public void execute(RegisterUser registerUser) throws Exception{
+        //0. Validate registerUser
+        validate(registerUser);
 
-            //1. Convert RegisterUser -> User
-            User user = (User) registerUserMapUser.convert(registerUser);
+        //1. Convert RegisterUser -> User
+        User user = (User) registerUserMapUser.convert(registerUser);
 
-            //2. Mã hóa mật khẩu
-            String password = passwordEncoder.encode(user.getPassword());
-            user.setPassword(password);
+        //2. Mã hóa mật khẩu
+        String password = passwordEncoder.encode(user.getPassword());
+        user.setPassword(password);
 
-            //3. Lưu user vào db.
-            userRepository.save(user);
-
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
+        //3. Lưu user vào db.
+        userRepository.save(user);
     }
 
     /**
      * @param registerUser :
      *                     throw UserValidation nếu sai.
      */
-    private void validateRegisterUser(RegisterUser registerUser) {
+    private void validate(RegisterUser registerUser) {
         if (registerUser == null)
             throw new UserValidationException("User should not be null");
         if (ValidateString.isBlank(registerUser.getEmail()))
             throw new UserValidationException("Email should not be null.");
-        if (ValidateString.isNullOrNotBlank(registerUser.getEmail()))
+        if (!ValidateString.isNullOrNotBlank(registerUser.getEmail()))
             throw new UserValidationException("Email can be null but not blank.");
         if (userRepository.findByEmail(registerUser.getEmail()).isPresent())
             throw new UserAlreadyExistsException(registerUser.getEmail() + " is already exist.");

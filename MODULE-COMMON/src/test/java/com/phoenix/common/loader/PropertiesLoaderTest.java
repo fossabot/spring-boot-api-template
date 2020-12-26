@@ -22,26 +22,45 @@
  * SOFTWARE.
  */
 
-package com.phoenix.common.StringUtils;
+package com.phoenix.common.loader;
 
-import org.junit.Assert;
 import org.junit.Test;
 
-public class ValidateStringTest {
-    @Test
-    public void testIsBlank(){
-        Assert.assertTrue(ValidateString.isBlank(""));
-        Assert.assertFalse(ValidateString.isBlank("abc"));
-        Assert.assertFalse(ValidateString.isBlank("abc cdf"));
-        Assert.assertFalse(ValidateString.isBlank("     cdf"));
-    }
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
+public class PropertiesLoaderTest {
+    private static final String FILE_CONFIG = "\\config.properties";
 
     @Test
-    public void testIsNullOrNotBlank(){
-        Assert.assertFalse(ValidateString.isNullOrNotBlank(""));
-        Assert.assertTrue(ValidateString.isNullOrNotBlank("abc"));
-        Assert.assertTrue(ValidateString.isNullOrNotBlank("abc cdf"));
-        Assert.assertTrue(ValidateString.isNullOrNotBlank("     cdf"));
-        Assert.assertTrue(ValidateString.isNullOrNotBlank(null));
+    public void testLoadProperties() {
+        Properties properties = new Properties();
+        InputStream inputStream = null;
+        try {
+
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            inputStream = classloader.getResourceAsStream(FILE_CONFIG);
+
+            // load properties from file
+            properties.load(inputStream);
+
+            // get property by name
+            System.out.println(properties.getProperty("username"));
+            System.out.println(properties.getProperty("password"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // close objects
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

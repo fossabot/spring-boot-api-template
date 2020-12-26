@@ -22,8 +22,30 @@
  * SOFTWARE.
  */
 
-package com.phoenix.common.Security;
+package com.phoenix.common.string_utils;
 
-public interface TokenProvider {
-    public String  generateToken();
+/**
+ * Các hàm để validate chuỗi.
+ */
+public class ValidateString {
+
+    /**
+     * @param str: chuỗi cần kiểm tra
+     * @return: true if the string is empty or contains only white space codepoints, otherwise false
+     */
+    public static boolean isBlank(String str) {
+        return str.isBlank();
+    }
+
+    /**
+     * @param s : chuỗi cần kiểm tra
+     * @return true nếu chuỗi s là null hoặc không blank. Còn lại trả về false
+     */
+    public static boolean isNullOrNotBlank(String s) {
+        if (s == null) {
+            return true;
+        }
+
+        return !s.isBlank();
+    }
 }

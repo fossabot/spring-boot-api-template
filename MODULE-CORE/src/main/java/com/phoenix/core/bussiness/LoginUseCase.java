@@ -24,7 +24,9 @@
 
 package com.phoenix.core.bussiness;
 
-import com.phoenix.common.Security.TokenProvider;
+import com.phoenix.common.security.TokenProvider;
+import com.phoenix.common.string_utils.ValidateString;
+import com.phoenix.core.exception.UserValidationException;
 import com.phoenix.core.model.payload.LoginUser;
 import com.phoenix.core.port.security.AuthenticationManagerPort;
 
@@ -38,7 +40,10 @@ public class LoginUseCase {
         this.tokenProvider = tokenProvider;
     }
 
-    public String execute(LoginUser user) {
+    public String execute(LoginUser user) throws Exception {
+        // validate input
+        validate(user);
+
         // Xác thực user.
         authenticationManager.authenticate(user.getUsername(), user.getPassword());
 
@@ -46,5 +51,14 @@ public class LoginUseCase {
         String token = tokenProvider.generateToken();
 
         return token;
+    }
+
+    private void validate(LoginUser user) {
+        if (user == null)
+            throw new UserValidationException("User should not be null");
+        if (ValidateString.isBlank(user.getEmail()))
+            throw new UserValidationException("Email should not be null.");
+        if (!ValidateString.isNullOrNotBlank(user.getEmail()))
+            throw new UserValidationException("Email can be null but not blank.");
     }
 }

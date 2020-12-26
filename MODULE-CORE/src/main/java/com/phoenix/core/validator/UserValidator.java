@@ -24,7 +24,7 @@
 
 package com.phoenix.core.validator;
 
-import com.phoenix.common.StringUtils.ValidateString;
+import com.phoenix.common.string_utils.ValidateString;
 import com.phoenix.core.domain.User;
 import com.phoenix.core.exception.UserValidationException;
 
