@@ -37,101 +37,75 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
 public class XmlLoaderTest {
-    @Test
-    public void testLoadXml() throws ParserConfigurationException, IOException, SAXException {
+    private Element getRootElement(String fileName) throws ParserConfigurationException, IOException, SAXException {
         ClassLoader classLoader = getClass().getClassLoader();
-        File inputFile = new File(classLoader.getResource("xml/test-xml-01.xml").getFile());
+        File inputFile = new File(classLoader.getResource(fileName).getFile());
 
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         Document doc = dBuilder.parse(inputFile);
-        doc.getDocumentElement().normalize();
+
         System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-        NodeList nList = doc.getElementsByTagName("student");
-        System.out.println("----------------------------");
 
-        for (int temp = 0; temp < nList.getLength(); temp++) {
-            Node nNode = nList.item(temp);
-            System.out.println("\nCurrent Element :" + nNode.getNodeName());
-
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) nNode;
-                System.out.println("Student roll no : "
-                        + eElement.getAttribute("rollno"));
-                System.out.println("First Name : "
-                        + eElement
-                        .getElementsByTagName("firstname")
-                        .item(0)
-                        .getTextContent());
-                System.out.println("Last Name : "
-                        + eElement
-                        .getElementsByTagName("lastname")
-                        .item(0)
-                        .getTextContent());
-                System.out.println("Nick Name : "
-                        + eElement
-                        .getElementsByTagName("nickname")
-                        .item(0)
-                        .getTextContent());
-                System.out.println("Marks : "
-                        + eElement
-                        .getElementsByTagName("marks")
-                        .item(0)
-                        .getTextContent());
-            }
-        }
+        return doc.getDocumentElement();
     }
 
     @Test
-    public void testLoadXml2() throws ParserConfigurationException, IOException, SAXException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File inputFile = new File(classLoader.getResource("xml/test-xml-05.xml").getFile());
+    public void testParse() throws IOException, SAXException, ParserConfigurationException {
+        Element element = getRootElement("xml/test-xml-01.xml");
+        element.normalize();
 
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-        Document doc = dBuilder.parse(inputFile);
-        doc.getDocumentElement().normalize();
-        System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+        Element datasourceElement = (Element) element.getElementsByTagName("data-source").item(0);
+        Element connectionPoolElement = (Element) element.getElementsByTagName("connection-pool").item(0);
+        Element jpaElement = (Element) element.getElementsByTagName("jpa").item(0);
 
-        Element rootElement = doc.getDocumentElement();
+        NodeList datasourceProps = datasourceElement.getElementsByTagName("property");
+        NodeList connectionPoolProps = connectionPoolElement.getElementsByTagName("property");
+        NodeList jpaProps = jpaElement.getElementsByTagName("property");
 
-        NodeList elements = rootElement.getElementsByTagName("property");
+        for (int i = 0; i < datasourceProps.getLength(); i++) {
+            Element property = (Element) datasourceProps.item(i);
 
-        for (int temp = 0; temp < elements.getLength(); temp++) {
-            Node nNode = elements.item(temp);
-            System.out.println("\nCurrent Element :" + nNode.getNodeName() + ", Node Type: " + nNode.getNodeType());
+            System.out.println("Name : "
+                    + property.getAttribute("name") + ", value: " + property.getAttribute("value"));
+        }
 
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) nNode;
+        System.out.println("============================================================================");
+
+        for (int i = 0; i < connectionPoolProps.getLength(); i++) {
+            Element property = (Element) connectionPoolProps.item(i);
+
+            System.out.println("Name : "
+                    + property.getAttribute("name") + ", value: " + property.getAttribute("value"));
+
+            NodeList props = property.getElementsByTagName("prop");
+
+            for (int j = 0; j < props.getLength(); j++) {
+                Element prop = (Element) props.item(j);
+
                 System.out.println("Name : "
-                        + eElement.getAttribute("name") + ", value: " + eElement.getAttribute("value"));
-
-                if (eElement.getAttribute("attribute").equalsIgnoreCase("yes")) {
-                    NodeList nodes = eElement.getElementsByTagName("prop");
-
-
-                    for (int i = 0; i < nodes.getLength(); i++) {
-                        System.out.println(nodes.item(i).getTextContent());
-                    }
-                }
+                        + prop.getAttribute("name") + ", value: " + prop.getAttribute("value"));
             }
-
-
         }
+
+        System.out.println("============================================================================");
+
+        for (int i = 0; i < jpaProps.getLength(); i++) {
+            Element property = (Element) jpaProps.item(i);
+
+            System.out.println("Name : "
+                    + property.getAttribute("name") + ", value: " + property.getAttribute("value"));
+        }
+
+
+
+
     }
 
-    @Test
-    public void testXmlProperties() throws IOException {
-        java.util.Properties prop = new Properties();
-        ClassLoader classLoader = getClass().getClassLoader();
-        File inputFile = new File(classLoader.getResource("xml/test-xml-02.xml").getFile());
-        FileInputStream fileInputStream = new FileInputStream(inputFile);
-        prop.loadFromXML(fileInputStream);
-        System.out.println(prop.getProperty("propA"));
-        fileInputStream.close();
-    }
 }
+
+
+
