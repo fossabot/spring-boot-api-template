@@ -22,21 +22,14 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.map;
+package com.phoenix.infrastructure.repositories;
 
-import com.phoenix.common.util.Mapper;
-import com.phoenix.core.domain.User;
-import com.phoenix.core.model.RegisterUser;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Repository;
 
-public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
-
-    @Override
-    public User convert(RegisterUser registerUser) {
-        return null;
-    }
-
-    @Override
-    public RegisterUser revert(User user) {
-        return null;
+@Repository
+public class UserRepositoryImp extends RepositoryImp {
+    public UserRepositoryImp(ApplicationContext context) {
+        super(context);
     }
 }

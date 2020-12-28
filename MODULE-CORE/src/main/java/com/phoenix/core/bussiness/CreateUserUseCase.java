@@ -28,9 +28,9 @@ import com.phoenix.common.string_utils.ValidateString;
 import com.phoenix.core.domain.User;
 import com.phoenix.core.exception.UserAlreadyExistsException;
 import com.phoenix.core.exception.UserValidationException;
-import com.phoenix.core.map.Mapper;
+import com.phoenix.common.util.Mapper;
 import com.phoenix.core.model.RegisterUser;
-import com.phoenix.core.port.repositories.PasswordEncoderPort;
+import com.phoenix.core.port.security.PasswordEncoderPort;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
 
 public class CreateUserUseCase {

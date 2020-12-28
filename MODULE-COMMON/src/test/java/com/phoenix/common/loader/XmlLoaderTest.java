@@ -100,9 +100,6 @@ public class XmlLoaderTest {
                     + property.getAttribute("name") + ", value: " + property.getAttribute("value"));
         }
 
-
-
-
     }
 
 }

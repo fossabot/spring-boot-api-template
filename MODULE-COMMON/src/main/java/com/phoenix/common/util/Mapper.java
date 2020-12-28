@@ -22,21 +22,12 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.map;
+package com.phoenix.common.util;
 
-import com.phoenix.common.util.Mapper;
-import com.phoenix.core.domain.User;
-import com.phoenix.core.model.RegisterUser;
-
-public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
-
-    @Override
-    public User convert(RegisterUser registerUser) {
-        return null;
-    }
-
-    @Override
-    public RegisterUser revert(User user) {
-        return null;
-    }
+/**
+ * Convert qua lại giữa 2 object T và E
+ */
+public interface Mapper<T,E> {
+    E convert(T t);
+    T revert(E e);
 }

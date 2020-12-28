@@ -22,12 +22,8 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.map;
+package com.phoenix.core.port.security;
 
-/**
- * Convert qua lại giữa 2 object T và E
- */
-public interface Mapper<T,E> {
-    E convert(T t);
-    T revert(E e);
+public interface PasswordEncoderPort {
+    public String encode(String password);
 }

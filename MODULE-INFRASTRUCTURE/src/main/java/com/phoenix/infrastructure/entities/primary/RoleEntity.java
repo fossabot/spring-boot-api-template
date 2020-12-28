@@ -22,21 +22,21 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.map;
+package com.phoenix.infrastructure.entities.primary;
 
-import com.phoenix.common.util.Mapper;
-import com.phoenix.core.domain.User;
-import com.phoenix.core.model.RegisterUser;
+import com.phoenix.infrastructure.entities.AuditEntity;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
+import javax.persistence.*;
 
-    @Override
-    public User convert(RegisterUser registerUser) {
-        return null;
-    }
+@Entity
+@Table(name = "ROLE")
+@EntityListeners(AuditingEntityListener.class)
+public class RoleEntity extends AuditEntity<String> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    @Override
-    public RegisterUser revert(User user) {
-        return null;
-    }
+    @Column(name = "NAME")
+    private String name;
 }

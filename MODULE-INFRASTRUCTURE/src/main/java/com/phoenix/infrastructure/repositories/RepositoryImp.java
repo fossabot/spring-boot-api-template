@@ -22,8 +22,30 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.port.repositories;
+package com.phoenix.infrastructure.repositories;
 
-public interface PasswordEncoderPort {
-    public String encode(String password);
+import org.springframework.context.ApplicationContext;
+
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+public class RepositoryImp {
+    private final ApplicationContext context;
+
+    public RepositoryImp(ApplicationContext context) {
+        this.context = context;
+    }
+
+    private DataSource getDataSource(String dataSourceName) {
+        return (DataSource) context.getBean(dataSourceName);
+    }
+
+    private Connection getConnection(DataSource dataSource) throws SQLException {
+        return dataSource.getConnection();
+    }
+
+    private void closeConnection(Connection connection) throws SQLException {
+        connection.close();
+    }
 }

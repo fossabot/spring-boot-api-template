@@ -22,21 +22,41 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.map;
+package com.phoenix.infrastructure.entities.primary;
 
-import com.phoenix.common.util.Mapper;
-import com.phoenix.core.domain.User;
-import com.phoenix.core.model.RegisterUser;
+import com.phoenix.infrastructure.entities.AuditEntity;
+import lombok.*;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
+import javax.persistence.*;
 
-    @Override
-    public User convert(RegisterUser registerUser) {
-        return null;
-    }
+@Entity
+@Table(name = "USER")
+@EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+public class UserEntity extends AuditEntity<String> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    @Override
-    public RegisterUser revert(User user) {
-        return null;
-    }
+    @Column(name = "USERNAME")
+    private String username;
+
+    @Column(name = "PASSWORD", nullable = false)
+    private String password;
+
+    @Column(name = "EMAIL", nullable = false)
+    private String email;
+
+    @Column(name = "FIRST_NAME")
+    private String firstName;
+
+    @Column(name = "LAST_NAME")
+    private String lastName;
+
+
 }

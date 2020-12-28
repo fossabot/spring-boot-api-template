@@ -22,21 +22,25 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.map;
+package com.phoenix.infrastructure.config;
 
-import com.phoenix.common.util.Mapper;
-import com.phoenix.core.domain.User;
-import com.phoenix.core.model.RegisterUser;
+import com.zaxxer.hikari.HikariConfig;
+import org.junit.Test;
 
-public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
+import java.io.File;
 
-    @Override
-    public User convert(RegisterUser registerUser) {
-        return null;
-    }
+public class TestDataSourceConfig {
+    @Test
+    public void testCreateHikariCP(){
+        String fileName = "db.properties";
 
-    @Override
-    public RegisterUser revert(User user) {
-        return null;
+        ClassLoader classLoader = getClass().getClassLoader();
+        File configFile = new File(classLoader.getResource(fileName).getFile());
+
+        String path = configFile.getPath();
+
+        HikariConfig hikariConfig = new HikariConfig(path);
+
+        System.out.println(hikariConfig);
     }
 }

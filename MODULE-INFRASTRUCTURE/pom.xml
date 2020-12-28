@@ -18,12 +18,22 @@
         <java.version>11</java.version>
         <org.springframework.spring-context.version>5.3.2</org.springframework.spring-context.version>
         <org.springframework.data.spring-data-jpa.version>2.4.2</org.springframework.data.spring-data-jpa.version>
+        <com.zaxxer.HikariCP.version>3.4.5</com.zaxxer.HikariCP.version>
+        <mysql.mysql-connector-java.version>8.0.22</mysql.mysql-connector-java.version>
+        <org.projectlombok.lombok.version>1.18.16</org.projectlombok.lombok.version>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.phoenix.core</groupId>
+            <artifactId>MODULE-CORE</artifactId>
+            <version>0.0.0</version>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -48,8 +58,25 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>3.4.5</version>
+            <version>${com.zaxxer.HikariCP.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.mysql-connector-java.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${org.projectlombok.lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+
 
 
         <dependency>

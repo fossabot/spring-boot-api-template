@@ -22,25 +22,39 @@
  * SOFTWARE.
  */
 
-package com.phoenix.infrastructure.config;
+package com.phoenix.infrastructure.adapter;
 
-import com.zaxxer.hikari.HikariConfig;
-import org.junit.Test;
+import com.phoenix.common.util.Mapper;
+import com.phoenix.core.domain.User;
+import com.phoenix.core.port.repositories.UserRepositoryPort;
+import com.phoenix.infrastructure.entities.primary.UserEntity;
+import com.phoenix.infrastructure.repositories.primary.UserRepository;
 
-import java.io.File;
+import java.util.Optional;
 
-public class testDataSourceConfig {
-    @Test
-    public void testCreateHikariCP(){
-        String fileName = "db.properties";
+public class UserRepositoryAdapter implements UserRepositoryPort {
+    private final Mapper mapper;
+    private final UserRepository userRepository;
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        File configFile = new File(classLoader.getResource(fileName).getFile());
+    public UserRepositoryAdapter(Mapper mapper, UserRepository userRepository) {
+        this.mapper = mapper;
+        this.userRepository = userRepository;
+    }
 
-        String path = configFile.getPath();
+    @Override
+    public void save(User user) {
+        UserEntity userEntity = (UserEntity) this.mapper.convert(user);
 
-        HikariConfig hikariConfig = new HikariConfig(path);
+        this.userRepository.save(userEntity);
+    }
 
-        System.out.println(hikariConfig);
+    @Override
+    public Optional findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional findByUsername(String username) {
+        return userRepository.findByEmail(username);
     }
 }
