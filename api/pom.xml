@@ -19,6 +19,19 @@
     </properties>
 
     <dependencies>
+        <!--========= module =========-->
+        <dependency>
+            <groupId>com.phoenix.infrastructure</groupId>
+            <artifactId>MODULE-INFRASTRUCTURE</artifactId>
+            <version>0.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.phoenix.user-interface</groupId>
+            <artifactId>MODULE-USER-INTERFACE</artifactId>
+            <version>0.0.0</version>
+        </dependency>
+        <!--========= module =========-->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web-services</artifactId>

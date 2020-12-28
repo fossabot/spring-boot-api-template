@@ -9,7 +9,10 @@ import org.springframework.context.ConfigurableApplicationContext;
  * Spring Boot Application Template.
  */
 
-@SpringBootApplication(scanBasePackages = "com.phoenix.*")
+@SpringBootApplication(scanBasePackages = {
+        "com.phoenix.api",
+        "com.phoenix.infrastructure.*",
+        "com.phoenix.UserInterface.*"})
 public class Application {
 
     public static void main(String[] args) {
