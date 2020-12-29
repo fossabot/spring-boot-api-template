@@ -24,6 +24,40 @@
 
 package com.phoenix.adapter.controller;
 
+import com.phoenix.adapter.map.RegisterUserMapUser;
+import com.phoenix.core.bussiness.CreateUserUseCase;
+import com.phoenix.domain.entity.User;
+import com.phoenix.domain.payload.RegisterUser;
+import com.phoenix.domain.response.ApiResponse;
+import com.phoenix.domain.response.HttpStatus;
+import com.phoenix.domain.response.ResponseType;
+
 public class AuthControllerAdapter {
+    private final CreateUserUseCase createUserUseCase;
+
+    public AuthControllerAdapter(CreateUserUseCase createUserUseCase) {
+        this.createUserUseCase = createUserUseCase;
+    }
+
+    public ApiResponse createUser(RegisterUser registerUser) {
+        try {
+            RegisterUserMapUser mapping = new RegisterUserMapUser();
+
+            User domainUser = createUserUseCase.execute(mapping.convert(registerUser));
+
+
+            ApiResponse<User> userApiResponse = new ApiResponse<User>(
+                    String.valueOf(HttpStatus.CREATED.value()),
+                    ResponseType.INFO, domainUser,
+                    "Enums.Message.RESOURCE_CREATED.value()");
+            return userApiResponse;
+        } catch (Exception e) {
+            ApiResponse<Exception> exceptionApiResponse = new ApiResponse<>(
+                    String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
+                    ResponseType.EXCEPTION, null,
+                    e.getMessage());
+            return exceptionApiResponse;
+        }
+    }
 
 }

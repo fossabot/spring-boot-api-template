@@ -48,12 +48,9 @@ public class CreateUserUseCase {
      *             Thực thi use case create user.
      *             Nếu có bất kì lỗi nào sẽ ném ra 1 Exception
      */
-    public void execute(User user) throws Exception {
+    public User execute(User user) throws Exception {
         //0. Validate registerUser
         validate(user);
-
-        //1. Convert RegisterUser -> User
-        //User user = (User) registerUserMapUser.convert(registerUser);
 
         //2. Mã hóa mật khẩu
         String password = passwordEncoder.encode(user.getPassword());
@@ -61,6 +58,8 @@ public class CreateUserUseCase {
 
         //3. Lưu user vào db.
         userRepository.save(user);
+
+        return user;
     }
 
     /**

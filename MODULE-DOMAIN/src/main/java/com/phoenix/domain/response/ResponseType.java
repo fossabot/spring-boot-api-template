@@ -27,5 +27,6 @@ package com.phoenix.domain.response;
 public enum ResponseType {
     INFO,
     WARNING,
+    EXCEPTION,
     ERROR
 }
