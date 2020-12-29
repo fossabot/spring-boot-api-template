@@ -24,7 +24,7 @@
 
 package com.phoenix.core.bussiness;
 
-import com.phoenix.common.security.TokenProvider;
+import com.phoenix.common.encrypt.TokenProvider;
 import com.phoenix.common.validation.ValidateString;
 import com.phoenix.core.exception.UserValidationException;
 import com.phoenix.core.port.security.AuthenticationManagerPort;

@@ -24,6 +24,8 @@
 
 package com.phoenix.api.config;
 
+import com.phoenix.adapter.encrypt.PasswordEncoderAdapter;
+import com.phoenix.api.security.CustomPasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -45,41 +47,43 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors()
-                .and()
-                .csrf().disable()
-//                .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
+        http.authorizeRequests().anyRequest().permitAll();
+
+//        http.cors()
 //                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authorizeRequests()
-                .antMatchers("/",
-                        "/favicon.ico",
-                        "/**/*.json",
-                        "/**/*.xml",
-                        "/**/*.properties",
-                        "/**/*.woff2",
-                        "/**/*.woff",
-                        "/**/*.ttf",
-                        "/**/*.ttc",
-                        "/**/*.ico",
-                        "/**/*.bmp",
-                        "/**/*.png",
-                        "/**/*.gif",
-                        "/**/*.svg",
-                        "/**/*.jpg",
-                        "/**/*.jpeg",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js").permitAll()
-                .antMatchers("/**/api/auth/**").permitAll()
-                .anyRequest().authenticated();
+//                .csrf().disable()
+////                .exceptionHandling().authenticationEntryPoint(jwtEntryPoint)
+////                .and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
+//                .authorizeRequests()
+//                .antMatchers("/",
+//                        "/favicon.ico",
+//                        "/**/*.json",
+//                        "/**/*.xml",
+//                        "/**/*.properties",
+//                        "/**/*.woff2",
+//                        "/**/*.woff",
+//                        "/**/*.ttf",
+//                        "/**/*.ttc",
+//                        "/**/*.ico",
+//                        "/**/*.bmp",
+//                        "/**/*.png",
+//                        "/**/*.gif",
+//                        "/**/*.svg",
+//                        "/**/*.jpg",
+//                        "/**/*.jpeg",
+//                        "/**/*.html",
+//                        "/**/*.css",
+//                        "/**/*.js").permitAll()
+//                .antMatchers("/**/api/auth/**").permitAll()
+//                .anyRequest().authenticated();
 
 //        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean(value = "PasswordEncoder")
     public PasswordEncoder PasswordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new CustomPasswordEncoder();
     }
 }
