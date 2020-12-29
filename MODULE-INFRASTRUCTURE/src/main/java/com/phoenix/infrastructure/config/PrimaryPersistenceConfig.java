@@ -126,7 +126,6 @@ public class PrimaryPersistenceConfig {
         return localContainerEntityManagerFactoryBean;
     }
 
-    @Primary
     @Bean(name = "PrimaryEntityManagerFactory")
     public EntityManagerFactory entityManagerFactory() {
         return EntityManagerBean().getObject();

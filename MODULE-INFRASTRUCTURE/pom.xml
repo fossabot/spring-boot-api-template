@@ -21,6 +21,9 @@
         <com.zaxxer.HikariCP.version>3.4.5</com.zaxxer.HikariCP.version>
         <mysql.mysql-connector-java.version>8.0.22</mysql.mysql-connector-java.version>
         <org.projectlombok.lombok.version>1.18.16</org.projectlombok.lombok.version>
+        <org.springframework.spring-aspects.version>5.3.2</org.springframework.spring-aspects.version>
+        <org.eclipse.persistence.javax.persistence.version>2.2.1</org.eclipse.persistence.javax.persistence.version>
+        <org.hibernate.javax.persistence.hibernate-jpa-2.1-api.version>1.0.2.Final</org.hibernate.javax.persistence.hibernate-jpa-2.1-api.version>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -76,16 +79,25 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
-            <version>3.1.2.RELEASE</version>
+            <version>${org.springframework.spring-aspects.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence -->
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>javax.persistence</artifactId>
-            <version>2.1.0</version>
+            <version>${org.eclipse.persistence.javax.persistence.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
+        <dependency>
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>${org.hibernate.javax.persistence.hibernate-jpa-2.1-api.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->

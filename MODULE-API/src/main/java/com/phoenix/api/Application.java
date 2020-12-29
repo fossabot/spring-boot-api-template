@@ -12,7 +12,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 @SpringBootApplication(scanBasePackages = {
         "com.phoenix.api",
         "com.phoenix.infrastructure.*",
-        "com.phoenix.UserInterface.*"})
+        "com.phoenix.api.*"})
 public class Application {
 
     public static void main(String[] args) {

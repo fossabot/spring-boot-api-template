@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.phoenix</groupId>
-    <artifactId>api</artifactId>
+    <artifactId>MODULE-API</artifactId>
     <version>0.0.0</version>
-    <name>api</name>
+    <name>MODULE-API</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -23,11 +23,6 @@
         <dependency>
             <groupId>com.phoenix.infrastructure</groupId>
             <artifactId>MODULE-INFRASTRUCTURE</artifactId>
-            <version>0.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.phoenix.user-interface</groupId>
-            <artifactId>MODULE-USER-INTERFACE</artifactId>
             <version>0.0.0</version>
         </dependency>
         <!--========= module =========-->

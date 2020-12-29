@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.phoenix.common</groupId>
-  <artifactId>MODULE_COMMON</artifactId>
+  <artifactId>MODULE-COMMON</artifactId>
   <version>0.0.0</version>
 
   <name>MODULE_COMMON</name>
