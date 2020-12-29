@@ -51,8 +51,8 @@ import java.util.HashMap;
 /**
  * DataSource configuration.
  * Thêm @EnableJpaRepositories(basePackages = {"com.phoenix.*"},
- * entityManagerFactoryRef = "primaryEntityManagerFactory",
- * transactionManagerRef = "primaryTransactionManager")
+ * entityManagerFactoryRef = "PrimaryEntityManagerFactory",
+ * transactionManagerRef = "PrimaryTransactionManager")
  * <p>
  * để sử dụng JpaRepository
  * <p>
@@ -132,7 +132,7 @@ public class PrimaryPersistenceConfig {
     }
 
     @Primary
-    @Bean(name = "primaryTransactionManager")
+    @Bean(name = "PrimaryTransactionManager")
     public PlatformTransactionManager TransactionManagerBean() {
 
         JpaTransactionManager transactionManager = new JpaTransactionManager();

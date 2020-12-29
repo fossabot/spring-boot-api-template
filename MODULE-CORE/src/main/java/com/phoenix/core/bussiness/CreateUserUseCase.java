@@ -24,7 +24,9 @@
 
 package com.phoenix.core.bussiness;
 
-import com.phoenix.common.string_utils.ValidateString;
+import com.phoenix.common.validation.ValidateString;
+import com.phoenix.common.validation.Validation;
+import com.phoenix.core.exception.EmailValidationException;
 import com.phoenix.core.exception.UserAlreadyExistsException;
 import com.phoenix.core.exception.UserValidationException;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
@@ -53,8 +55,8 @@ public class CreateUserUseCase {
         validate(user);
 
         //2. Mã hóa mật khẩu
-        String password = passwordEncoder.encode(user.getPassword());
-        user.setPassword(password);
+        //String password = passwordEncoder.encode(user.getPassword());
+        //user.setPassword(password);
 
         //3. Lưu user vào db.
         userRepository.save(user);
@@ -69,8 +71,11 @@ public class CreateUserUseCase {
     private void validate(User user) {
         if (user == null)
             throw new UserValidationException("User should not be null");
-        if (ValidateString.isBlank(user.getEmail()))
+        if (ValidateString.isBlankOrNull(user.getEmail()))
             throw new UserValidationException("Email should not be null.");
+        if (Validation.isValidEmail(user.getEmail())) {
+            throw new EmailValidationException(user.getEmail() + " is invalid.");
+        }
         if (!ValidateString.isNullOrNotBlank(user.getEmail()))
             throw new UserValidationException("Email can be null but not blank.");
         if (userRepository.findByEmail(user.getEmail()).isPresent())

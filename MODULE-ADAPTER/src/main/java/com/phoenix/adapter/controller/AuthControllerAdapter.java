@@ -52,6 +52,7 @@ public class AuthControllerAdapter {
                     "Enums.Message.RESOURCE_CREATED.value()");
             return userApiResponse;
         } catch (Exception e) {
+            e.printStackTrace();
             ApiResponse<Exception> exceptionApiResponse = new ApiResponse<>(
                     String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
                     ResponseType.EXCEPTION, null,

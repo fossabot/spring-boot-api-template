@@ -22,26 +22,10 @@
  * SOFTWARE.
  */
 
-package com.phoenix.common.string_utils;
+package com.phoenix.core.exception;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-public class ValidateStringTest {
-    @Test
-    public void testIsBlank(){
-        Assert.assertTrue(ValidateString.isBlank(""));
-        Assert.assertFalse(ValidateString.isBlank("abc"));
-        Assert.assertFalse(ValidateString.isBlank("abc cdf"));
-        Assert.assertFalse(ValidateString.isBlank("     cdf"));
-    }
-
-    @Test
-    public void testIsNullOrNotBlank(){
-        Assert.assertFalse(ValidateString.isNullOrNotBlank(""));
-        Assert.assertTrue(ValidateString.isNullOrNotBlank("abc"));
-        Assert.assertTrue(ValidateString.isNullOrNotBlank("abc cdf"));
-        Assert.assertTrue(ValidateString.isNullOrNotBlank("     cdf"));
-        Assert.assertTrue(ValidateString.isNullOrNotBlank(null));
+public class EmailValidationException extends RuntimeException {
+    public EmailValidationException(final String email) {
+        super(email);
     }
 }

@@ -24,6 +24,7 @@
 
 package com.phoenix.config;
 
+import com.phoenix.adapter.controller.AuthControllerAdapter;
 import com.phoenix.adapter.map.DomainUserMapUserEntity;
 import com.phoenix.adapter.map.Mapper;
 import com.phoenix.adapter.repository.UserRepositoryAdapter;
@@ -37,12 +38,10 @@ import org.springframework.context.annotation.Bean;
 public class Configuration {
     private final UserRepositoryPort userRepositoryPort;
     private final Mapper domainUserMapUserEntity;
-    private final UserRepository userRepository;
     private final PasswordEncoderPort passwordEncoderPort;
 
 
     public Configuration(UserRepository userRepository) {
-        this.userRepository = userRepository;
         this.domainUserMapUserEntity = new DomainUserMapUserEntity();
         this.userRepositoryPort = new UserRepositoryAdapter(domainUserMapUserEntity,userRepository);
 
@@ -54,5 +53,10 @@ public class Configuration {
     @Bean(value = "CreateUserUseCase")
     public CreateUserUseCase createUserUseCase() {
         return new CreateUserUseCase(this.userRepositoryPort,this.passwordEncoderPort);
+    }
+
+    @Bean(value = "AuthControllerAdapter")
+    public AuthControllerAdapter authControllerAdapter(){
+        return new AuthControllerAdapter(this.createUserUseCase());
     }
 }

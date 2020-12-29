@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.phoenix.common.string_utils;
+package com.phoenix.common.validation;
 
 /**
  * Các hàm để validate chuỗi.
@@ -31,9 +31,12 @@ public class ValidateString {
 
     /**
      * @param str: chuỗi cần kiểm tra
-     * @return: true if the string is empty or contains only white space codepoints, otherwise false
+     * @return: true if the string is empty or contains only white space codepoints or null, otherwise false
      */
-    public static boolean isBlank(String str) {
+    public static boolean isBlankOrNull(String str) {
+        if(str == null){
+            return true;
+        }
         return str.isBlank();
     }
 

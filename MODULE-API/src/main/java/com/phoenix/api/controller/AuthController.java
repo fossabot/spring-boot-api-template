@@ -24,5 +24,23 @@
 
 package com.phoenix.api.controller;
 
+import com.phoenix.adapter.controller.AuthControllerAdapter;
+import com.phoenix.domain.payload.RegisterUser;
+import com.phoenix.domain.response.ApiResponse;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class AuthController {
+    private final AuthControllerAdapter authController;
+
+    public AuthController(AuthControllerAdapter authController) {
+        this.authController = authController;
+    }
+
+    @PostMapping("/users")
+    public ApiResponse createUser(@RequestBody RegisterUser registerUser){
+        return authController.createUser(registerUser);
+    }
 }

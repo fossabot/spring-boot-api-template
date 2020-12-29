@@ -22,25 +22,19 @@
  * SOFTWARE.
  */
 
-package com.phoenix.adapter.map;
+package com.phoenix.common.validation;
 
-import com.phoenix.domain.builder.UserBuilder;
-import com.phoenix.domain.entity.User;
-import com.phoenix.domain.payload.RegisterUser;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
+public class Validation {
+    private static final String EMAIL_REGEX = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
 
-    @Override
-    public User convert(RegisterUser registerUser) {
-        return UserBuilder.anUser()
-                .withUsername(registerUser.getUsername())
-                .withEmail(registerUser.getEmail())
-                .withPassword(registerUser.getPassword())
-                .build();
-    }
+    public static boolean isValidEmail(String email){
+        Pattern pattern = Pattern.compile(EMAIL_REGEX);
 
-    @Override
-    public RegisterUser revert(User user) {
-        return null;
+        Matcher matcher = pattern.matcher(email);
+
+        return matcher.matches();
     }
 }

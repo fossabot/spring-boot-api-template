@@ -22,25 +22,33 @@
  * SOFTWARE.
  */
 
-package com.phoenix.adapter.map;
+package com.phoenix.common.validation;
 
-import com.phoenix.domain.builder.UserBuilder;
-import com.phoenix.domain.entity.User;
-import com.phoenix.domain.payload.RegisterUser;
+import org.junit.Test;
 
-public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
+import java.util.ArrayList;
+import java.util.List;
 
-    @Override
-    public User convert(RegisterUser registerUser) {
-        return UserBuilder.anUser()
-                .withUsername(registerUser.getUsername())
-                .withEmail(registerUser.getEmail())
-                .withPassword(registerUser.getPassword())
-                .build();
-    }
+public class ValidationTest {
+    @Test
+    public void testValidEmail() {
+//        https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
+        List<String> emails = new ArrayList();
+        emails.add("user@domain.com");
+        emails.add("user@domain.co.in");
+        emails.add("user.name@domain.com");
+        emails.add("user_name@domain.com");
+        emails.add("username@yahoo.corporate.in");
 
-    @Override
-    public RegisterUser revert(User user) {
-        return null;
+        //Invalid emails
+        emails.add(".username@yahoo.com");
+        emails.add("username@yahoo.com.");
+        emails.add("username@yahoo..com");
+        emails.add("username@yahoo.c");
+        emails.add("username@yahoo.corporate");
+
+        for (String email : emails) {
+            System.out.println(email + " : " + Validation.isValidEmail(email));
+        }
     }
 }

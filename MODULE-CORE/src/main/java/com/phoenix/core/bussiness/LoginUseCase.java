@@ -25,7 +25,7 @@
 package com.phoenix.core.bussiness;
 
 import com.phoenix.common.security.TokenProvider;
-import com.phoenix.common.string_utils.ValidateString;
+import com.phoenix.common.validation.ValidateString;
 import com.phoenix.core.exception.UserValidationException;
 import com.phoenix.core.port.security.AuthenticationManagerPort;
 import com.phoenix.domain.payload.LoginUser;
@@ -56,7 +56,7 @@ public class LoginUseCase {
     private void validate(LoginUser user) {
         if (user == null)
             throw new UserValidationException("User should not be null");
-        if (ValidateString.isBlank(user.getEmail()))
+        if (ValidateString.isBlankOrNull(user.getEmail()))
             throw new UserValidationException("Email should not be null.");
         if (!ValidateString.isNullOrNotBlank(user.getEmail()))
             throw new UserValidationException("Email can be null but not blank.");
