@@ -22,27 +22,8 @@
  * SOFTWARE.
  */
 
-package com.phoenix.infrastructure.map;
+package com.phoenix.adapter.controller;
 
-import com.phoenix.common.util.Mapper;
-import com.phoenix.domain.entity.User;
-import com.phoenix.infrastructure.entities.primary.UserEntity;
+public class AuthControllerAdapter {
 
-public class DomainUserMapUserEntity implements Mapper<User, UserEntity> {
-    @Override
-    public UserEntity convert(User user) {
-        UserEntity userEntity = new UserEntity();
-
-        userEntity.setEmail(user.getEmail());
-        userEntity.setUsername(user.getUsername());
-        userEntity.setFirstName(user.getFirstName());
-        userEntity.setLastName(user.getLastName());
-
-        return userEntity;
-    }
-
-    @Override
-    public User revert(UserEntity userEntity) {
-        return null;
-    }
 }

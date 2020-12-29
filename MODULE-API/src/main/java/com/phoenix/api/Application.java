@@ -1,6 +1,5 @@
 package com.phoenix.api;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -11,6 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 @SpringBootApplication(scanBasePackages = {
         "com.phoenix.infrastructure.*",
+        "com.phoenix.config",
         "com.phoenix.api.*"})
 public class Application {
 
@@ -20,6 +20,9 @@ public class Application {
         builder.headless(false);
 
         ConfigurableApplicationContext context = builder.run(args);
+
+
+        //System.out.println();
     }
 
 }

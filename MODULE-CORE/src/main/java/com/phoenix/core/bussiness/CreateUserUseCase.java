@@ -27,39 +27,33 @@ package com.phoenix.core.bussiness;
 import com.phoenix.common.string_utils.ValidateString;
 import com.phoenix.core.exception.UserAlreadyExistsException;
 import com.phoenix.core.exception.UserValidationException;
-import com.phoenix.common.util.Mapper;
-import com.phoenix.core.port.security.PasswordEncoderPort;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
+import com.phoenix.core.port.security.PasswordEncoderPort;
 import com.phoenix.domain.entity.User;
-import com.phoenix.domain.payload.RegisterUser;
 
 public class CreateUserUseCase {
 
     private final UserRepositoryPort userRepository;
     private final PasswordEncoderPort passwordEncoder;
-    private final Mapper registerUserMapUser;
 
-    public CreateUserUseCase(UserRepositoryPort userRepository,
-                             PasswordEncoderPort passwordEncoder,
-                             Mapper registerUserMapUser) {
+    public CreateUserUseCase(UserRepositoryPort userRepository, PasswordEncoderPort passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.registerUserMapUser = registerUserMapUser;
     }
 
 
     /**
-     * @param registerUser : thông tin user đăng kí
-     *
-     * Thực thi use case create user.
-     * Nếu có bất kì lỗi nào sẽ ném ra 1 Exception
+     * @param user : thông tin user đăng kí
+     *             <p>
+     *             Thực thi use case create user.
+     *             Nếu có bất kì lỗi nào sẽ ném ra 1 Exception
      */
-    public void execute(RegisterUser registerUser) throws Exception{
+    public void execute(User user) throws Exception {
         //0. Validate registerUser
-        validate(registerUser);
+        validate(user);
 
         //1. Convert RegisterUser -> User
-        User user = (User) registerUserMapUser.convert(registerUser);
+        //User user = (User) registerUserMapUser.convert(registerUser);
 
         //2. Mã hóa mật khẩu
         String password = passwordEncoder.encode(user.getPassword());
@@ -70,19 +64,19 @@ public class CreateUserUseCase {
     }
 
     /**
-     * @param registerUser :
-     *                     throw UserValidation nếu sai.
+     * @param user :
+     *             throw UserValidation nếu sai.
      */
-    private void validate(RegisterUser registerUser) {
-        if (registerUser == null)
+    private void validate(User user) {
+        if (user == null)
             throw new UserValidationException("User should not be null");
-        if (ValidateString.isBlank(registerUser.getEmail()))
+        if (ValidateString.isBlank(user.getEmail()))
             throw new UserValidationException("Email should not be null.");
-        if (!ValidateString.isNullOrNotBlank(registerUser.getEmail()))
+        if (!ValidateString.isNullOrNotBlank(user.getEmail()))
             throw new UserValidationException("Email can be null but not blank.");
-        if (userRepository.findByEmail(registerUser.getEmail()).isPresent())
-            throw new UserAlreadyExistsException(registerUser.getEmail() + " is already exist.");
-        if (userRepository.findByUsername("Email: " + registerUser.getUsername()).isPresent())
-            throw new UserAlreadyExistsException("Username: " + registerUser.getUsername() + " is already exist.");
+        if (userRepository.findByEmail(user.getEmail()).isPresent())
+            throw new UserAlreadyExistsException(user.getEmail() + " is already exist.");
+        if (userRepository.findByUsername("Email: " + user.getUsername()).isPresent())
+            throw new UserAlreadyExistsException("Username: " + user.getUsername() + " is already exist.");
     }
 }

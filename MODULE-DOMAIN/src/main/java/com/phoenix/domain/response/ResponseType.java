@@ -22,39 +22,10 @@
  * SOFTWARE.
  */
 
-package com.phoenix.infrastructure.adapter;
+package com.phoenix.domain.response;
 
-import com.phoenix.common.util.Mapper;
-import com.phoenix.core.port.repositories.UserRepositoryPort;
-import com.phoenix.domain.entity.User;
-import com.phoenix.infrastructure.entities.primary.UserEntity;
-import com.phoenix.infrastructure.repositories.primary.UserRepository;
-
-import java.util.Optional;
-
-public class UserRepositoryAdapter implements UserRepositoryPort {
-    private final Mapper mapper;
-    private final UserRepository userRepository;
-
-    public UserRepositoryAdapter(Mapper mapper, UserRepository userRepository) {
-        this.mapper = mapper;
-        this.userRepository = userRepository;
-    }
-
-    @Override
-    public void save(User user) {
-        UserEntity userEntity = (UserEntity) this.mapper.convert(user);
-
-        this.userRepository.save(userEntity);
-    }
-
-    @Override
-    public Optional findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public Optional findByUsername(String username) {
-        return userRepository.findByEmail(username);
-    }
+public enum ResponseType {
+    INFO,
+    WARNING,
+    ERROR
 }

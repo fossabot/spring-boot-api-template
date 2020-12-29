@@ -22,12 +22,39 @@
  * SOFTWARE.
  */
 
-package com.phoenix.common.util;
+package com.phoenix.adapter.repository;
 
-/**
- * Convert qua lại giữa 2 object T và E
- */
-public interface Mapper<T,E> {
-    E convert(T t);
-    T revert(E e);
+import com.phoenix.adapter.map.Mapper;
+import com.phoenix.core.port.repositories.UserRepositoryPort;
+import com.phoenix.domain.entity.User;
+import com.phoenix.infrastructure.entities.primary.UserEntity;
+import com.phoenix.infrastructure.repositories.primary.UserRepository;
+
+import java.util.Optional;
+
+public class UserRepositoryAdapter implements UserRepositoryPort {
+    private final Mapper mapper;
+    private final UserRepository userRepository;
+
+    public UserRepositoryAdapter(Mapper mapper, UserRepository userRepository) {
+        this.mapper = mapper;
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public void save(User user) {
+        UserEntity userEntity = (UserEntity) this.mapper.convert(user);
+
+        this.userRepository.save(userEntity);
+    }
+
+    @Override
+    public Optional findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public Optional findByUsername(String username) {
+        return userRepository.findByEmail(username);
+    }
 }

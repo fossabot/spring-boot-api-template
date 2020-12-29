@@ -22,16 +22,12 @@
  * SOFTWARE.
  */
 
-package com.phoenix.infrastructure.repositories.primary;
+package com.phoenix.adapter.map;
 
-import com.phoenix.infrastructure.entities.primary.UserEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
-
-@Repository(value = "UserRepository")
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    Optional<UserEntity> findByEmail(String email);
-    Optional<UserEntity> findByUsername(String username);
+/**
+ * Convert qua lại giữa 2 object T và E
+ */
+public interface Mapper<T,E> {
+    E convert(T t);
+    T revert(E e);
 }

@@ -22,21 +22,26 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.map;
+package com.phoenix.adapter.map;
 
-import com.phoenix.common.util.Mapper;
 import com.phoenix.domain.entity.User;
-import com.phoenix.domain.payload.RegisterUser;
+import com.phoenix.infrastructure.entities.primary.UserEntity;
 
-public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
-
+public class DomainUserMapUserEntity implements Mapper<User, UserEntity> {
     @Override
-    public User convert(RegisterUser registerUser) {
-        return null;
+    public UserEntity convert(User user) {
+        UserEntity userEntity = new UserEntity();
+
+        userEntity.setEmail(user.getEmail());
+        userEntity.setUsername(user.getUsername());
+        userEntity.setFirstName(user.getFirstName());
+        userEntity.setLastName(user.getLastName());
+
+        return userEntity;
     }
 
     @Override
-    public RegisterUser revert(User user) {
+    public User revert(UserEntity userEntity) {
         return null;
     }
 }

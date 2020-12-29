@@ -25,7 +25,11 @@
             <artifactId>MODULE-INFRASTRUCTURE</artifactId>
             <version>0.0.0</version>
         </dependency>
-        <!--========= module =========-->
+        <dependency>
+            <groupId>com.phoenix.config</groupId>
+            <artifactId>MODULE-CONFIG</artifactId>
+            <version>0.0.0</version>
+        </dependency><!--========= module =========-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

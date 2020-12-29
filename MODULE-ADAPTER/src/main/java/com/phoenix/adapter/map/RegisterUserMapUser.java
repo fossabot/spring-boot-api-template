@@ -22,16 +22,20 @@
  * SOFTWARE.
  */
 
-package com.phoenix.infrastructure.repositories.primary;
+package com.phoenix.adapter.map;
 
-import com.phoenix.infrastructure.entities.primary.UserEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.phoenix.domain.entity.User;
+import com.phoenix.domain.payload.RegisterUser;
 
-import java.util.Optional;
+public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
 
-@Repository(value = "UserRepository")
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    Optional<UserEntity> findByEmail(String email);
-    Optional<UserEntity> findByUsername(String username);
+    @Override
+    public User convert(RegisterUser registerUser) {
+        return null;
+    }
+
+    @Override
+    public RegisterUser revert(User user) {
+        return null;
+    }
 }

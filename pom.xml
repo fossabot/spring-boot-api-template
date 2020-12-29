@@ -15,6 +15,7 @@
         <module>MODULE-API</module>
         <module>MODULE_DOMAIN</module>
         <module>MODULE-CONFIG</module>
+        <module>MODULE-ADAPTER</module>
     </modules>
 
     <properties>
