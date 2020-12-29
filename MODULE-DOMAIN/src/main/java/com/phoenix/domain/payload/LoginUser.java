@@ -22,18 +22,52 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.validator;
+package com.phoenix.domain.payload;
 
-import com.phoenix.common.string_utils.ValidateString;
-import com.phoenix.core.domain.User;
-import com.phoenix.core.exception.UserValidationException;
+public class LoginUser {
+    private String username;
+    private String password;
+    private String email;
 
-public class UserValidator {
-    public static void validateCreateUser(final User user) {
-        if (user == null) throw new UserValidationException("User should not be null");
-        if (ValidateString.isBlank(user.getEmail())) throw new UserValidationException("Email should not be null.");
+    public LoginUser(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
 
-    private UserValidator() {
+    public LoginUser() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginUser{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

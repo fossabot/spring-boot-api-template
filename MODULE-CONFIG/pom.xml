@@ -2,13 +2,18 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>spring-boot-api-template</artifactId>
+        <groupId>com.phoenix</groupId>
+        <version>0.2.0</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.phoenix.core</groupId>
-    <artifactId>MODULE-CORE</artifactId>
+    <groupId>com.phoenix.config</groupId>
+    <artifactId>MODULE-CONFIG</artifactId>
     <version>0.0.0</version>
 
-    <name>MODULE-CORE</name>
+    <name>MODULE-CONFIG</name>
     <!-- FIXME change it to the project's website -->
     <url>http://www.example.com</url>
 
@@ -16,27 +21,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
 
-        <com.phoenix.common.version>0.0.0</com.phoenix.common.version>
-        <com.phoenix.domain.version>0.0.0</com.phoenix.domain.version>
-
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
     </properties>
 
     <dependencies>
-        <!--======= module  =======-->
-        <dependency>
-            <groupId>com.phoenix.common</groupId>
-            <artifactId>MODULE-COMMON</artifactId>
-            <version>${com.phoenix.common.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.phoenix.domain</groupId>
-            <artifactId>MODULE-DOMAIN</artifactId>
-            <version>${com.phoenix.domain.version}</version>
-        </dependency>
-        <!--======= module  =======-->
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

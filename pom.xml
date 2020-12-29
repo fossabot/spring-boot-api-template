@@ -13,6 +13,8 @@
         <module>MODULE-INFRASTRUCTURE</module>
         <module>MODULE-COMMON</module>
         <module>MODULE-API</module>
+        <module>MODULE_DOMAIN</module>
+        <module>MODULE-CONFIG</module>
     </modules>
 
     <properties>

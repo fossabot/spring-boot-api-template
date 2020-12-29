@@ -22,20 +22,22 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.model.payload;
+package com.phoenix.domain.payload;
 
-public class LoginUser {
+public class RegisterUser {
     private String username;
     private String password;
     private String email;
+    private boolean isAdmin;
 
-    public LoginUser(String username, String password, String email) {
+    public RegisterUser(String username, String password, String email, boolean isAdmin) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.isAdmin = isAdmin;
     }
 
-    public LoginUser() {
+    public RegisterUser() {
     }
 
     public String getUsername() {
@@ -62,12 +64,21 @@ public class LoginUser {
         this.email = email;
     }
 
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
     @Override
     public String toString() {
-        return "LoginUser{" +
+        return "RegisterUser{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", isAdmin=" + isAdmin +
                 '}';
     }
 }

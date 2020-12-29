@@ -27,8 +27,8 @@ package com.phoenix.core.bussiness;
 import com.phoenix.common.security.TokenProvider;
 import com.phoenix.common.string_utils.ValidateString;
 import com.phoenix.core.exception.UserValidationException;
-import com.phoenix.core.model.payload.LoginUser;
 import com.phoenix.core.port.security.AuthenticationManagerPort;
+import com.phoenix.domain.payload.LoginUser;
 
 public class LoginUseCase {
     private final AuthenticationManagerPort authenticationManager;

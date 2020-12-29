@@ -25,13 +25,13 @@
 package com.phoenix.core.bussiness;
 
 import com.phoenix.common.string_utils.ValidateString;
-import com.phoenix.core.domain.User;
 import com.phoenix.core.exception.UserAlreadyExistsException;
 import com.phoenix.core.exception.UserValidationException;
 import com.phoenix.common.util.Mapper;
-import com.phoenix.core.model.RegisterUser;
 import com.phoenix.core.port.security.PasswordEncoderPort;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
+import com.phoenix.domain.entity.User;
+import com.phoenix.domain.payload.RegisterUser;
 
 public class CreateUserUseCase {
 

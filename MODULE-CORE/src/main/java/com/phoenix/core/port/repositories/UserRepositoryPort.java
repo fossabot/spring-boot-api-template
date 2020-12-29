@@ -24,7 +24,8 @@
 
 package com.phoenix.core.port.repositories;
 
-import com.phoenix.core.domain.User;
+
+import com.phoenix.domain.entity.User;
 
 import java.util.Optional;
 

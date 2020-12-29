@@ -22,13 +22,11 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.builder;
-
-import com.phoenix.core.domain.User;
+package com.phoenix.domain.entity;
 
 import java.util.Set;
 
-public final class UserBuilder {
+public class User {
     private long id;
     private String username;
     private String password;
@@ -37,57 +35,75 @@ public final class UserBuilder {
     private String lastName;
     private Set<String> roles;
 
-    private UserBuilder() {
+    public User() {
     }
 
-    public static UserBuilder anUser() {
-        return new UserBuilder();
+    public long getId() {
+        return id;
     }
 
-    public UserBuilder withId(long id) {
+    public void setId(long id) {
         this.id = id;
-        return this;
     }
 
-    public UserBuilder withUsername(String username) {
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
         this.username = username;
-        return this;
     }
 
-    public UserBuilder withPassword(String password) {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
-        return this;
     }
 
-    public UserBuilder withEmail(String email) {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
-        return this;
     }
 
-    public UserBuilder withFirstName(String firstName) {
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
-        return this;
     }
 
-    public UserBuilder withLastName(String lastName) {
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
         this.lastName = lastName;
-        return this;
     }
 
-    public UserBuilder withRoles(Set<String> roles) {
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
         this.roles = roles;
-        return this;
     }
 
-    public User build() {
-        User user = new User();
-        user.setId(id);
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setEmail(email);
-        user.setFirstName(firstName);
-        user.setLastName(lastName);
-        user.setRoles(roles);
-        return user;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.context.ConfigurableApplicationContext;
  */
 
 @SpringBootApplication(scanBasePackages = {
-        "com.phoenix.api",
         "com.phoenix.infrastructure.*",
         "com.phoenix.api.*"})
 public class Application {

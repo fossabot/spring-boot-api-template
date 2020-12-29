@@ -25,8 +25,8 @@
 package com.phoenix.core.map;
 
 import com.phoenix.common.util.Mapper;
-import com.phoenix.core.domain.User;
-import com.phoenix.core.model.RegisterUser;
+import com.phoenix.domain.entity.User;
+import com.phoenix.domain.payload.RegisterUser;
 
 public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
 

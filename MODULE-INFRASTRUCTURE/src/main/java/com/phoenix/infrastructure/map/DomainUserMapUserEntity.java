@@ -25,7 +25,7 @@
 package com.phoenix.infrastructure.map;
 
 import com.phoenix.common.util.Mapper;
-import com.phoenix.core.domain.User;
+import com.phoenix.domain.entity.User;
 import com.phoenix.infrastructure.entities.primary.UserEntity;
 
 public class DomainUserMapUserEntity implements Mapper<User, UserEntity> {

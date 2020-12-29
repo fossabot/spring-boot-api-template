@@ -4,18 +4,17 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.phoenix.common</groupId>
-  <artifactId>MODULE-COMMON</artifactId>
+  <groupId>com.phoenix.domain</groupId>
+  <artifactId>MODULE-DOMAIN</artifactId>
   <version>0.0.0</version>
 
-  <name>MODULE-COMMON</name>
+  <name>MODULE-DOMAIN</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
   <properties>
-    <java.version>11</java.version>
-
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>11</java.version>
 
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -27,12 +26,6 @@
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-engine</artifactId>
-      <version>5.4.2</version>
     </dependency>
   </dependencies>
 
