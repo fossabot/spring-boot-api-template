@@ -43,7 +43,8 @@
             <groupId>com.phoenix.adapter</groupId>
             <artifactId>MODULE-ADAPTER</artifactId>
             <version>0.0.0</version>
-        </dependency><!-- =========== module =========== -->
+        </dependency>
+        <!-- =========== module =========== -->
 
         <dependency>
             <groupId>junit</groupId>
