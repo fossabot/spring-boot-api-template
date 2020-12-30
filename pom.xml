@@ -10,12 +10,12 @@
     <version>0.2.0</version>
     <modules>
         <module>MODULE-CORE</module>
-        <module>MODULE-INFRASTRUCTURE</module>
         <module>MODULE-COMMON</module>
         <module>MODULE-API</module>
-        <module>MODULE_DOMAIN</module>
+        <module>MODULE-DOMAIN</module>
         <module>MODULE-CONFIG</module>
         <module>MODULE-ADAPTER</module>
+        <module>MODULE-INFRASTRUCTURE</module>
     </modules>
 
     <properties>

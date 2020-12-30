@@ -34,12 +34,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.phoenix.infrastructure</groupId>
-            <artifactId>MODULE-INFRASTRUCTURE</artifactId>
-            <version>0.0.0</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.phoenix.adapter</groupId>
             <artifactId>MODULE-ADAPTER</artifactId>
             <version>0.0.0</version>

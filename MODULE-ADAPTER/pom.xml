@@ -29,13 +29,13 @@
             <version>0.0.0</version>
         </dependency>
         <dependency>
-            <groupId>com.phoenix.infrastructure</groupId>
-            <artifactId>MODULE-INFRASTRUCTURE</artifactId>
+            <groupId>com.phoenix.domain</groupId>
+            <artifactId>MODULE-DOMAIN</artifactId>
             <version>0.0.0</version>
         </dependency>
         <dependency>
-            <groupId>com.phoenix.domain</groupId>
-            <artifactId>MODULE-DOMAIN</artifactId>
+            <groupId>com.phoenix.infrastructure</groupId>
+            <artifactId>MODULE-INFRASTRUCTURE</artifactId>
             <version>0.0.0</version>
         </dependency><!-- =========== module =========== -->
         <dependency>

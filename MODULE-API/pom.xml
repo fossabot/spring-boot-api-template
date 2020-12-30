@@ -21,11 +21,6 @@
     <dependencies>
         <!--========= module =========-->
         <dependency>
-            <groupId>com.phoenix.infrastructure</groupId>
-            <artifactId>MODULE-INFRASTRUCTURE</artifactId>
-            <version>0.0.0</version>
-        </dependency>
-        <dependency>
             <groupId>com.phoenix.config</groupId>
             <artifactId>MODULE-CONFIG</artifactId>
             <version>0.0.0</version>

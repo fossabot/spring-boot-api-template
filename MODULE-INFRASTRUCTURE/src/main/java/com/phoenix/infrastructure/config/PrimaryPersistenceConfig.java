@@ -27,26 +27,21 @@ package com.phoenix.infrastructure.config;
 import com.phoenix.infrastructure.entities.AuditorAwareImpl;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Properties;
 
 /**
  * DataSource configuration.
@@ -60,28 +55,27 @@ import java.util.HashMap;
  * entityManagerFactoryRef: đổi entityManager mặc định từ entityManager sang bean đc khai báo ở trong class này
  * transactionManagerRef: đổi transactionManager mặc định từ transactionManager sang bean đc khai báo ở trong class này
  */
-@Configuration
-@EnableJpaRepositories(basePackages = {"com.phoenix.*"},
-        entityManagerFactoryRef = "PrimaryEntityManagerFactory",
-        transactionManagerRef = "PrimaryTransactionManager")
-@EnableTransactionManagement
-@PropertySource(value = "classpath:primary-jpa.properties")
 @EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class PrimaryPersistenceConfig {
 
     private static final String HIKARICP_CONFIG_FILE = "primary-hikaricp.properties";
+    private static final String JPA_CONFIG_FILE = "primary-jpa.properties";
     private static final String[] PACKAGES_TO_SCAN = {"com.phoenix.*"};
     private static final String PERSISTENCE_UNIT_NAME = "PRIMARY";
-    private final Environment environment;
+    private final Properties jpaProperties;
 
-    @Autowired
-    public PrimaryPersistenceConfig(Environment environment) {
-        this.environment = environment;
+    public PrimaryPersistenceConfig() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File configFile = new File(classLoader.getResource(JPA_CONFIG_FILE).getFile());
+
+        FileInputStream fileInputStream = new FileInputStream(configFile);
+
+        this.jpaProperties = new Properties();
+
+        jpaProperties.load(fileInputStream);
     }
 
-    @Primary
-    @Bean(name = "PrimaryDataSource")
-    public DataSource DataSource() {
+    public DataSource createDataSource() {
         ClassLoader classLoader = getClass().getClassLoader();
         File configFile = new File(classLoader.getResource(HIKARICP_CONFIG_FILE).getFile());
 
@@ -92,12 +86,10 @@ public class PrimaryPersistenceConfig {
         return new HikariDataSource(hikariConfig);
     }
 
-    @Primary
-    @Bean(name = "PrimaryLocalContainerEntityManagerFactoryBean")
-    public LocalContainerEntityManagerFactoryBean EntityManagerBean() {
+    public LocalContainerEntityManagerFactoryBean createLocalContainerEntityManagerFactory() {
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean
                 = new LocalContainerEntityManagerFactoryBean();
-        localContainerEntityManagerFactoryBean.setDataSource(DataSource());
+        localContainerEntityManagerFactoryBean.setDataSource(createDataSource());
 
         // Scan Entities in Package:
         localContainerEntityManagerFactoryBean.setPackagesToScan(PACKAGES_TO_SCAN);
@@ -111,9 +103,9 @@ public class PrimaryPersistenceConfig {
         HashMap<String, Object> properties = new HashMap<>();
 
         // JPA & Hibernate
-        properties.put("hibernate.dialect", environment.getProperty("jpa.properties.hibernate.dialect"));
-        properties.put("hibernate.show.sql", environment.getProperty("jpa.properties.hibernate.show-sql"));
-        properties.put("hibernate.hbm2ddl.auto", environment.getProperty("jpa.properties.hibernate.ddl-auto"));
+        properties.put("hibernate.dialect", properties.get("jpa.properties.hibernate.dialect"));
+        properties.put("hibernate.show.sql", properties.get("jpa.properties.hibernate.show-sql"));
+        properties.put("hibernate.hbm2ddl.auto", properties.get("jpa.properties.hibernate.ddl-auto"));
 
         // Solved Error: PostGres createClob() is not yet implemented.
         // PostGres Only:
@@ -126,27 +118,22 @@ public class PrimaryPersistenceConfig {
         return localContainerEntityManagerFactoryBean;
     }
 
-    @Bean(name = "PrimaryEntityManagerFactory")
-    public EntityManagerFactory entityManagerFactory() {
-        return EntityManagerBean().getObject();
+    public EntityManagerFactory createEntityManagerFactory() {
+        return createLocalContainerEntityManagerFactory().getObject();
     }
 
-    @Primary
-    @Bean(name = "PrimaryTransactionManager")
-    public PlatformTransactionManager TransactionManagerBean() {
+    public PlatformTransactionManager createTransactionManagerBean() {
 
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(EntityManagerBean().getObject());
+        transactionManager.setEntityManagerFactory(createLocalContainerEntityManagerFactory().getObject());
         return transactionManager;
     }
 
-    @Bean(name = "PrimaryEntityManager")
-    public EntityManager entityManager() {
-        return entityManagerFactory().createEntityManager();
+    public EntityManager createEntityManager() {
+        return createEntityManagerFactory().createEntityManager();
     }
 
-    @Bean
-    public AuditorAware<String> auditorAware() {
+    public AuditorAware<String> createAuditorAware() {
         return new AuditorAwareImpl();
     }
 }
