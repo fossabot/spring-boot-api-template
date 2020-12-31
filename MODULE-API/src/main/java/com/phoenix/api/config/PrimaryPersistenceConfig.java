@@ -1,6 +1,5 @@
 package com.phoenix.api.config;
 
-import com.phoenix.config.PrimaryPersistenceConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -21,10 +20,10 @@ import java.io.IOException;
         transactionManagerRef = "PrimaryTransactionManager")
 @EnableTransactionManagement
 public class PrimaryPersistenceConfig {
-    private final PrimaryPersistenceConfiguration configuration;
+    private final com.phoenix.infrastructure.config.PrimaryPersistenceConfig configuration;
 
     public PrimaryPersistenceConfig() throws IOException {
-        configuration = new PrimaryPersistenceConfiguration();
+        configuration = new com.phoenix.infrastructure.config.PrimaryPersistenceConfig();
     }
 
     @Primary
