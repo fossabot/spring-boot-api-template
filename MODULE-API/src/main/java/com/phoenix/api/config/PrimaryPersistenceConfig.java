@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 
 @Configuration
-@EnableJpaRepositories(basePackages = {"com.phoenix.*"},
+@EnableJpaRepositories(basePackages = {"com.phoenix.infrastructure.repositories.*"},
         entityManagerFactoryRef = "PrimaryEntityManagerFactory",
         transactionManagerRef = "PrimaryTransactionManager")
 @EnableTransactionManagement

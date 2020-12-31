@@ -30,7 +30,7 @@ import com.phoenix.domain.entity.User;
 import java.util.Optional;
 
 public interface UserRepositoryPort {
-    public void save(User user);
+    public Optional save(User user);
     public Optional findByEmail(String email);
     public Optional findByUsername(String username);
 }

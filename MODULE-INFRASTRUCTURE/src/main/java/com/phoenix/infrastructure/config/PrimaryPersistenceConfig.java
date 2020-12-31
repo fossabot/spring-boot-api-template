@@ -106,6 +106,8 @@ public class PrimaryPersistenceConfig {
         properties.put("hibernate.dialect", properties.get("jpa.properties.hibernate.dialect"));
         properties.put("hibernate.show.sql", properties.get("jpa.properties.hibernate.show-sql"));
         properties.put("hibernate.hbm2ddl.auto", properties.get("jpa.properties.hibernate.ddl-auto"));
+        properties.put("jpa.properties.hibernate.format_sql", properties.get("jpa.properties.hibernate.format_sql"));
+        properties.put("logging.level.org.hibernate.SQL", properties.get("logging.level.org.hibernate.SQL"));
 
         // Solved Error: PostGres createClob() is not yet implemented.
         // PostGres Only:
@@ -125,7 +127,7 @@ public class PrimaryPersistenceConfig {
     public PlatformTransactionManager createTransactionManagerBean() {
 
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(createLocalContainerEntityManagerFactory().getObject());
+        transactionManager.setEntityManagerFactory(createEntityManagerFactory());
         return transactionManager;
     }
 

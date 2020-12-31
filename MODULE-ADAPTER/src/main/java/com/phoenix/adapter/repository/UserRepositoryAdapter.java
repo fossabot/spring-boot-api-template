@@ -42,10 +42,10 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public void save(User user) {
+    public Optional save(User user) {
         UserEntity userEntity = (UserEntity) this.mapper.convert(user);
 
-        this.userRepository.save(userEntity);
+        return Optional.ofNullable(this.userRepository.save(userEntity));
     }
 
     @Override

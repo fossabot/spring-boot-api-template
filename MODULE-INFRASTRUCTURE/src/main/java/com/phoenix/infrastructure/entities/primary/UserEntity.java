@@ -41,16 +41,16 @@ import javax.persistence.*;
 public class UserEntity extends AuditEntity<String> {
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "USERNAME")
     private String username;
 
-    @Column(name = "PASSWORD", nullable = false)
+    @Column(name = "PASSWORD")
     private String password;
 
-    @Column(name = "EMAIL", nullable = false)
+    @Column(name = "EMAIL")
     private String email;
 
     @Column(name = "FIRST_NAME")

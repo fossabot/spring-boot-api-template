@@ -33,6 +33,7 @@ public class DomainUserMapUserEntity implements Mapper<User, UserEntity> {
         UserEntity userEntity = new UserEntity();
 
         userEntity.setEmail(user.getEmail());
+        userEntity.setPassword(user.getPassword());
         userEntity.setUsername(user.getUsername());
         userEntity.setFirstName(user.getFirstName());
         userEntity.setLastName(user.getLastName());

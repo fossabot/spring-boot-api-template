@@ -42,7 +42,6 @@ public class UseCaseConfig {
 
     public UseCaseConfig(UserRepository userRepository) {
         this.userRepository = userRepository;
-
         configuration = new SpringConfiguration(userRepository);
     }
 

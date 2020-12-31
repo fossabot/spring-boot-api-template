@@ -33,7 +33,6 @@ import com.phoenix.core.bussiness.CreateUserUseCase;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.core.port.security.PasswordEncoderPort;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
-import org.springframework.context.annotation.Bean;
 
 public class SpringConfiguration {
     private final UserRepositoryPort userRepositoryPort;
@@ -43,7 +42,7 @@ public class SpringConfiguration {
 
     public SpringConfiguration(UserRepository userRepository) {
         this.domainUserMapUserEntity = new DomainUserMapUserEntity();
-        this.userRepositoryPort = new UserRepositoryAdapter(domainUserMapUserEntity,userRepository);
+        this.userRepositoryPort = new UserRepositoryAdapter(domainUserMapUserEntity, userRepository);
 
         this.passwordEncoderPort = new PasswordEncoderAdapter();
 
@@ -51,10 +50,10 @@ public class SpringConfiguration {
     }
 
     public CreateUserUseCase createUserUseCase() {
-        return new CreateUserUseCase(this.userRepositoryPort,this.passwordEncoderPort);
+        return new CreateUserUseCase(this.userRepositoryPort, this.passwordEncoderPort);
     }
 
-    public AuthControllerAdapter authControllerAdapter(){
+    public AuthControllerAdapter authControllerAdapter() {
         return new AuthControllerAdapter(this.createUserUseCase());
     }
 }

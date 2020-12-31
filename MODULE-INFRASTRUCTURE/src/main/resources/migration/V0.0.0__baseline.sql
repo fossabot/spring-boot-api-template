@@ -1,10 +1,15 @@
 create table USER
 (
-    id         integer auto_increment,
-    USERNAME   varchar(25)  null,
-    EMAIL      varchar(255) null,
-    FIRST_NAME varchar(255) null,
-    LAST_NAME  varchar(255) null,
+    id                 integer auto_increment,
+    USERNAME           varchar(25)  DEFAULT null,
+    EMAIL              varchar(255),
+    PASSWORD           varchar(1024) NOT NULL,
+    FIRST_NAME         varchar(255),
+    LAST_NAME          varchar(255) DEFAULT null,
+    CREATED_DATE       timestamp    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CREATED_BY         varchar(255) DEFAULT null,
+    LAST_MODIFIED_DATE timestamp    DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    LAST_MODIFIED_BY   varchar(255) DEFAULT null,
     constraint USER_pk
         primary key (id)
 );

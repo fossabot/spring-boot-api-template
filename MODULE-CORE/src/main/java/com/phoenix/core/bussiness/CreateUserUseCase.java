@@ -33,6 +33,8 @@ import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.core.port.security.PasswordEncoderPort;
 import com.phoenix.domain.entity.User;
 
+import java.util.Optional;
+
 public class CreateUserUseCase {
 
     private final UserRepositoryPort userRepository;
@@ -55,11 +57,15 @@ public class CreateUserUseCase {
         validate(user);
 
         //2. Mã hóa mật khẩu
-        //String password = passwordEncoder.encode(user.getPassword());
-        //user.setPassword(password);
+        String password = passwordEncoder.encode(user.getPassword());
+        user.setPassword(password);
 
         //3. Lưu user vào db.
-        userRepository.save(user);
+        Optional optional = userRepository.save(user);
+
+        if (optional.isEmpty()) {
+            throw new Exception("ERROR");
+        }
 
         return user;
     }
@@ -73,7 +79,7 @@ public class CreateUserUseCase {
             throw new UserValidationException("User should not be null");
         if (ValidateString.isBlankOrNull(user.getEmail()))
             throw new UserValidationException("Email should not be null.");
-        if (Validation.isValidEmail(user.getEmail())) {
+        if (!Validation.isValidEmail(user.getEmail())) {
             throw new EmailValidationException(user.getEmail() + " is invalid.");
         }
         if (!ValidateString.isNullOrNotBlank(user.getEmail()))
