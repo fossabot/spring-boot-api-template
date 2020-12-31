@@ -40,6 +40,7 @@ import javax.persistence.*;
 @ToString
 public class UserEntity extends AuditEntity<String> {
     @Id
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 

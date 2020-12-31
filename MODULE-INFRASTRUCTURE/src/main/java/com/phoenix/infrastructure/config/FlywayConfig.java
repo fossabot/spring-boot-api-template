@@ -2,6 +2,7 @@ package com.phoenix.infrastructure.config;
 
 import org.flywaydb.core.Flyway;
 import org.flywaydb.core.api.configuration.FluentConfiguration;
+import org.flywaydb.core.api.exception.FlywayValidateException;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,6 +51,11 @@ public class FlywayConfig {
     }
 
     public void migrate(Flyway flyway) {
-        flyway.migrate();
+        try {
+            flyway.migrate();
+        } catch (FlywayValidateException e) {
+            flyway.repair();
+            flyway.migrate();
+        }
     }
 }

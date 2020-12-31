@@ -31,9 +31,9 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "ROLE")
-@EntityListeners(AuditingEntityListener.class)
-public class RoleEntity extends AuditEntity<String> {
+public class RoleEntity {
     @Id
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
