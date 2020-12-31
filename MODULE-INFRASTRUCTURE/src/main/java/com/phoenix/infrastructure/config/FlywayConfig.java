@@ -10,13 +10,8 @@ import java.util.Properties;
 
 public class FlywayConfig {
     private final String CONFIG_FILE = "-flyway.properties";
-    private Flyway flyway;
-    private final Properties properties;
 
-    public FlywayConfig(String name) throws IOException {
-        properties = getProperties(name);
-
-        initializeFlyway();
+    public FlywayConfig() {
     }
 
     private Properties getProperties(String name) throws IOException {
@@ -31,11 +26,9 @@ public class FlywayConfig {
         return properties;
     }
 
-    public Flyway getFlyway() {
-        return this.flyway;
-    }
+    private FluentConfiguration loadConfiguration(String name) throws IOException {
+        Properties properties = getProperties(name);
 
-    public FluentConfiguration loadConfiguration() {
         FluentConfiguration configuration = Flyway.configure()
                 .dataSource(properties.getProperty("url"),
                         properties.getProperty("user"),
@@ -50,14 +43,13 @@ public class FlywayConfig {
         return configuration;
     }
 
-    public Flyway initializeFlyway(){
-        flyway = loadConfiguration().load();
+    public Flyway initializeFlyway(String name) throws IOException {
+        Flyway flyway = loadConfiguration(name).load();
 
         return flyway;
     }
 
-
-    public void migrate(){
+    public void migrate(Flyway flyway) {
         flyway.migrate();
     }
 }

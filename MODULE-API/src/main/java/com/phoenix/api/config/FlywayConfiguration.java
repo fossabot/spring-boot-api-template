@@ -12,11 +12,17 @@ public class FlywayConfiguration {
     private final FlywayConfig flywayConfig;
 
     public FlywayConfiguration() throws IOException {
-        flywayConfig = new FlywayConfig("primary");
+        flywayConfig = new FlywayConfig();
     }
 
-    @Bean(name = "Flyway")
-    public Flyway flyway(){
-        return flywayConfig.getFlyway();
+    @Bean(name = "InitializePrimaryFlyway")
+    public Flyway flyway() throws IOException {
+        return flywayConfig.initializeFlyway("primary");
     }
+
+    @Bean(name = "InitializePrimaryFlywayMigrate")
+    public void migrateFlyway() throws IOException {
+        this.flyway().migrate();
+    }
+
 }
