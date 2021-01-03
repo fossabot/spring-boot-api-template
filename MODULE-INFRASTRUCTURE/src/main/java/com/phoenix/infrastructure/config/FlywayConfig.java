@@ -41,6 +41,7 @@ public class FlywayConfig {
                 .sqlMigrationSeparator(properties.getProperty("sqlMigrationSeparator"))
                 .validateOnMigrate(Boolean.parseBoolean(properties.getProperty("validateOnMigrate")));
 
+
         return configuration;
     }
 

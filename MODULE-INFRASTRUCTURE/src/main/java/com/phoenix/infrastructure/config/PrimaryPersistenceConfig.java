@@ -125,7 +125,6 @@ public class PrimaryPersistenceConfig {
     }
 
     public PlatformTransactionManager createTransactionManagerBean() {
-
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(createEntityManagerFactory());
         return transactionManager;

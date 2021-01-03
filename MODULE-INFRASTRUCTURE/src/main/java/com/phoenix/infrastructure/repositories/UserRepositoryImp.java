@@ -24,12 +24,17 @@
 
 package com.phoenix.infrastructure.repositories;
 
+import com.phoenix.infrastructure.entities.primary.UserEntity;
+import com.phoenix.infrastructure.repositories.primary.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public class UserRepositoryImp extends RepositoryImp {
-    public UserRepositoryImp(ApplicationContext context) {
+
+    public UserRepositoryImp(ApplicationContext context, UserRepository userRepository) {
         super(context);
     }
 }
