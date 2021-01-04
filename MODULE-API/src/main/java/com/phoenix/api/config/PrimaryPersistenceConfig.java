@@ -28,34 +28,34 @@ public class PrimaryPersistenceConfig {
 
     @Primary
     @Bean(name = "PrimaryDataSource")
-    public DataSource DataSource(){
+    public DataSource DataSource() {
         return configuration.createDataSource();
     }
 
     @Primary
     @Bean(name = "PrimaryLocalContainerEntityManagerFactoryBean")
-    public LocalContainerEntityManagerFactoryBean EntityManagerBean(){
-        return configuration.createLocalContainerEntityManagerFactory();
+    public LocalContainerEntityManagerFactoryBean LocalContainerEntityManagerFactoryBean() {
+        return configuration.createLocalContainerEntityManagerFactory(this.DataSource());
     }
 
     @Bean(name = "PrimaryEntityManagerFactory")
-    public EntityManagerFactory EntityManagerFactory(){
-        return configuration.createEntityManagerFactory();
+    public EntityManagerFactory EntityManagerFactory() {
+        return configuration.createEntityManagerFactory(this.LocalContainerEntityManagerFactoryBean());
     }
 
     @Primary
     @Bean(name = "PrimaryTransactionManager")
-    public PlatformTransactionManager TransactionManagerBean(){
-        return configuration.createTransactionManagerBean();
+    public PlatformTransactionManager TransactionManagerBean() {
+        return configuration.createTransactionManagerBean(this.EntityManagerFactory());
     }
 
     @Bean(name = "PrimaryEntityManager")
-    public EntityManager EntityManager(){
-        return configuration.createEntityManager();
+    public EntityManager EntityManager() {
+        return configuration.createEntityManager(this.EntityManagerFactory());
     }
 
     @Bean(name = "AuditorAware")
-    public AuditorAware<String> AuditorAware(){
+    public AuditorAware<String> AuditorAware() {
         return configuration.createAuditorAware();
     }
 }

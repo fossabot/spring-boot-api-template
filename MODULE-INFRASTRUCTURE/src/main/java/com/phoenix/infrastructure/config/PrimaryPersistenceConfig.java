@@ -86,10 +86,10 @@ public class PrimaryPersistenceConfig {
         return new HikariDataSource(hikariConfig);
     }
 
-    public LocalContainerEntityManagerFactoryBean createLocalContainerEntityManagerFactory() {
+    public LocalContainerEntityManagerFactoryBean createLocalContainerEntityManagerFactory(DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean
                 = new LocalContainerEntityManagerFactoryBean();
-        localContainerEntityManagerFactoryBean.setDataSource(createDataSource());
+        localContainerEntityManagerFactoryBean.setDataSource(dataSource);
 
         // Scan Entities in Package:
         localContainerEntityManagerFactoryBean.setPackagesToScan(PACKAGES_TO_SCAN);
@@ -120,18 +120,18 @@ public class PrimaryPersistenceConfig {
         return localContainerEntityManagerFactoryBean;
     }
 
-    public EntityManagerFactory createEntityManagerFactory() {
-        return createLocalContainerEntityManagerFactory().getObject();
+    public EntityManagerFactory createEntityManagerFactory(LocalContainerEntityManagerFactoryBean localContainerEntityManagerFactoryBean) {
+        return localContainerEntityManagerFactoryBean.getObject();
     }
 
-    public PlatformTransactionManager createTransactionManagerBean() {
+    public PlatformTransactionManager createTransactionManagerBean(EntityManagerFactory entityManagerFactory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(createEntityManagerFactory());
+        transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
     }
 
-    public EntityManager createEntityManager() {
-        return createEntityManagerFactory().createEntityManager();
+    public EntityManager createEntityManager(EntityManagerFactory entityManagerFactory) {
+        return entityManagerFactory.createEntityManager();
     }
 
     public AuditorAware<String> createAuditorAware() {

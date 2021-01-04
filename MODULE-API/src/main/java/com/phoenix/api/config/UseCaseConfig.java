@@ -42,7 +42,7 @@ public class UseCaseConfig {
 
     public UseCaseConfig(UserRepository userRepository) {
         this.userRepository = userRepository;
-        configuration = new SpringConfiguration(userRepository);
+        configuration = new SpringConfiguration(this.userRepository);
     }
 
     @Bean(value = "CreateUserUseCaseBean")

@@ -25,7 +25,7 @@
         <org.eclipse.persistence.javax.persistence.version>2.2.1</org.eclipse.persistence.javax.persistence.version>
         <org.hibernate.javax.persistence.hibernate-jpa-2.1-api.version>1.0.2.Final
         </org.hibernate.javax.persistence.hibernate-jpa-2.1-api.version>
-        <org.hibernate.orm.hibernate-core.version>6.0.0.Alpha6</org.hibernate.orm.hibernate-core.version>
+        <org.hibernate.orm.hibernate-core.version>5.4.27.Final</org.hibernate.orm.hibernate-core.version>
 
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
@@ -89,9 +89,9 @@
             <version>${org.hibernate.javax.persistence.hibernate-jpa-2.1-api.version}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
+        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
         <dependency>
-            <groupId>org.hibernate.orm</groupId>
+            <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${org.hibernate.orm.hibernate-core.version}</version>
         </dependency>

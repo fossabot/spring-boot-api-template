@@ -79,14 +79,13 @@ public class CreateUserUseCase {
             throw new UserValidationException("User should not be null");
         if (ValidateString.isBlankOrNull(user.getEmail()))
             throw new UserValidationException("Email should not be null.");
-        if (!Validation.isValidEmail(user.getEmail())) {
+        if (!Validation.isValidEmail(user.getEmail()))
             throw new EmailValidationException(user.getEmail() + " is invalid.");
-        }
         if (!ValidateString.isNullOrNotBlank(user.getEmail()))
             throw new UserValidationException("Email can be null but not blank.");
         if (userRepository.findByEmail(user.getEmail()).isPresent())
             throw new UserAlreadyExistsException(user.getEmail() + " is already exist.");
-        if (userRepository.findByUsername("Email: " + user.getUsername()).isPresent())
+        if (userRepository.findByUsername(user.getUsername()).isPresent())
             throw new UserAlreadyExistsException("Username: " + user.getUsername() + " is already exist.");
     }
 }
