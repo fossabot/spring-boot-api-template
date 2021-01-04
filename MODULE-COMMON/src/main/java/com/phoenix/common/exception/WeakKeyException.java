@@ -22,18 +22,11 @@
  * SOFTWARE.
  */
 
-package com.phoenix.common.encrypt;
+package com.phoenix.common.exception;
 
+public class WeakKeyException extends InvalidKeyException {
 
-import io.jsonwebtoken.SignatureAlgorithm;
-
-import javax.crypto.SecretKey;
-
-public class TokenUlti {
-    public String generateSecretKey(){
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-
-        return null;
+    public WeakKeyException(String message) {
+        super(message);
     }
 }

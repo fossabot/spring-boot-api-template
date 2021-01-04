@@ -22,18 +22,13 @@
  * SOFTWARE.
  */
 
-package com.phoenix.common.encrypt;
+package com.phoenix.common.exception;
 
+import java.security.KeyException;
 
-import io.jsonwebtoken.SignatureAlgorithm;
+public class InvalidKeyException extends KeyException {
 
-import javax.crypto.SecretKey;
-
-public class TokenUlti {
-    public String generateSecretKey(){
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-
-        return null;
+    public InvalidKeyException(String message) {
+        super(message);
     }
 }

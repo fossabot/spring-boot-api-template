@@ -22,18 +22,11 @@
  * SOFTWARE.
  */
 
-package com.phoenix.common.encrypt;
+package com.phoenix.common.exception;
 
+public class InstantiationException extends RuntimeException {
 
-import io.jsonwebtoken.SignatureAlgorithm;
-
-import javax.crypto.SecretKey;
-
-public class TokenUlti {
-    public String generateSecretKey(){
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-
-
-        return null;
+    public InstantiationException(String s, Throwable t) {
+        super(s, t);
     }
 }
