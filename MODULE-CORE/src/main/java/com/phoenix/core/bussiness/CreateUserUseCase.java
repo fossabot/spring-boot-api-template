@@ -24,11 +24,11 @@
 
 package com.phoenix.core.bussiness;
 
+import com.phoenix.common.exception.EmailValidationException;
+import com.phoenix.common.exception.UserAlreadyExistsException;
+import com.phoenix.common.exception.UserValidationException;
 import com.phoenix.common.validation.ValidateString;
 import com.phoenix.common.validation.Validation;
-import com.phoenix.core.exception.EmailValidationException;
-import com.phoenix.core.exception.UserAlreadyExistsException;
-import com.phoenix.core.exception.UserValidationException;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.core.port.security.PasswordEncoderPort;
 import com.phoenix.domain.entity.User;

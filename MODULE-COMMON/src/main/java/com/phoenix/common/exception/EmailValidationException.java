@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.exception;
+package com.phoenix.common.exception;
 
 public class EmailValidationException extends RuntimeException {
     public EmailValidationException(final String email) {

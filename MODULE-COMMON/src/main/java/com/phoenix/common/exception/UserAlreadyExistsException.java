@@ -1,4 +1,4 @@
-package com.phoenix.core.exception;
+package com.phoenix.common.exception;
 
 public class UserAlreadyExistsException extends RuntimeException {
     public UserAlreadyExistsException(final String email) {
