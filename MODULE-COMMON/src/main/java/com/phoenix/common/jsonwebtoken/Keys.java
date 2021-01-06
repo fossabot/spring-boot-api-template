@@ -25,8 +25,8 @@
 
 package com.phoenix.common.jsonwebtoken;
 
-import com.phoenix.common.exception.InvalidKeyException;
-import com.phoenix.common.exception.WeakKeyException;
+import com.phoenix.common.exception.security.InvalidKeyException;
+import com.phoenix.common.exception.security.WeakKeyException;
 import com.phoenix.common.lang.Assert;
 
 import javax.crypto.SecretKey;

@@ -23,19 +23,17 @@
  *
  */
 
-package com.phoenix.common.exception;
+package com.phoenix.common.exception.ioe;
 
-/**
- * @since 0.10.0
- */
-public class SignatureException extends SecurityException {
+import com.phoenix.common.exception.ioe.CodecException;
 
-    public SignatureException(String message) {
+public class DecodingException extends CodecException {
+
+    public DecodingException(String message) {
         super(message);
     }
 
-    public SignatureException(String message, Throwable cause) {
+    public DecodingException(String message, Throwable cause) {
         super(message, cause);
     }
-
 }

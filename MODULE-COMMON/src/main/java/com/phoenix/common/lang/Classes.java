@@ -25,7 +25,7 @@
 
 package com.phoenix.common.lang;
 
-import com.phoenix.common.exception.UnknownClassException;
+import com.phoenix.common.exception.runtime.UnknownClassException;
 
 import java.io.InputStream;
 import java.lang.reflect.Constructor;

@@ -23,18 +23,52 @@
  *
  */
 
-package com.phoenix.common.exception;
+package com.phoenix.common.exception.runtime;
 
 /**
- * @since 0.10.0
+ * A <code>RuntimeException</code> equivalent of the JDK's
+ * <code>ClassNotFoundException</code>, to maintain a RuntimeException paradigm.
+ *
+ * @since 0.1
  */
-public class SecurityException extends JwtException {
+public class UnknownClassException extends RuntimeException {
 
-    public SecurityException(String message) {
+    /*
+    /**
+     * Creates a new UnknownClassException.
+     *
+    public UnknownClassException() {
+        super();
+    }*/
+
+    /**
+     * Constructs a new UnknownClassException.
+     *
+     * @param message the reason for the exception
+     */
+    public UnknownClassException(String message) {
         super(message);
     }
 
-    public SecurityException(String message, Throwable cause) {
+    /*
+     * Constructs a new UnknownClassException.
+     *
+     * @param cause the underlying Throwable that caused this exception to be thrown.
+     *
+    public UnknownClassException(Throwable cause) {
+        super(cause);
+    }
+    */
+
+    /**
+     * Constructs a new UnknownClassException.
+     *
+     * @param message the reason for the exception
+     * @param cause   the underlying Throwable that caused this exception to be thrown.
+     */
+    public UnknownClassException(String message, Throwable cause) {
+        // TODO: remove in v1.0, this constructor is only exposed to allow for backward compatible behavior
         super(message, cause);
     }
+
 }

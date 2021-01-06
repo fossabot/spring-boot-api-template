@@ -23,20 +23,16 @@
  *
  */
 
-package com.phoenix.common.exception;
+package com.phoenix.common.exception.security;
+
+import java.security.KeyException;
 
 /**
- * Base class for JWT-related runtime exceptions.
- *
- * @since 0.1
+ * @since 0.10.0
  */
-public class JwtException extends RuntimeException {
+public class InvalidKeyException extends KeyException {
 
-    public JwtException(String message) {
+    public InvalidKeyException(String message) {
         super(message);
-    }
-
-    public JwtException(String message, Throwable cause) {
-        super(message, cause);
     }
 }

@@ -25,17 +25,15 @@
 
 package com.phoenix.common.jsonwebtoken;
 
-import com.phoenix.common.exception.InvalidKeyException;
-import com.phoenix.common.exception.SignatureException;
-import com.phoenix.common.exception.WeakKeyException;
+import com.phoenix.common.exception.security.InvalidKeyException;
+import com.phoenix.common.exception.runtime.SignatureException;
+import com.phoenix.common.exception.security.WeakKeyException;
 
 import javax.crypto.SecretKey;
 import java.security.Key;
 import java.security.PrivateKey;
 import java.security.interfaces.ECKey;
 import java.security.interfaces.RSAKey;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**

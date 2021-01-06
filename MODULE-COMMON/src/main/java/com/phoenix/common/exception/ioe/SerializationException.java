@@ -23,16 +23,15 @@
  *
  */
 
-package com.phoenix.common.exception;
+package com.phoenix.common.exception.ioe;
 
-import java.security.KeyException;
+public class SerializationException extends SerialException {
 
-/**
- * @since 0.10.0
- */
-public class InvalidKeyException extends KeyException {
+    public SerializationException(String msg) {
+        super(msg);
+    }
 
-    public InvalidKeyException(String message) {
-        super(message);
+    public SerializationException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

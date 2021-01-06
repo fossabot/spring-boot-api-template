@@ -20,12 +20,17 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.common.exception;
+package com.phoenix.common.jsonwebtoken;
 
-public class EmailValidationException extends RuntimeException {
-    public EmailValidationException(final String email) {
-        super(email);
-    }
+import com.phoenix.common.exception.ioe.DecodingException;
+
+/**
+ * @since 0.10.0
+ */
+public interface Decoder<T, R> {
+
+    R decode(T t) throws DecodingException;
 }

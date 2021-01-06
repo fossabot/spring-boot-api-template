@@ -24,9 +24,9 @@
 
 package com.phoenix.core.bussiness;
 
-import com.phoenix.common.exception.EmailValidationException;
-import com.phoenix.common.exception.UserAlreadyExistsException;
-import com.phoenix.common.exception.UserValidationException;
+import com.phoenix.common.exception.runtime.EmailValidationException;
+import com.phoenix.common.exception.runtime.UserAlreadyExistsException;
+import com.phoenix.common.exception.runtime.UserValidationException;
 import com.phoenix.common.validation.ValidateString;
 import com.phoenix.common.validation.Validation;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
