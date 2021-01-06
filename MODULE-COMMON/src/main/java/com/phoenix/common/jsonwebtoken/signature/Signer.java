@@ -20,17 +20,14 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.common.util;
+package com.phoenix.common.jsonwebtoken.signature;
 
-import org.junit.Test;
+import com.phoenix.common.exception.runtime.SignatureException;
 
-public class TestBase64 {
-    @Test
-    public void testBase64EncodeBytes(){
-        String secret = "sajkdnaskda,smd,sadkas;;d";
-        System.out.println(Base64.encodeBytes(secret.getBytes()));
-        System.out.println(Base64Url.encode(secret.getBytes()));
-    }
+public interface Signer {
+
+    byte[] sign(byte[] data) throws SignatureException;
 }

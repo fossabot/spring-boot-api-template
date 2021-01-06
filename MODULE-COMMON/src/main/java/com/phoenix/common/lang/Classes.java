@@ -31,12 +31,15 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+import com.phoenix.common.exception.runtime.InstantiationException;
+
 /**
  * @since 0.1
  */
 public final class Classes {
 
-    private Classes() {} //prevent instantiation
+    private Classes() {
+    } //prevent instantiation
 
     /**
      * @since 0.1
@@ -145,7 +148,7 @@ public final class Classes {
 
     @SuppressWarnings("unchecked")
     public static <T> T newInstance(String fqcn) {
-        return (T)newInstance(forName(fqcn));
+        return newInstance(forName(fqcn));
     }
 
     public static <T> T newInstance(String fqcn, Class[] ctorArgTypes, Object... args) {
@@ -154,9 +157,8 @@ public final class Classes {
         return instantiate(ctor, args);
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T newInstance(String fqcn, Object... args) {
-        return (T)newInstance(forName(fqcn), args);
+        return newInstance(forName(fqcn), args);
     }
 
     public static <T> T newInstance(Class<T> clazz) {
@@ -165,7 +167,7 @@ public final class Classes {
             throw new IllegalArgumentException(msg);
         }
         try {
-            return clazz.newInstance();
+            return clazz.getDeclaredConstructor().newInstance();
         } catch (Exception e) {
             throw new InstantiationException("Unable to instantiate class [" + clazz.getName() + "]", e);
         }
@@ -207,7 +209,7 @@ public final class Classes {
             Class clazz = Classes.forName(fqcn);
             Method method = clazz.getDeclaredMethod(methodName, argTypes);
             method.setAccessible(true);
-            return(T)method.invoke(null, args);
+            return (T) method.invoke(null, args);
         } catch (Exception e) {
             String msg = "Unable to invoke class method " + fqcn + "#" + methodName + ".  Ensure the necessary " +
                     "implementation is in the runtime classpath.";

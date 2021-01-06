@@ -23,11 +23,12 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken;
+package com.phoenix.common.jsonwebtoken.signature;
 
 import com.phoenix.common.exception.security.InvalidKeyException;
 import com.phoenix.common.exception.runtime.SignatureException;
 import com.phoenix.common.exception.security.WeakKeyException;
+import com.phoenix.common.jsonwebtoken.crypto.Keys;
 
 import javax.crypto.SecretKey;
 import java.security.Key;

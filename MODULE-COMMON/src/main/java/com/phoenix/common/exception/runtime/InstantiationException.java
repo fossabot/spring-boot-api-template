@@ -23,11 +23,11 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken;
+package com.phoenix.common.exception.runtime;
 
-import com.phoenix.common.exception.ioe.EncodingException;
+public class InstantiationException extends RuntimeException {
 
-public interface Encoder<T, R> {
-
-    R encode(T t) throws EncodingException;
+    public InstantiationException(String s, Throwable t) {
+        super(s, t);
+    }
 }

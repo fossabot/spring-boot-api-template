@@ -23,7 +23,7 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken;
+package com.phoenix.common.jsonwebtoken.common;
 
 import com.phoenix.common.lang.Assert;
 import com.phoenix.common.lang.DateFormats;

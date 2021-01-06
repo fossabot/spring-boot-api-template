@@ -23,7 +23,7 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken;
+package com.phoenix.common.jsonwebtoken.component;
 
 import java.util.Date;
 import java.util.Map;

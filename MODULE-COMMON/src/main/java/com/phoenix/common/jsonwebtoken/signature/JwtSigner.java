@@ -23,14 +23,9 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken;
+package com.phoenix.common.jsonwebtoken.signature;
 
-import com.phoenix.common.exception.ioe.DecodingException;
+public interface JwtSigner {
 
-/**
- * @since 0.10.0
- */
-public interface Decoder<T, R> {
-
-    R decode(T t) throws DecodingException;
+    String sign(String jwtWithoutSignature);
 }

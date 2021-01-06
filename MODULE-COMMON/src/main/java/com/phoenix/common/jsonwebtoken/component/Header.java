@@ -23,7 +23,7 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken;
+package com.phoenix.common.jsonwebtoken.component;
 
 import java.util.Map;
 
@@ -60,6 +60,10 @@ public interface Header<T extends Header<T>> extends Map<String,Object> {
 
     /** JWT {@code Compression Algorithm} header parameter name: <code>"zip"</code> */
     public static final String COMPRESSION_ALGORITHM = "zip";
+
+    /** JJWT legacy/deprecated compression algorithm header parameter name: <code>"calg"</code>
+     * @deprecated use {@link #COMPRESSION_ALGORITHM} instead. */
+    public static final String DEPRECATED_COMPRESSION_ALGORITHM = "calg";
 
     /**
      * Returns the <a href="https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-25#section-5.1">
