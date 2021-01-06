@@ -23,7 +23,7 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken.compressioncode;
+package com.phoenix.common.jsonwebtoken.compression;
 
 import com.phoenix.common.lang.Objects;
 

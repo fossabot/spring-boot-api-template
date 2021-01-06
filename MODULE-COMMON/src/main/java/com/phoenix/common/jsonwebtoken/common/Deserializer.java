@@ -20,43 +20,13 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.component;
+package com.phoenix.common.jsonwebtoken.common;
 
+import com.phoenix.common.exception.ioe.DeserializationException;
 
-import java.util.Map;
+public interface Deserializer<T> {
 
-public class DefaultJwsHeader extends DefaultHeader implements JwsHeader {
-    public DefaultJwsHeader() {
-        super();
-    }
-
-    public DefaultJwsHeader(Map<String, Object> map) {
-        super(map);
-    }
-
-    @Override
-    public String getAlgorithm() {
-        return getString(ALGORITHM);
-    }
-
-    @Override
-    public JwsHeader setAlgorithm(String alg) {
-        setValue(ALGORITHM, alg);
-        return this;
-    }
-
-    @Override
-    public String getKeyId() {
-        return getString(KEY_ID);
-    }
-
-    @Override
-    public JwsHeader setKeyId(String kid) {
-        setValue(KEY_ID, kid);
-        return this;
-    }
-
+    T deserialize(byte[] bytes) throws DeserializationException;
 }

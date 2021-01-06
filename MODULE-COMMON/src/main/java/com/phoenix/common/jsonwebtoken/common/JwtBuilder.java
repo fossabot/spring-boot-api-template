@@ -20,18 +20,16 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.builder;
+package com.phoenix.common.jsonwebtoken.common;
 
-import com.phoenix.common.jsonwebtoken.compressioncode.CompressionCodec;
-import com.phoenix.common.jsonwebtoken.common.Serializer;
+import com.phoenix.common.jsonwebtoken.compression.CompressionCodec;
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.jsonwebtoken.component.ClaimsMutator;
 import com.phoenix.common.jsonwebtoken.component.Header;
 import com.phoenix.common.jsonwebtoken.crypto.Keys;
-import com.phoenix.common.jsonwebtoken.signature.SignatureAlgorithm;
+import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 
 import java.security.InvalidKeyException;
 import java.security.Key;

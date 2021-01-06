@@ -20,43 +20,41 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.component;
+package com.phoenix.common.jsonwebtoken.common;
 
+import com.phoenix.common.jsonwebtoken.component.JwsHeader;
 
-import java.util.Map;
+public class DefaultJws<B> implements Jws<B> {
 
-public class DefaultJwsHeader extends DefaultHeader implements JwsHeader {
-    public DefaultJwsHeader() {
-        super();
-    }
+    private final JwsHeader header;
+    private final B body;
+    private final String signature;
 
-    public DefaultJwsHeader(Map<String, Object> map) {
-        super(map);
-    }
-
-    @Override
-    public String getAlgorithm() {
-        return getString(ALGORITHM);
+    public DefaultJws(JwsHeader header, B body, String signature) {
+        this.header = header;
+        this.body = body;
+        this.signature = signature;
     }
 
     @Override
-    public JwsHeader setAlgorithm(String alg) {
-        setValue(ALGORITHM, alg);
-        return this;
+    public JwsHeader getHeader() {
+        return this.header;
     }
 
     @Override
-    public String getKeyId() {
-        return getString(KEY_ID);
+    public B getBody() {
+        return this.body;
     }
 
     @Override
-    public JwsHeader setKeyId(String kid) {
-        setValue(KEY_ID, kid);
-        return this;
+    public String getSignature() {
+        return this.signature;
     }
 
+    @Override
+    public String toString() {
+        return "header=" + header + ",body=" + body + ",signature=" + signature;
+    }
 }

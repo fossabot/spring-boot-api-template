@@ -25,6 +25,7 @@
 
 package com.phoenix.common.jsonwebtoken.signature;
 
+import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.lang.Assert;
 
 import java.security.Key;

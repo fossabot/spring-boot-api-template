@@ -20,45 +20,17 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.compressioncode;
+package com.phoenix.common.exception.ioe;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
+public class DeserializationException extends SerialException {
 
-/**
- * Codec implementing the <a href="https://en.wikipedia.org/wiki/Gzip">gzip compression algorithm</a>.
- *
- * @since 0.6.0
- */
-public class GzipCompressionCodec extends AbstractCompressionCodec implements CompressionCodec {
-
-    private static final String GZIP = "GZIP";
-
-    private static final StreamWrapper WRAPPER = new StreamWrapper() {
-        @Override
-        public OutputStream wrap(OutputStream out) throws IOException {
-            return new GZIPOutputStream(out);
-        }
-    };
-
-    @Override
-    public String getAlgorithmName() {
-        return GZIP;
+    public DeserializationException(String msg) {
+        super(msg);
     }
 
-    @Override
-    protected byte[] doCompress(byte[] payload) throws IOException {
-        return writeAndClose(payload, WRAPPER);
-    }
-
-    @Override
-    protected byte[] doDecompress(byte[] compressed) throws IOException {
-        return readAndClose(new GZIPInputStream(new ByteArrayInputStream(compressed)));
+    public DeserializationException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

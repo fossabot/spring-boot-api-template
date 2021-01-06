@@ -27,6 +27,8 @@ package com.phoenix.common.jsonwebtoken.signature;
 
 import com.phoenix.common.exception.runtime.JwtException;
 import com.phoenix.common.exception.runtime.SignatureException;
+import com.phoenix.common.jsonwebtoken.crypto.EllipticCurveProvider;
+import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 
 import java.security.InvalidKeyException;
 import java.security.Key;

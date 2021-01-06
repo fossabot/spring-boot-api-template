@@ -26,6 +26,8 @@
 package com.phoenix.common.jsonwebtoken.signature;
 
 import com.phoenix.common.exception.runtime.SignatureException;
+import com.phoenix.common.jsonwebtoken.crypto.MacProvider;
+import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.lang.Assert;
 
 import javax.crypto.Mac;

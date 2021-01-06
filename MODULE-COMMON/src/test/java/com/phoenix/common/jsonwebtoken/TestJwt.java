@@ -20,43 +20,42 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.component;
+package com.phoenix.common.jsonwebtoken;
 
+import com.phoenix.common.exception.security.InvalidKeyException;
+import com.phoenix.common.jsonwebtoken.common.Jwts;
+import com.phoenix.common.jsonwebtoken.crypto.Keys;
+import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
+import com.phoenix.common.util.Base64;
+import org.junit.Test;
 
-import java.util.Map;
+import javax.crypto.SecretKey;
 
-public class DefaultJwsHeader extends DefaultHeader implements JwsHeader {
-    public DefaultJwsHeader() {
-        super();
+public class TestJwt {
+    @Test
+    public void testGenerateKey(){
+        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+        String secretString = Base64.encodeBytes(key.getEncoded());
+
+        System.out.println(key);
+        System.out.println(secretString);
     }
 
-    public DefaultJwsHeader(Map<String, Object> map) {
-        super(map);
-    }
+    @Test
+    public void createJws() throws InvalidKeyException, java.security.InvalidKeyException {
+        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
-    @Override
-    public String getAlgorithm() {
-        return getString(ALGORITHM);
-    }
+        String jws = Jwts.builder() // (1)
 
-    @Override
-    public JwsHeader setAlgorithm(String alg) {
-        setValue(ALGORITHM, alg);
-        return this;
-    }
+                .setSubject("Bob")      // (2)
 
-    @Override
-    public String getKeyId() {
-        return getString(KEY_ID);
-    }
+                .signWith(key)          // (3)
 
-    @Override
-    public JwsHeader setKeyId(String kid) {
-        setValue(KEY_ID, kid);
-        return this;
-    }
+                .compact();             // (4)
 
+        System.out.println(jws);
+    }
 }

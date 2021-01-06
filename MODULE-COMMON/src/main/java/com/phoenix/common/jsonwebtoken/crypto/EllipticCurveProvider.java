@@ -20,10 +20,9 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.signature;
+package com.phoenix.common.jsonwebtoken.crypto;
 
 import com.phoenix.common.exception.runtime.JwtException;
 import com.phoenix.common.lang.Assert;

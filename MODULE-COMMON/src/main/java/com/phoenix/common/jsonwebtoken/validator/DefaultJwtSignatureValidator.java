@@ -20,10 +20,9 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.signature;
+package com.phoenix.common.jsonwebtoken.validator;
 
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.lang.Assert;
@@ -33,29 +32,28 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
-public class DefaultJwtSigner implements JwtSigner {
+public class DefaultJwtSignatureValidator implements JwtSignatureValidator {
 
     private static final Charset US_ASCII = StandardCharsets.US_ASCII;
 
-    private final Signer signer;
+    private final SignatureValidator signatureValidator;
 
-    public DefaultJwtSigner(SignatureAlgorithm alg, Key key) {
-        this(DefaultSignerFactory.INSTANCE, alg, key);
+    public DefaultJwtSignatureValidator(SignatureAlgorithm alg, Key key) {
+        this(DefaultSignatureValidatorFactory.INSTANCE, alg, key);
     }
 
-
-    public DefaultJwtSigner(SignerFactory factory, SignatureAlgorithm alg, Key key) {
+    public DefaultJwtSignatureValidator(SignatureValidatorFactory factory, SignatureAlgorithm alg, Key key) {
         Assert.notNull(factory, "SignerFactory argument cannot be null.");
-        this.signer = factory.createSigner(alg, key);
+        this.signatureValidator = factory.createSignatureValidator(alg, key);
     }
 
     @Override
-    public String sign(String jwtWithoutSignature) {
+    public boolean isValid(String jwtWithoutSignature, String base64UrlEncodedSignature) {
 
-        byte[] bytesToSign = jwtWithoutSignature.getBytes(US_ASCII);
+        byte[] data = jwtWithoutSignature.getBytes(US_ASCII);
 
-        byte[] signature = signer.sign(bytesToSign);
+        byte[] signature = Base64Url.decode(base64UrlEncodedSignature);
 
-        return Base64Url.encode(signature);
+        return this.signatureValidator.isValid(data, signature);
     }
 }

@@ -20,43 +20,34 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.component;
+package com.phoenix.common.jsonwebtoken.common;
 
+import com.phoenix.common.jsonwebtoken.component.Header;
 
-import java.util.Map;
+public class DefaultJwt<B> implements Jwt<Header,B> {
 
-public class DefaultJwsHeader extends DefaultHeader implements JwsHeader {
-    public DefaultJwsHeader() {
-        super();
-    }
+    private final Header header;
+    private final B body;
 
-    public DefaultJwsHeader(Map<String, Object> map) {
-        super(map);
-    }
-
-    @Override
-    public String getAlgorithm() {
-        return getString(ALGORITHM);
+    public DefaultJwt(Header header, B body) {
+        this.header = header;
+        this.body = body;
     }
 
     @Override
-    public JwsHeader setAlgorithm(String alg) {
-        setValue(ALGORITHM, alg);
-        return this;
+    public Header getHeader() {
+        return header;
     }
 
     @Override
-    public String getKeyId() {
-        return getString(KEY_ID);
+    public B getBody() {
+        return body;
     }
 
     @Override
-    public JwsHeader setKeyId(String kid) {
-        setValue(KEY_ID, kid);
-        return this;
+    public String toString() {
+        return "header=" + header + ",body=" + body;
     }
-
 }

@@ -43,6 +43,6 @@ public class TestBase64 {
     public void testBase64UrlEncodeObject() throws SerializationException {
         Serializer<String> serializer = new GsonSerializer<>();
         String a = "1";
-        System.out.println(Arrays.toString(serializer.serialize(a)));
+        System.out.println(new String(serializer.serialize(a)));
     }
 }

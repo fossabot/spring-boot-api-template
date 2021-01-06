@@ -20,43 +20,23 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.component;
+package com.phoenix.common.jsonwebtoken.common;
+import java.util.Date;
 
+/**
+ * A clock represents a time source that can be used when creating and verifying JWTs.
+ *
+ * @since 0.7.0
+ */
+public interface Clock {
 
-import java.util.Map;
-
-public class DefaultJwsHeader extends DefaultHeader implements JwsHeader {
-    public DefaultJwsHeader() {
-        super();
-    }
-
-    public DefaultJwsHeader(Map<String, Object> map) {
-        super(map);
-    }
-
-    @Override
-    public String getAlgorithm() {
-        return getString(ALGORITHM);
-    }
-
-    @Override
-    public JwsHeader setAlgorithm(String alg) {
-        setValue(ALGORITHM, alg);
-        return this;
-    }
-
-    @Override
-    public String getKeyId() {
-        return getString(KEY_ID);
-    }
-
-    @Override
-    public JwsHeader setKeyId(String kid) {
-        setValue(KEY_ID, kid);
-        return this;
-    }
-
+    /**
+     * Returns the clock's current timestamp at the instant the method is invoked.
+     *
+     * @return the clock's current timestamp at the instant the method is invoked.
+     */
+    Date now();
 }
+

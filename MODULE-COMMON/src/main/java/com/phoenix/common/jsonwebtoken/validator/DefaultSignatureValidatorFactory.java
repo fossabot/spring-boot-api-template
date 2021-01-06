@@ -20,42 +20,42 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.signature;
+package com.phoenix.common.jsonwebtoken.validator;
 
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.lang.Assert;
-import com.phoenix.common.util.Base64Url;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
 
-public class DefaultJwtSigner implements JwtSigner {
+public class DefaultSignatureValidatorFactory implements SignatureValidatorFactory {
 
-    private static final Charset US_ASCII = StandardCharsets.US_ASCII;
-
-    private final Signer signer;
-
-    public DefaultJwtSigner(SignatureAlgorithm alg, Key key) {
-        this(DefaultSignerFactory.INSTANCE, alg, key);
-    }
-
-
-    public DefaultJwtSigner(SignerFactory factory, SignatureAlgorithm alg, Key key) {
-        Assert.notNull(factory, "SignerFactory argument cannot be null.");
-        this.signer = factory.createSigner(alg, key);
-    }
+    public static final SignatureValidatorFactory INSTANCE = new DefaultSignatureValidatorFactory();
 
     @Override
-    public String sign(String jwtWithoutSignature) {
+    public SignatureValidator createSignatureValidator(SignatureAlgorithm alg, Key key) {
+        Assert.notNull(alg, "SignatureAlgorithm cannot be null.");
+        Assert.notNull(key, "Signing Key cannot be null.");
 
-        byte[] bytesToSign = jwtWithoutSignature.getBytes(US_ASCII);
-
-        byte[] signature = signer.sign(bytesToSign);
-
-        return Base64Url.encode(signature);
+        switch (alg) {
+            case HS256:
+            case HS384:
+            case HS512:
+                return new MacValidator(alg, key);
+            case RS256:
+            case RS384:
+            case RS512:
+            case PS256:
+            case PS384:
+            case PS512:
+                return new RsaSignatureValidator(alg, key);
+            case ES256:
+            case ES384:
+            case ES512:
+                return new EllipticCurveSignatureValidator(alg, key);
+            default:
+                throw new IllegalArgumentException("The '" + alg.name() + "' algorithm cannot be used for signing.");
+        }
     }
 }

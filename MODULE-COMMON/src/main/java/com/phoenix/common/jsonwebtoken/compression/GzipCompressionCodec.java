@@ -23,40 +23,42 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken.component;
+package com.phoenix.common.jsonwebtoken.compression;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
-import java.util.Map;
+/**
+ * Codec implementing the <a href="https://en.wikipedia.org/wiki/Gzip">gzip compression algorithm</a>.
+ *
+ * @since 0.6.0
+ */
+public class GzipCompressionCodec extends AbstractCompressionCodec implements CompressionCodec {
 
-public class DefaultJwsHeader extends DefaultHeader implements JwsHeader {
-    public DefaultJwsHeader() {
-        super();
-    }
+    private static final String GZIP = "GZIP";
 
-    public DefaultJwsHeader(Map<String, Object> map) {
-        super(map);
+    private static final StreamWrapper WRAPPER = new StreamWrapper() {
+        @Override
+        public OutputStream wrap(OutputStream out) throws IOException {
+            return new GZIPOutputStream(out);
+        }
+    };
+
+    @Override
+    public String getAlgorithmName() {
+        return GZIP;
     }
 
     @Override
-    public String getAlgorithm() {
-        return getString(ALGORITHM);
+    protected byte[] doCompress(byte[] payload) throws IOException {
+        return writeAndClose(payload, WRAPPER);
     }
 
     @Override
-    public JwsHeader setAlgorithm(String alg) {
-        setValue(ALGORITHM, alg);
-        return this;
+    protected byte[] doDecompress(byte[] compressed) throws IOException {
+        return readAndClose(new GZIPInputStream(new ByteArrayInputStream(compressed)));
     }
-
-    @Override
-    public String getKeyId() {
-        return getString(KEY_ID);
-    }
-
-    @Override
-    public JwsHeader setKeyId(String kid) {
-        setValue(KEY_ID, kid);
-        return this;
-    }
-
 }

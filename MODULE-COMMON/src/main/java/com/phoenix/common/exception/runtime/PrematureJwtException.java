@@ -20,43 +20,32 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.component;
+package com.phoenix.common.exception.runtime;
 
+import com.phoenix.common.jsonwebtoken.component.Claims;
+import com.phoenix.common.jsonwebtoken.component.Header;
 
-import java.util.Map;
+/**
+ * Exception indicating that a JWT was accepted before it is allowed to be accessed and must be rejected.
+ *
+ * @since 0.3
+ */
+public class PrematureJwtException extends ClaimJwtException {
 
-public class DefaultJwsHeader extends DefaultHeader implements JwsHeader {
-    public DefaultJwsHeader() {
-        super();
+    public PrematureJwtException(Header header, Claims claims, String message) {
+        super(header, claims, message);
     }
 
-    public DefaultJwsHeader(Map<String, Object> map) {
-        super(map);
+    /**
+     * @param header jwt header
+     * @param claims jwt claims (body)
+     * @param message exception message
+     * @param cause cause
+     * @since 0.5
+     */
+    public PrematureJwtException(Header header, Claims claims, String message, Throwable cause) {
+        super(header, claims, message, cause);
     }
-
-    @Override
-    public String getAlgorithm() {
-        return getString(ALGORITHM);
-    }
-
-    @Override
-    public JwsHeader setAlgorithm(String alg) {
-        setValue(ALGORITHM, alg);
-        return this;
-    }
-
-    @Override
-    public String getKeyId() {
-        return getString(KEY_ID);
-    }
-
-    @Override
-    public JwsHeader setKeyId(String kid) {
-        setValue(KEY_ID, kid);
-        return this;
-    }
-
 }

@@ -20,43 +20,15 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.component;
+package com.phoenix.common.jsonwebtoken.validator;
 
+import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 
-import java.util.Map;
+import java.security.Key;
 
-public class DefaultJwsHeader extends DefaultHeader implements JwsHeader {
-    public DefaultJwsHeader() {
-        super();
-    }
+public interface SignatureValidatorFactory {
 
-    public DefaultJwsHeader(Map<String, Object> map) {
-        super(map);
-    }
-
-    @Override
-    public String getAlgorithm() {
-        return getString(ALGORITHM);
-    }
-
-    @Override
-    public JwsHeader setAlgorithm(String alg) {
-        setValue(ALGORITHM, alg);
-        return this;
-    }
-
-    @Override
-    public String getKeyId() {
-        return getString(KEY_ID);
-    }
-
-    @Override
-    public JwsHeader setKeyId(String kid) {
-        setValue(KEY_ID, kid);
-        return this;
-    }
-
+    SignatureValidator createSignatureValidator(SignatureAlgorithm alg, Key key);
 }

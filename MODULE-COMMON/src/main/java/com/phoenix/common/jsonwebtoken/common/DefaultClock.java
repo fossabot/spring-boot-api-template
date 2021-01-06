@@ -20,43 +20,31 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.component;
+package com.phoenix.common.jsonwebtoken.common;
 
+import java.util.Date;
 
-import java.util.Map;
+/**
+ * Default {@link Clock} implementation.
+ *
+ * @since 0.7.0
+ */
+public class DefaultClock implements Clock {
 
-public class DefaultJwsHeader extends DefaultHeader implements JwsHeader {
-    public DefaultJwsHeader() {
-        super();
-    }
+    /**
+     * Default static instance that may be shared.  It is thread-safe.
+     */
+    public static final Clock INSTANCE = new DefaultClock();
 
-    public DefaultJwsHeader(Map<String, Object> map) {
-        super(map);
-    }
-
+    /**
+     * Simply returns <code>new {@link Date}()</code>.
+     *
+     * @return a new {@link Date} instance.
+     */
     @Override
-    public String getAlgorithm() {
-        return getString(ALGORITHM);
+    public Date now() {
+        return new Date();
     }
-
-    @Override
-    public JwsHeader setAlgorithm(String alg) {
-        setValue(ALGORITHM, alg);
-        return this;
-    }
-
-    @Override
-    public String getKeyId() {
-        return getString(KEY_ID);
-    }
-
-    @Override
-    public JwsHeader setKeyId(String kid) {
-        setValue(KEY_ID, kid);
-        return this;
-    }
-
 }

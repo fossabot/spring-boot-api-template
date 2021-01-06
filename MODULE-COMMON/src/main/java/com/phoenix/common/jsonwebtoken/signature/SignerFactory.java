@@ -25,6 +25,8 @@
 
 package com.phoenix.common.jsonwebtoken.signature;
 
+import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
+
 import java.security.Key;
 
 public interface SignerFactory {
