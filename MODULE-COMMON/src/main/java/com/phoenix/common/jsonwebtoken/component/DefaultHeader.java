@@ -48,7 +48,7 @@ public class DefaultHeader<T extends Header<T>> extends JwtMap implements Header
     @Override
     public T setType(String typ) {
         setValue(TYPE, typ);
-        return (T)this;
+        return (T) this;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class DefaultHeader<T extends Header<T>> extends JwtMap implements Header
     @Override
     public T setContentType(String cty) {
         setValue(CONTENT_TYPE, cty);
-        return (T)this;
+        return (T) this;
     }
 
     @SuppressWarnings("deprecation")

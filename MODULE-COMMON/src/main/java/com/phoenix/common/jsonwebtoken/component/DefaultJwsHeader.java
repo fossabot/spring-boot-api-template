@@ -20,29 +20,43 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.common.util;
+package com.phoenix.common.jsonwebtoken.component;
 
-import com.phoenix.common.exception.ioe.SerializationException;
-import com.phoenix.common.jsonwebtoken.common.GsonSerializer;
-import com.phoenix.common.jsonwebtoken.common.Serializer;
-import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.Map;
 
-public class TestBase64 {
-    @Test
-    public void testBase64EncodeBytes(){
-        String secret = "sajkdnaskda,smd,sadkas;;d";
-        System.out.println(Base64.encodeBytes(secret.getBytes()));
-        System.out.println(Base64Url.encode(secret.getBytes()));
+public class DefaultJwsHeader<T extends JwsHeader<T>> extends DefaultHeader implements JwsHeader<T> {
+    public DefaultJwsHeader() {
+        super();
     }
 
-    @Test
-    public void testBase64UrlEncodeObject() throws SerializationException {
-        Serializer<String> serializer = new GsonSerializer<>();
-        String a = "1";
-        System.out.println(Arrays.toString(serializer.serialize(a)));
+    public DefaultJwsHeader(Map<String, Object> map) {
+        super(map);
     }
+
+    @Override
+    public String getAlgorithm() {
+        return getString(ALGORITHM);
+    }
+
+    @Override
+    public T setAlgorithm(String alg) {
+        setValue(ALGORITHM, alg);
+        return (T) this;
+    }
+
+    @Override
+    public String getKeyId() {
+        return getString(KEY_ID);
+    }
+
+    @Override
+    public T setKeyId(String kid) {
+        setValue(KEY_ID, kid);
+        return (T) this;
+    }
+
 }

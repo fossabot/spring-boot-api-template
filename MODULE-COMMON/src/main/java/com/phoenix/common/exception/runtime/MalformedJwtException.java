@@ -20,29 +20,23 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.common.util;
+package com.phoenix.common.exception.runtime;
 
-import com.phoenix.common.exception.ioe.SerializationException;
-import com.phoenix.common.jsonwebtoken.common.GsonSerializer;
-import com.phoenix.common.jsonwebtoken.common.Serializer;
-import org.junit.Test;
+/**
+ * Exception indicating that a JWT was not correctly constructed and should be rejected.
+ *
+ * @since 0.2
+ */
+public class MalformedJwtException extends JwtException {
 
-import java.util.Arrays;
-
-public class TestBase64 {
-    @Test
-    public void testBase64EncodeBytes(){
-        String secret = "sajkdnaskda,smd,sadkas;;d";
-        System.out.println(Base64.encodeBytes(secret.getBytes()));
-        System.out.println(Base64Url.encode(secret.getBytes()));
+    public MalformedJwtException(String message) {
+        super(message);
     }
 
-    @Test
-    public void testBase64UrlEncodeObject() throws SerializationException {
-        Serializer<String> serializer = new GsonSerializer<>();
-        String a = "1";
-        System.out.println(Arrays.toString(serializer.serialize(a)));
+    public MalformedJwtException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

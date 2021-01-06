@@ -20,29 +20,45 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.common.util;
+package com.phoenix.common.jsonwebtoken.compressioncode;
 
-import com.phoenix.common.exception.ioe.SerializationException;
-import com.phoenix.common.jsonwebtoken.common.GsonSerializer;
-import com.phoenix.common.jsonwebtoken.common.Serializer;
-import org.junit.Test;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
-import java.util.Arrays;
+/**
+ * Codec implementing the <a href="https://en.wikipedia.org/wiki/Gzip">gzip compression algorithm</a>.
+ *
+ * @since 0.6.0
+ */
+public class GzipCompressionCodec extends AbstractCompressionCodec implements CompressionCodec {
 
-public class TestBase64 {
-    @Test
-    public void testBase64EncodeBytes(){
-        String secret = "sajkdnaskda,smd,sadkas;;d";
-        System.out.println(Base64.encodeBytes(secret.getBytes()));
-        System.out.println(Base64Url.encode(secret.getBytes()));
+    private static final String GZIP = "GZIP";
+
+    private static final StreamWrapper WRAPPER = new StreamWrapper() {
+        @Override
+        public OutputStream wrap(OutputStream out) throws IOException {
+            return new GZIPOutputStream(out);
+        }
+    };
+
+    @Override
+    public String getAlgorithmName() {
+        return GZIP;
     }
 
-    @Test
-    public void testBase64UrlEncodeObject() throws SerializationException {
-        Serializer<String> serializer = new GsonSerializer<>();
-        String a = "1";
-        System.out.println(Arrays.toString(serializer.serialize(a)));
+    @Override
+    protected byte[] doCompress(byte[] payload) throws IOException {
+        return writeAndClose(payload, WRAPPER);
+    }
+
+    @Override
+    protected byte[] doDecompress(byte[] compressed) throws IOException {
+        return readAndClose(new GZIPInputStream(new ByteArrayInputStream(compressed)));
     }
 }

@@ -25,6 +25,7 @@
 
 package com.phoenix.common.jsonwebtoken.builder;
 
+import com.phoenix.common.jsonwebtoken.compressioncode.CompressionCodec;
 import com.phoenix.common.jsonwebtoken.common.Serializer;
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.jsonwebtoken.component.ClaimsMutator;
@@ -413,4 +414,29 @@ public interface JwtBuilder extends ClaimsMutator<JwtBuilder> {
      * @return A compact URL-safe JWT string.
      */
     String compact();
+
+    /**
+     * Compresses the JWT body using the specified {@link CompressionCodec}.
+     *
+     * <p>If your compact JWTs are large, and you want to reduce their total size during network transmission, this
+     * can be useful.  For example, when embedding JWTs  in URLs, some browsers may not support URLs longer than a
+     * certain length.  Using compression can help ensure the compact JWT fits within that length.  However, NOTE:</p>
+     *
+     * <h3>Compatibility Warning</h3>
+     *
+     * <p>The JWT family of specifications defines compression only for JWE (Json Web Encryption)
+     * tokens.  Even so, JJWT will also support compression for JWS tokens as well if you choose to use it.
+     * However, be aware that <b>if you use compression when creating a JWS token, other libraries may not be able to
+     * parse that JWS token</b>.  When using compression for JWS tokens, be sure that that all parties accessing the
+     * JWS token support compression for JWS.</p>
+     *
+     * <p>Compression when creating JWE tokens however should be universally accepted for any
+     * library that supports JWE.</p>
+     *
+     * @param codec implementation of the {@link CompressionCodec} to be used.
+     * @return the builder for method chaining.
+     * @see CompressionCodec
+     * @since 0.6.0
+     */
+    JwtBuilder compressWith(CompressionCodec codec);
 }

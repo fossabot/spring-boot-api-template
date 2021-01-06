@@ -23,39 +23,42 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken.signature;
+package com.phoenix.common.exception.runtime;
 
-import com.phoenix.common.jsonwebtoken.common.Encoder;
-import com.phoenix.common.lang.Assert;
-import com.phoenix.common.util.Base64Url;
+import com.phoenix.common.jsonwebtoken.component.Claims;
+import com.phoenix.common.jsonwebtoken.component.Header;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
+/**
+ * ClaimJwtException is a subclass of the {@link JwtException} that is thrown after a validation of an JTW claim failed.
+ *
+ * @since 0.5
+ */
+public abstract class ClaimJwtException extends JwtException {
 
-public class DefaultJwtSigner implements JwtSigner {
+    public static final String INCORRECT_EXPECTED_CLAIM_MESSAGE_TEMPLATE = "Expected %s claim to be: %s, but was: %s.";
+    public static final String MISSING_EXPECTED_CLAIM_MESSAGE_TEMPLATE = "Expected %s claim to be: %s, but was not present in the JWT claims.";
 
-    private static final Charset US_ASCII = StandardCharsets.US_ASCII;
+    private final Header header;
 
-    private final Signer signer;
+    private final Claims claims;
 
-    public DefaultJwtSigner(SignatureAlgorithm alg, Key key) {
-        this(DefaultSignerFactory.INSTANCE, alg, key);
+    protected ClaimJwtException(Header header, Claims claims, String message) {
+        super(message);
+        this.header = header;
+        this.claims = claims;
     }
 
-
-    public DefaultJwtSigner(SignerFactory factory, SignatureAlgorithm alg, Key key) {
-        Assert.notNull(factory, "SignerFactory argument cannot be null.");
-        this.signer = factory.createSigner(alg, key);
+    protected ClaimJwtException(Header header, Claims claims, String message, Throwable cause) {
+        super(message, cause);
+        this.header = header;
+        this.claims = claims;
     }
 
-    @Override
-    public String sign(String jwtWithoutSignature) {
+    public Claims getClaims() {
+        return claims;
+    }
 
-        byte[] bytesToSign = jwtWithoutSignature.getBytes(US_ASCII);
-
-        byte[] signature = signer.sign(bytesToSign);
-
-        return Base64Url.encode(signature);
+    public Header getHeader() {
+        return header;
     }
 }

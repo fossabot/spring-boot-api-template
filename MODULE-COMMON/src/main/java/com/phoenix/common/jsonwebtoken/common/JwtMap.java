@@ -52,7 +52,10 @@ public class JwtMap implements Map<String, Object> {
 
     protected String getString(String name) {
         Object v = get(name);
-        return v != null ? String.valueOf(v) : null;
+        if (v != null) {
+            return String.valueOf(v);
+        }
+        return null;
     }
 
     protected static Date toDate(Object v, String name) {
@@ -177,7 +180,6 @@ public class JwtMap implements Map<String, Object> {
         return map.remove(o);
     }
 
-    @SuppressWarnings("NullableProblems")
     @Override
     public void putAll(Map<? extends String, ?> m) {
         if (m == null) {

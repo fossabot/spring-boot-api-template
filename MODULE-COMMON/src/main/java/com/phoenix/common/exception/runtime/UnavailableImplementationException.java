@@ -20,29 +20,20 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.common.util;
+package com.phoenix.common.exception.runtime;
 
-import com.phoenix.common.exception.ioe.SerializationException;
-import com.phoenix.common.jsonwebtoken.common.GsonSerializer;
-import com.phoenix.common.jsonwebtoken.common.Serializer;
-import org.junit.Test;
+/**
+ * Exception indicating that no implementation of an jjwt-api SPI was found on the classpath.
+ * @since 0.11.0
+ */
+public final class UnavailableImplementationException extends RuntimeException {
 
-import java.util.Arrays;
+    private static final String DEFAULT_NOT_FOUND_MESSAGE = "Unable to find an implementation for %s using java.util.ServiceLoader. Ensure you include a backing implementation .jar in the classpath, for example jjwt-impl.jar, or your own .jar for custom implementations.";
 
-public class TestBase64 {
-    @Test
-    public void testBase64EncodeBytes(){
-        String secret = "sajkdnaskda,smd,sadkas;;d";
-        System.out.println(Base64.encodeBytes(secret.getBytes()));
-        System.out.println(Base64Url.encode(secret.getBytes()));
-    }
-
-    @Test
-    public void testBase64UrlEncodeObject() throws SerializationException {
-        Serializer<String> serializer = new GsonSerializer<>();
-        String a = "1";
-        System.out.println(Arrays.toString(serializer.serialize(a)));
+    public UnavailableImplementationException(final Class klass) {
+        super(String.format(DEFAULT_NOT_FOUND_MESSAGE, klass));
     }
 }

@@ -20,29 +20,34 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.common.util;
+package com.phoenix.common.jsonwebtoken.common;
 
-import com.phoenix.common.exception.ioe.SerializationException;
-import com.phoenix.common.jsonwebtoken.common.GsonSerializer;
-import com.phoenix.common.jsonwebtoken.common.Serializer;
-import org.junit.Test;
+import com.phoenix.common.jsonwebtoken.component.Claims;
+import com.phoenix.common.jsonwebtoken.component.Header;
 
-import java.util.Arrays;
+/**
+ * An expanded (not compact/serialized) JSON Web Token.
+ *
+ * @param <B> the type of the JWT body contents, either a String or a {@link Claims} instance.
+ *
+ * @since 0.1
+ */
+public interface Jwt<H extends Header, B> {
 
-public class TestBase64 {
-    @Test
-    public void testBase64EncodeBytes(){
-        String secret = "sajkdnaskda,smd,sadkas;;d";
-        System.out.println(Base64.encodeBytes(secret.getBytes()));
-        System.out.println(Base64Url.encode(secret.getBytes()));
-    }
+    /**
+     * Returns the JWT {@link Header} or {@code null} if not present.
+     *
+     * @return the JWT {@link Header} or {@code null} if not present.
+     */
+    H getHeader();
 
-    @Test
-    public void testBase64UrlEncodeObject() throws SerializationException {
-        Serializer<String> serializer = new GsonSerializer<>();
-        String a = "1";
-        System.out.println(Arrays.toString(serializer.serialize(a)));
-    }
+    /**
+     * Returns the JWT body, either a {@code String} or a {@code Claims} instance.
+     *
+     * @return the JWT body, either a {@code String} or a {@code Claims} instance.
+     */
+    B getBody();
 }

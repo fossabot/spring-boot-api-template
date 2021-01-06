@@ -27,22 +27,20 @@ package com.phoenix.common.jsonwebtoken.builder;
 
 import com.phoenix.common.exception.ioe.SerializationException;
 import com.phoenix.common.exception.security.InvalidKeyException;
-import com.phoenix.common.jsonwebtoken.common.Encoder;
+import com.phoenix.common.jsonwebtoken.compressioncode.CompressionCodec;
+import com.phoenix.common.jsonwebtoken.common.JwtParser;
 import com.phoenix.common.jsonwebtoken.common.Serializer;
-import com.phoenix.common.jsonwebtoken.component.Claims;
-import com.phoenix.common.jsonwebtoken.component.DefaultClaims;
-import com.phoenix.common.jsonwebtoken.component.DefaultHeader;
-import com.phoenix.common.jsonwebtoken.component.Header;
+import com.phoenix.common.jsonwebtoken.component.*;
 import com.phoenix.common.jsonwebtoken.signature.DefaultJwtSigner;
 import com.phoenix.common.jsonwebtoken.signature.JwtSigner;
 import com.phoenix.common.jsonwebtoken.signature.SignatureAlgorithm;
 import com.phoenix.common.lang.Assert;
 import com.phoenix.common.lang.Collections;
+import com.phoenix.common.lang.Services;
 import com.phoenix.common.lang.Strings;
+import com.phoenix.common.util.Base64;
 import com.phoenix.common.util.Base64Url;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
@@ -56,14 +54,13 @@ public class DefaultJwtBuilder implements JwtBuilder {
     private SignatureAlgorithm algorithm;
     private Key key;
 
-    private Serializer<Map<String,?>> serializer;
+    private Serializer<Map<String, ?>> serializer;
 
-    private Encoder<byte[], String> base64UrlEncoder = Encoders.BASE64URL;
 
     private CompressionCodec compressionCodec;
 
     @Override
-    public JwtBuilder serializeToJsonWith(Serializer<Map<String,?>> serializer) {
+    public JwtBuilder serializeToJsonWith(Serializer<Map<String, ?>> serializer) {
         Assert.notNull(serializer, "Serializer cannot be null.");
         this.serializer = serializer;
         return this;
@@ -122,28 +119,6 @@ public class DefaultJwtBuilder implements JwtBuilder {
         this.algorithm = alg;
         this.key = key;
         return this;
-    }
-
-    @Override
-    public JwtBuilder signWith(SignatureAlgorithm alg, byte[] secretKeyBytes) throws InvalidKeyException {
-        Assert.notNull(alg, "SignatureAlgorithm cannot be null.");
-        Assert.notEmpty(secretKeyBytes, "secret key byte array cannot be null or empty.");
-        Assert.isTrue(alg.isHmac(), "Key bytes may only be specified for HMAC signatures.  If using RSA or Elliptic Curve, use the signWith(SignatureAlgorithm, Key) method instead.");
-        SecretKey key = new SecretKeySpec(secretKeyBytes, alg.getJcaName());
-        return signWith(key, alg);
-    }
-
-    @Override
-    public JwtBuilder signWith(SignatureAlgorithm alg, String base64EncodedSecretKey) throws InvalidKeyException {
-        Assert.hasText(base64EncodedSecretKey, "base64-encoded secret key cannot be null or empty.");
-        Assert.isTrue(alg.isHmac(), "Base64-encoded key bytes may only be specified for HMAC signatures.  If using RSA or Elliptic Curve, use the signWith(SignatureAlgorithm, Key) method instead.");
-        byte[] bytes = Decoders.BASE64.decode(base64EncodedSecretKey);
-        return signWith(alg, bytes);
-    }
-
-    @Override
-    public JwtBuilder signWith(SignatureAlgorithm alg, Key key) {
-        return signWith(key, alg);
     }
 
     @Override
@@ -296,7 +271,7 @@ public class DefaultJwtBuilder implements JwtBuilder {
             // try to find one based on the services available
             // TODO: This util class will throw a UnavailableImplementationException here to retain behavior of previous version, remove in v1.0
             // use the previous commented out line instead
-            this.serializer = LegacyServices.loadFirst(Serializer.class);
+            this.serializer = Services.loadFirst(Serializer.class);
         }
 
         if (payload == null && Collections.isEmpty(claims)) {
@@ -328,11 +303,22 @@ public class DefaultJwtBuilder implements JwtBuilder {
             jwsHeader.setCompressionAlgorithm(compressionCodec.getAlgorithmName());
         }
 
-        String base64UrlEncodedHeader = base64UrlEncode(jwsHeader, "Unable to serialize header to json.");
+        //String base64UrlEncodedHeader = base64UrlEncode(jwsHeader, "Unable to serialize header to json.");
+        String base64UrlEncodedHeader = null;
+        try {
+            base64UrlEncodedHeader = Base64.encodeBytes(serializer.serialize(jwsHeader));
+        } catch (SerializationException e) {
+            e.printStackTrace();
+        }
 
         byte[] bytes;
         try {
-            bytes = this.payload != null ? payload.getBytes(Strings.UTF_8) : toJson(claims);
+            if (this.payload != null) {
+                bytes = payload.getBytes(Strings.UTF_8);
+            } else {
+                //bytes = toJson(claims);
+                bytes = serializer.serialize(claims);
+            }
         } catch (SerializationException e) {
             throw new IllegalArgumentException("Unable to serialize claims object to json: " + e.getMessage(), e);
         }
@@ -365,7 +351,7 @@ public class DefaultJwtBuilder implements JwtBuilder {
      * @since 0.5 mostly to allow testing overrides
      */
     protected JwtSigner createSigner(SignatureAlgorithm alg, Key key) {
-        return new DefaultJwtSigner(alg, key, base64UrlEncoder);
+        return new DefaultJwtSigner(alg, key);
     }
 
 }

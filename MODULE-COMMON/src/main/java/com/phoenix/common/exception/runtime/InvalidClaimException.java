@@ -20,29 +20,49 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.common.util;
+package com.phoenix.common.exception.runtime;
 
-import com.phoenix.common.exception.ioe.SerializationException;
-import com.phoenix.common.jsonwebtoken.common.GsonSerializer;
-import com.phoenix.common.jsonwebtoken.common.Serializer;
-import org.junit.Test;
+import com.phoenix.common.jsonwebtoken.component.Claims;
+import com.phoenix.common.jsonwebtoken.component.Header;
 
-import java.util.Arrays;
+/**
+ * Exception indicating a parsed claim is invalid in some way.  Subclasses reflect the specific
+ * reason the claim is invalid.
+ *
+ * @see IncorrectClaimException
+ * @see MissingClaimException
+ *
+ * @since 0.6
+ */
+public class InvalidClaimException extends ClaimJwtException {
 
-public class TestBase64 {
-    @Test
-    public void testBase64EncodeBytes(){
-        String secret = "sajkdnaskda,smd,sadkas;;d";
-        System.out.println(Base64.encodeBytes(secret.getBytes()));
-        System.out.println(Base64Url.encode(secret.getBytes()));
+    private String claimName;
+    private Object claimValue;
+
+    protected InvalidClaimException(Header header, Claims claims, String message) {
+        super(header, claims, message);
     }
 
-    @Test
-    public void testBase64UrlEncodeObject() throws SerializationException {
-        Serializer<String> serializer = new GsonSerializer<>();
-        String a = "1";
-        System.out.println(Arrays.toString(serializer.serialize(a)));
+    protected InvalidClaimException(Header header, Claims claims, String message, Throwable cause) {
+        super(header, claims, message, cause);
+    }
+
+    public String getClaimName() {
+        return claimName;
+    }
+
+    public void setClaimName(String claimName) {
+        this.claimName = claimName;
+    }
+
+    public Object getClaimValue() {
+        return claimValue;
+    }
+
+    public void setClaimValue(Object claimValue) {
+        this.claimValue = claimValue;
     }
 }
