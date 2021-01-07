@@ -48,6 +48,10 @@ public class TestJwt {
     public void createJws() throws InvalidKeyException, java.security.InvalidKeyException {
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
+        String secretString = Base64.encodeBytes(key.getEncoded());
+
+        System.out.println(secretString);
+
         String jws = Jwts.builder() // (1)
 
                 .setSubject("Bob")      // (2)

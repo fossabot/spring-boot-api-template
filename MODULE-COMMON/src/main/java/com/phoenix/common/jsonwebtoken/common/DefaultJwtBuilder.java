@@ -266,9 +266,9 @@ public class DefaultJwtBuilder implements JwtBuilder {
 
         if (this.serializer == null) {
             // try to find one based on the services available
-            // TODO: This util class will throw a UnavailableImplementationException here to retain behavior of previous version, remove in v1.0
             // use the previous commented out line instead
-            this.serializer = Services.loadFirst(Serializer.class);
+//            this.serializer = Services.loadFirst(Serializer.class);
+            this.serializer = new GsonSerializer<>();
         }
 
         if (payload == null && Collections.isEmpty(claims)) {
