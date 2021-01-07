@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.phoenix.common.encrypt;
+package com.phoenix.common.crypto;
 
 public interface TokenProvider {
     public String  generateToken();

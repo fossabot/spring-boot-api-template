@@ -20,34 +20,17 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
- *
  */
 
-package com.phoenix.common.jsonwebtoken.common;
+package com.phoenix.common.crypto;
 
-import com.phoenix.common.jsonwebtoken.component.Claims;
-import com.phoenix.common.jsonwebtoken.component.Header;
+import org.junit.Test;
 
-/**
- * An expanded (not compact/serialized) JSON Web Token.
- *
- * @param <B> the type of the JWT body contents, either a String or a {@link Claims} instance.
- *
- * @since 0.1
- */
-public interface Jwt<H extends Header, B> {
+public class testBCrypt {
+    @Test
+    public void testBCrypt(){
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    /**
-     * Returns the JWT {@link Header} or {@code null} if not present.
-     *
-     * @return the JWT {@link Header} or {@code null} if not present.
-     */
-    H getHeader();
-
-    /**
-     * Returns the JWT body, either a {@code String} or a {@code Claims} instance.
-     *
-     * @return the JWT body, either a {@code String} or a {@code Claims} instance.
-     */
-    B getBody();
+        System.out.println(bCryptPasswordEncoder.encode("1234444"));
+    }
 }

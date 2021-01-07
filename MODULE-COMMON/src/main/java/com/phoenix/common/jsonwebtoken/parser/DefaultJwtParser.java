@@ -34,6 +34,7 @@ import com.phoenix.common.jsonwebtoken.compression.CompressionCodec;
 import com.phoenix.common.jsonwebtoken.compression.CompressionCodecResolver;
 import com.phoenix.common.jsonwebtoken.compression.DefaultCompressionCodecResolver;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
+import com.phoenix.common.jsonwebtoken.jws.*;
 import com.phoenix.common.jsonwebtoken.signature.SigningKeyResolver;
 import com.phoenix.common.jsonwebtoken.validator.DefaultJwtSignatureValidator;
 import com.phoenix.common.jsonwebtoken.validator.JwtSignatureValidator;
@@ -49,7 +50,6 @@ public class DefaultJwtParser implements JwtParser {
 
     private static final int MILLISECONDS_PER_SECOND = 1000;
 
-    // TODO: make the folling fields final for v1.0
     private byte[] keyBytes;
 
     private Key key;
@@ -111,11 +111,9 @@ public class DefaultJwtParser implements JwtParser {
     @Override
     public Jwt parse(String jwt) throws ExpiredJwtException, MalformedJwtException, SignatureException {
 
-        // TODO, this logic is only need for a now deprecated code path
         // remove this block in v1.0 (the equivalent is already in DefaultJwtParserBuilder)
         if (this.deserializer == null) {
             // try to find one based on the services available
-            // TODO: This util class will throw a UnavailableImplementationException here to retain behavior of previous version, remove in v1.0
             this.deserializer = Services.loadFirst(Deserializer.class);
         }
 

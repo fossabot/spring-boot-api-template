@@ -25,7 +25,7 @@
 
 package com.phoenix.common.jsonwebtoken.component;
 
-import com.phoenix.common.jsonwebtoken.common.JwtMap;
+import com.phoenix.common.jsonwebtoken.jws.JwtMap;
 import com.phoenix.common.lang.Strings;
 
 import java.util.Map;

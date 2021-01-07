@@ -24,7 +24,7 @@
 
 package com.phoenix.api.security;
 
-import com.phoenix.common.encrypt.BCryptPasswordEncoder;
+import com.phoenix.common.crypto.BCryptPasswordEncoder;
 
 public class CustomPasswordEncoder extends BCryptPasswordEncoder{
 

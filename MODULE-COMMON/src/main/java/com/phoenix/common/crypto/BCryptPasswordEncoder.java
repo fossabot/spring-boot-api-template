@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.phoenix.common.encrypt;
+package com.phoenix.common.crypto;
 
 import java.security.SecureRandom;
 import java.util.regex.Matcher;

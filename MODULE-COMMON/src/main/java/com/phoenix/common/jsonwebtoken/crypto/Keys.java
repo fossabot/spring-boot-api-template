@@ -29,15 +29,17 @@ import com.phoenix.common.exception.security.InvalidKeyException;
 import com.phoenix.common.exception.security.WeakKeyException;
 import com.phoenix.common.lang.Assert;
 import com.phoenix.common.lang.Classes;
+import com.phoenix.common.util.Base64Url;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 /**
  * Utility class for securely generating {@link SecretKey}s.
- *
- * @since 0.10.0
  */
 public final class Keys {
 
@@ -46,27 +48,16 @@ public final class Keys {
     private static final Class[] SIG_ARG_TYPES = new Class[]{SignatureAlgorithm.class};
 
     //purposefully ordered higher to lower:
-    private static final List<SignatureAlgorithm> PREFERRED_HMAC_ALGS = List.of(SignatureAlgorithm.HS512, SignatureAlgorithm.HS384, SignatureAlgorithm.HS256);
+    private static final List<SignatureAlgorithm> PREFERRED_HMAC_ALGORITHMS = List.of(
+            SignatureAlgorithm.HS512,
+            SignatureAlgorithm.HS384,
+            SignatureAlgorithm.HS256);
+
+    private static final String DEFAULT_MESSAGE_DIGEST = "SHA-256";
 
     //prevent instantiation
     private Keys() {
     }
-
-    /*
-    public static final int bitLength(Key key) throws IllegalArgumentException {
-        Assert.notNull(key, "Key cannot be null.");
-        if (key instanceof SecretKey) {
-            byte[] encoded = key.getEncoded();
-            return Arrays.length(encoded) * 8;
-        } else if (key instanceof RSAKey) {
-            return ((RSAKey)key).getModulus().bitLength();
-        } else if (key instanceof ECKey) {
-            return ((ECKey)key).getParams().getOrder().bitLength();
-        }
-
-        throw new IllegalArgumentException("Unsupported key type: " + key.getClass().getName());
-    }
-    */
 
     /**
      * Creates a new SecretKey instance for use with HMAC-SHA algorithms based on the specified key byte array.
@@ -85,7 +76,7 @@ public final class Keys {
 
         int bitLength = bytes.length * 8;
 
-        for (SignatureAlgorithm alg : PREFERRED_HMAC_ALGS) {
+        for (SignatureAlgorithm alg : PREFERRED_HMAC_ALGORITHMS) {
             if (bitLength >= alg.getMinKeyLength()) {
                 return new SecretKeySpec(bytes, alg.getJcaName());
             }
@@ -142,6 +133,14 @@ public final class Keys {
             default:
                 String msg = "The " + alg.name() + " algorithm does not support shared secret keys.";
                 throw new IllegalArgumentException(msg);
+        }
+    }
+
+    public static String createKeyId(Key key) {
+        try {
+            return Base64Url.encode(MessageDigest.getInstance(DEFAULT_MESSAGE_DIGEST).digest(key.getEncoded()));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
     }
 

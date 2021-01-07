@@ -20,12 +20,15 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.common.jsonwebtoken.common;
+package com.phoenix.common.jsonwebtoken.jws;
 
 import com.phoenix.common.exception.ioe.SerializationException;
 import com.phoenix.common.exception.security.InvalidKeyException;
+import com.phoenix.common.jsonwebtoken.common.GsonSerializer;
+import com.phoenix.common.jsonwebtoken.common.Serializer;
 import com.phoenix.common.jsonwebtoken.compression.CompressionCodec;
 import com.phoenix.common.jsonwebtoken.component.*;
 import com.phoenix.common.jsonwebtoken.signature.DefaultJwtSigner;
@@ -33,7 +36,6 @@ import com.phoenix.common.jsonwebtoken.signature.JwtSigner;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.lang.Assert;
 import com.phoenix.common.lang.Collections;
-import com.phoenix.common.lang.Services;
 import com.phoenix.common.lang.Strings;
 import com.phoenix.common.util.Base64;
 import com.phoenix.common.util.Base64Url;

@@ -26,7 +26,7 @@
 package com.phoenix.common.jsonwebtoken.component;
 
 import com.phoenix.common.exception.runtime.RequiredTypeException;
-import com.phoenix.common.jsonwebtoken.common.JwtMap;
+import com.phoenix.common.jsonwebtoken.jws.JwtMap;
 
 import java.util.Date;
 import java.util.Map;

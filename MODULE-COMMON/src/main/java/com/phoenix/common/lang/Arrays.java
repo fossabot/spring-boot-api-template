@@ -25,19 +25,30 @@
 
 package com.phoenix.common.lang;
 
+
 /**
- * @since 0.6
+ * Các thao tác với byte[]
  */
 public final class Arrays {
 
     private Arrays(){} //prevent instantiation
 
+    /**
+     * @param bytes:
+     * @return Nếu bytes != null => return bytes.length, còn lại return 0
+     */
     public static int length(byte[] bytes) {
-        return bytes != null ? bytes.length : 0;
+        if (bytes != null) return bytes.length;
+        return 0;
     }
 
+    /**
+     * @param bytes:
+     * @return
+     */
     public static byte[] clean(byte[] bytes) {
-        return length(bytes) > 0 ? bytes : null;
+        if (length(bytes) > 0) return bytes;
+        return null;
     }
 }
 

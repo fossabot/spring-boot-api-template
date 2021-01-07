@@ -20,9 +20,10 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.common.jsonwebtoken.common;
+package com.phoenix.common.jsonwebtoken.jws;
 
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.jsonwebtoken.component.Header;
@@ -47,9 +48,9 @@ public final class Jwts {
     private static final String DEFAULT_CLAIMS_CLASS = "com.phoenix.common.jsonwebtoken.component.DefaultClaims";
     private static final String DEFAULT_JWT_PARSER_CLASS = "com.phoenix.common.jsonwebtoken.parser.DefaultJwtParser";
     private static final String DefaultJwtParserBuilder = "com.phoenix.common.jsonwebtoken.parser.DefaultJwtParserBuilder";
-    private static final String DefaultJwtBuilder = "com.phoenix.common.jsonwebtoken.common.DefaultJwtBuilder";
+    private static final String DefaultJwtBuilder = "com.phoenix.common.jsonwebtoken.jws.DefaultJwtBuilder";
     private static final String DEFAULT_JWT_PARSER_BUILDER_CLASS = "com.phoenix.common.jsonwebtoken.parser.DefaultJwtParserBuilder";
-    private static final String DEFAULT_JWT_BUILDER_CLASS = "com.phoenix.common.jsonwebtoken.common.DefaultJwtBuilder";
+    private static final String DEFAULT_JWT_BUILDER_CLASS = "com.phoenix.common.jsonwebtoken.jws.DefaultJwtBuilder";
 
     private Jwts() {
     }

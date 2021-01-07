@@ -20,17 +20,22 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.common.encrypt;
+package com.phoenix.common.jsonwebtoken.jws;
 
-import org.junit.Test;
+import com.phoenix.common.jsonwebtoken.component.Claims;
+import com.phoenix.common.jsonwebtoken.component.JwsHeader;
 
-public class testBCrypt {
-    @Test
-    public void testBCrypt(){
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+/**
+ * An expanded (not compact/serialized) Signed JSON Web Token.
+ *
+ * @param <B> the type of the JWS body contents, either a String or a {@link Claims} instance.
+ *
+ * @since 0.1
+ */
+public interface Jws<B> extends Jwt<JwsHeader,B> {
 
-        System.out.println(bCryptPasswordEncoder.encode("1234444"));
-    }
+    String getSignature();
 }

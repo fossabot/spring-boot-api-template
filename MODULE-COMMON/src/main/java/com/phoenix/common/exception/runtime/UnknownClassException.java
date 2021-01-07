@@ -67,7 +67,6 @@ public class UnknownClassException extends RuntimeException {
      * @param cause   the underlying Throwable that caused this exception to be thrown.
      */
     public UnknownClassException(String message, Throwable cause) {
-        // TODO: remove in v1.0, this constructor is only exposed to allow for backward compatible behavior
         super(message, cause);
     }
 

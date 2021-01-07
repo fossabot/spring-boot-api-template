@@ -23,7 +23,7 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken.common;
+package com.phoenix.common.jsonwebtoken.jws;
 
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.jsonwebtoken.component.Header;

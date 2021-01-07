@@ -934,4 +934,22 @@ public final class Objects {
             }
         }
     }
+
+    /**
+     *
+     * @param o1
+     * @param o2
+     * @return true if both strings are null or equal
+     */
+    public static boolean isEqualOrBothNull(Object o1, Object o2) {
+        if (o1 == null && o2 == null) {
+            return true;
+        }
+
+        if ((o1 != null && o2 == null) || (o1 == null && o2 != null)) {
+            return false;
+        }
+
+        return o1.equals(o2);
+    }
 }

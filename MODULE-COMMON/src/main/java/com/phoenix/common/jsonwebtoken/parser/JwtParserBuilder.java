@@ -26,9 +26,9 @@ package com.phoenix.common.jsonwebtoken.parser;
 
 import com.phoenix.common.exception.runtime.IncorrectClaimException;
 import com.phoenix.common.exception.runtime.MissingClaimException;
-import com.phoenix.common.jsonwebtoken.common.JwtBuilder;
+import com.phoenix.common.jsonwebtoken.jws.JwtBuilder;
 import com.phoenix.common.jsonwebtoken.common.Deserializer;
-import com.phoenix.common.jsonwebtoken.common.JwtParser;
+import com.phoenix.common.jsonwebtoken.jws.JwtParser;
 import com.phoenix.common.jsonwebtoken.common.Clock;
 import com.phoenix.common.jsonwebtoken.compression.CompressionCodec;
 import com.phoenix.common.jsonwebtoken.compression.CompressionCodecResolver;

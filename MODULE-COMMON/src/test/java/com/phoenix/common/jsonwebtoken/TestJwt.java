@@ -25,7 +25,7 @@
 package com.phoenix.common.jsonwebtoken;
 
 import com.phoenix.common.exception.security.InvalidKeyException;
-import com.phoenix.common.jsonwebtoken.common.Jwts;
+import com.phoenix.common.jsonwebtoken.jws.Jwts;
 import com.phoenix.common.jsonwebtoken.crypto.Keys;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.util.Base64;

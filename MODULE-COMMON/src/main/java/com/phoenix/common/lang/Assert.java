@@ -27,6 +27,9 @@ package com.phoenix.common.lang;
 import java.util.Collection;
 import java.util.Map;
 
+/**
+ * Helper class for so sánh.
+ */
 public final class Assert {
     private Assert(){} //prevent instantiation
 

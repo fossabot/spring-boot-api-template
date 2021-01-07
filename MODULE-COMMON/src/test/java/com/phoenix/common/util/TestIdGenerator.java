@@ -23,14 +23,20 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken.common;
+package com.phoenix.common.util;
 
-import com.phoenix.common.exception.ioe.DecodingException;
+import org.junit.Assert;
+import org.junit.Test;
 
-/**
- * @since 0.10.0
- */
-public interface Decoder<T, R> {
+public class TestIdGenerator {
+    @Test
+    public void testGenerateId() {
+        String id_1 = IdGenerator.generateId();
+        String id_2 = IdGenerator.generateId();
 
-    R decode(T t) throws DecodingException;
+        System.out.println(id_1);
+        System.out.println(id_2);
+
+        Assert.assertNotEquals(id_1, id_2);
+    }
 }

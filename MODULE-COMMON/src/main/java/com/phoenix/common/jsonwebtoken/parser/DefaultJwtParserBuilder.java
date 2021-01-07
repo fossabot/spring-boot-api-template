@@ -29,6 +29,7 @@ import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.jsonwebtoken.component.DefaultClaims;
 import com.phoenix.common.jsonwebtoken.compression.CompressionCodecResolver;
 import com.phoenix.common.jsonwebtoken.compression.DefaultCompressionCodecResolver;
+import com.phoenix.common.jsonwebtoken.jws.JwtParser;
 import com.phoenix.common.jsonwebtoken.signature.SigningKeyResolver;
 import com.phoenix.common.lang.Assert;
 import com.phoenix.common.lang.Services;
@@ -45,9 +46,8 @@ public class DefaultJwtParserBuilder implements JwtParserBuilder {
 
     /**
      * To prevent overflow per <a href="https://github.com/jwtk/jjwt/issues/583">Issue 583</a>.
-     *
+     * <p>
      * Package-protected on purpose to allow use in backwards-compatible {@link DefaultJwtParser} implementation.
-     * TODO: enable private modifier on these two variables when deleting DefaultJwtParser
      */
     static final long MAX_CLOCK_SKEW_MILLIS = Long.MAX_VALUE / MILLISECONDS_PER_SECOND;
     static final String MAX_CLOCK_SKEW_ILLEGAL_MSG = "Illegal allowedClockSkewMillis value: multiplying this " +
@@ -196,14 +196,14 @@ public class DefaultJwtParserBuilder implements JwtParserBuilder {
             this.compressionCodecResolver = new DefaultCompressionCodecResolver();
         }
 
-        return new ImmutableJwtParser(
-                new DefaultJwtParser(signingKeyResolver,
-                        key,
-                        keyBytes,
-                        clock,
-                        allowedClockSkewMillis,
-                        expectedClaims,
-                        deserializer,
-                        compressionCodecResolver));
+
+        return new DefaultJwtParser(signingKeyResolver,
+                key,
+                keyBytes,
+                clock,
+                allowedClockSkewMillis,
+                expectedClaims,
+                deserializer,
+                compressionCodecResolver);
     }
 }

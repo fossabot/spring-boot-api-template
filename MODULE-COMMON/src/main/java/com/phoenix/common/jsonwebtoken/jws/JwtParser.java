@@ -23,19 +23,11 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken.common;
+package com.phoenix.common.jsonwebtoken.jws;
 
 import com.phoenix.common.exception.runtime.*;
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.jsonwebtoken.component.Header;
-import com.phoenix.common.jsonwebtoken.compression.CompressionCodec;
-import com.phoenix.common.jsonwebtoken.compression.CompressionCodecResolver;
-import com.phoenix.common.jsonwebtoken.signature.SigningKeyResolver;
-
-import java.security.Key;
-import java.time.Clock;
-import java.util.Date;
-import java.util.Map;
 
 /**
  * A parser for reading JWT strings, used to convert them into a {@link Jwt} object representing the expanded JWT.

@@ -28,5 +28,6 @@ import com.phoenix.common.exception.ioe.DeserializationException;
 
 public interface Deserializer<T> {
 
+    // TODO : create implementation
     T deserialize(byte[] bytes) throws DeserializationException;
 }

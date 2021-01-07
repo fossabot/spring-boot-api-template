@@ -42,14 +42,12 @@ import java.io.OutputStream;
 public abstract class AbstractCompressionCodec implements CompressionCodec {
 
     //package-protected for a point release.  This can be made protected on a minor release (0.11.0, 0.12.0, 1.0, etc).
-    //TODO: make protected on a minor release
-    interface StreamWrapper {
+    protected interface StreamWrapper {
         OutputStream wrap(OutputStream out) throws IOException;
     }
 
     //package-protected for a point release.  This can be made protected on a minor release (0.11.0, 0.12.0, 1.0, etc).
-    //TODO: make protected on a minor release
-    byte[] readAndClose(InputStream input) throws IOException {
+    protected byte[] readAndClose(InputStream input) throws IOException {
         byte[] buffer = new byte[512];
         ByteArrayOutputStream out = new ByteArrayOutputStream(buffer.length);
         int read;
@@ -66,8 +64,7 @@ public abstract class AbstractCompressionCodec implements CompressionCodec {
     }
 
     //package-protected for a point release.  This can be made protected on a minor release (0.11.0, 0.12.0, 1.0, etc).
-    //TODO: make protected on a minor release
-    byte[] writeAndClose(byte[] payload, StreamWrapper wrapper) throws IOException {
+    protected byte[] writeAndClose(byte[] payload, StreamWrapper wrapper) throws IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream(512);
         OutputStream compressionStream = wrapper.wrap(outputStream);
         try {

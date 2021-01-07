@@ -36,7 +36,7 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-package com.phoenix.common.encrypt;
+package com.phoenix.common.crypto;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
