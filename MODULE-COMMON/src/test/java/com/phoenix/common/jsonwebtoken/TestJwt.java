@@ -24,7 +24,10 @@
 
 package com.phoenix.common.jsonwebtoken;
 
+import com.phoenix.common.exception.runtime.JwtException;
 import com.phoenix.common.exception.security.InvalidKeyException;
+import com.phoenix.common.jsonwebtoken.component.Claims;
+import com.phoenix.common.jsonwebtoken.jws.Jws;
 import com.phoenix.common.jsonwebtoken.jws.Jwts;
 import com.phoenix.common.jsonwebtoken.crypto.Keys;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
@@ -35,7 +38,7 @@ import javax.crypto.SecretKey;
 
 public class TestJwt {
     @Test
-    public void testGenerateKey(){
+    public void testGenerateKey() {
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
         String secretString = Base64.encodeBytes(key.getEncoded());
@@ -61,5 +64,27 @@ public class TestJwt {
                 .compact();             // (4)
 
         System.out.println(jws);
+    }
+
+    @Test
+    public void testReadJws() {
+        Jws<Claims> jws;
+        String key = "4hmssUz2ElsGPPVWK5MY+pmqtSFyPOXHKqYWGnm1VjAnhfIpqlx1EiH7EN03ZGhFrguJdVxQ5WrW/hiGW/OZ4Q==";
+        String jwsString = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJCb2IifQ.gc-FnKrfBZbe0dsUVyBgUIxs06dBbPJIutriJJxHjVx_Qf24xEViQ0hk2GG0o7a8_yAxLrPukC6WFdOt9DwpTA";
+
+        try {
+            jws = Jwts.parserBuilder()  // (1)
+                    .setSigningKey(key)         // (2)
+                    .build()                    // (3)
+                    .parseClaimsJws(jwsString); // (4)
+
+            System.out.println(jws.getHeader());
+            System.out.println(jws.getBody());
+            System.out.println(jws.getSignature());
+            // we can safely trust the JWT
+        } catch (JwtException ex) {       // (5)
+
+            // we *cannot* use the JWT as intended by its creator
+        }
     }
 }

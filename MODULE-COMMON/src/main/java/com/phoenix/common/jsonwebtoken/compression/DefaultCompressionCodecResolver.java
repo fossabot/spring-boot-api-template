@@ -31,9 +31,7 @@ import com.phoenix.common.lang.Assert;
 import com.phoenix.common.lang.Services;
 import com.phoenix.common.lang.Strings;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Default implementation of {@link CompressionCodecResolver} that supports the following:
@@ -63,15 +61,13 @@ public class DefaultCompressionCodecResolver implements CompressionCodecResolver
     private final Map<String, CompressionCodec> codecs;
 
     public DefaultCompressionCodecResolver() {
-        Map<String, CompressionCodec> codecMap = new HashMap<>();
-        for (CompressionCodec codec : Services.loadAll(CompressionCodec.class)) {
-            codecMap.put(codec.getAlgorithmName().toUpperCase(), codec);
-        }
+        //        for (CompressionCodec codec : Services.loadAll(CompressionCodec.class)) {
+//            codecMap.put(codec.getAlgorithmName().toUpperCase(), codec);
+//        }
 
-        codecMap.put(CompressionCodecs.DEFLATE.getAlgorithmName().toUpperCase(), CompressionCodecs.DEFLATE);
-        codecMap.put(CompressionCodecs.GZIP.getAlgorithmName().toUpperCase(), CompressionCodecs.GZIP);
-
-        codecs = Collections.unmodifiableMap(codecMap);
+        codecs = Map.of(
+                CompressionCodecs.DEFLATE.getAlgorithmName().toUpperCase(), CompressionCodecs.DEFLATE,
+                CompressionCodecs.GZIP.getAlgorithmName().toUpperCase(), CompressionCodecs.GZIP);
     }
 
     @Override

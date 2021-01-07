@@ -188,7 +188,8 @@ public class DefaultJwtParserBuilder implements JwtParserBuilder {
         // that is NOT exposed as a service and no other implementations are available for lookup.
         if (this.deserializer == null) {
             // try to find one based on the services available:
-            this.deserializer = Services.loadFirst(Deserializer.class);
+            //this.deserializer = Services.loadFirst(Deserializer.class);
+            this.deserializer = new GsonDeserializer<>();
         }
 
         // if the compressionCodecResolver is not set default it.
