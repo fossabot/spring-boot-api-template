@@ -25,17 +25,17 @@
 
 package com.phoenix.common.jsonwebtoken;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.phoenix.common.KeyWrapper;
 import com.phoenix.common.jsonwebtoken.crypto.Keys;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.util.Base64;
 
 import javax.crypto.SecretKey;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Objects;
+import java.util.Scanner;
 
 public final class KeyProvider {
     private final KeyWrapper keyWrapper;
@@ -44,17 +44,40 @@ public final class KeyProvider {
      * Private constructor.
      */
     private KeyProvider() {
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(Objects.requireNonNull(classLoader.getResource("jws-key.json")).getFile());
 
-        String secretString = Base64.encodeBytes(key.getEncoded());
-        String keyId = Keys.createKeyId(key);
+        if (!isEmptyKey()) {
+            Scanner scanner = null;
+            StringBuilder stringBuilder = new StringBuilder();
+            try {
+                scanner = new Scanner(file);
 
-        keyWrapper = new KeyWrapper(secretString, key, keyId);
+                while (scanner.hasNextLine()) {
+                    stringBuilder.append(scanner.nextLine());
+                    stringBuilder.append("\n");
+                }
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } finally {
+                scanner.close();
+            }
 
-        try {
-            saveKey();
-        } catch (IOException e) {
-            e.printStackTrace();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            keyWrapper = gson.fromJson(stringBuilder.toString(), KeyWrapper.class);
+        } else {
+            SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+            String secretString = Base64.encodeBytes(key.getEncoded());
+            String keyId = Keys.createKeyId(key);
+
+            keyWrapper = new KeyWrapper(secretString, key, keyId);
+
+            try {
+                saveKey();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -63,12 +86,27 @@ public final class KeyProvider {
     }
 
     private void saveKey() throws IOException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(Objects.requireNonNull(classLoader.getResource("jws-key.txt")).getFile());
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        gson.toJson(this.keyWrapper);
 
-        FileWriter myWriter = new FileWriter(file);
-        myWriter.write(keyWrapper.getEncoded());
-        myWriter.close();
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(Objects.requireNonNull(classLoader.getResource("jws-key.json")).getFile());
+
+        FileWriter fileWriter = new FileWriter(file);
+        fileWriter.write(gson.toJson(this.keyWrapper));
+        fileWriter.close();
+    }
+
+    /**
+     * Kiểm tra xem đã lưu key nào file chưa.
+     *
+     * @return return false nếu đã có key lưu rồi, return true nếu chưa lưu key nào.
+     */
+    private boolean isEmptyKey() {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(Objects.requireNonNull(classLoader.getResource("jws-key.json")).getFile());
+
+        return file.length() == 0;
     }
 
     /**
