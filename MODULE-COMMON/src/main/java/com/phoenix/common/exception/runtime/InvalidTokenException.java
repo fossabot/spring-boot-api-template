@@ -23,30 +23,18 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken;
+package com.phoenix.common.exception.runtime;
 
-import com.phoenix.common.exception.security.InvalidKeyException;
-import com.phoenix.common.jsonwebtoken.component.Claims;
+public class InvalidTokenException extends RuntimeException {
 
-import java.util.Date;
-import java.util.Map;
+    private final String tokenType;
+    private final String token;
+    private final String message;
 
-public interface TokenProvider {
-    public String  generateToken();
-
-    public String generateTokenFromClaims(Map claims) throws InvalidKeyException, java.security.InvalidKeyException;
-
-    /**
-     * Returns Claims encapsulated within the token
-     */
-    public Claims getClaimsFromToken(String token);
-
-    public boolean validateToken(String token);
-
-    public String getSubjectFromToken(String token);
-
-    public long getExpiryDuration();
-
-    public Date getTokenExpiryFromToken(String token);
-
+    public InvalidTokenException(String tokenType, String token, String message) {
+        super(String.format("%s: [%s] token: [%s] ", message, tokenType, token));
+        this.tokenType = tokenType;
+        this.token = token;
+        this.message = message;
+    }
 }

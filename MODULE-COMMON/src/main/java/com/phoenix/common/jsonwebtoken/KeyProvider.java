@@ -35,9 +35,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 public final class KeyProvider {
-    private KeyWrapper keyWrapper;
+    private final KeyWrapper keyWrapper;
 
     /**
      * Private constructor.
@@ -63,7 +64,7 @@ public final class KeyProvider {
 
     private void saveKey() throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource("jws-key.txt").getFile());
+        File file = new File(Objects.requireNonNull(classLoader.getResource("jws-key.txt")).getFile());
 
         FileWriter myWriter = new FileWriter(file);
         myWriter.write(keyWrapper.getEncoded());
