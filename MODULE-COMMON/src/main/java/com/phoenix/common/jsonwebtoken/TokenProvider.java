@@ -27,12 +27,12 @@ package com.phoenix.common.jsonwebtoken;
 
 import com.phoenix.common.jsonwebtoken.component.Claims;
 
+import java.util.Map;
+
 public interface TokenProvider {
     public String  generateToken();
 
-    public String generateKey();
-
-    public String generateTokenFromClaims(Claims claims);
+    public String generateTokenFromClaims(Map claims);
 
     public Claims getClaimsFromToken(String token);
 

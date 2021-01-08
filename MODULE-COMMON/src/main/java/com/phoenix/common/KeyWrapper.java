@@ -23,39 +23,45 @@
  *
  */
 
-package com.phoenix.common.jsonwebtoken;
+package com.phoenix.common;
 
-import com.phoenix.common.KeyWrapper;
-import com.phoenix.common.jsonwebtoken.component.Claims;
+import java.security.Key;
 
-import java.util.Map;
+public class KeyWrapper {
+    private String encoded;
+    private Key key;
+    private String id;
 
-public class DefaultTokenProvider implements TokenProvider {
-
-    private KeyWrapper keyWrapper;
-
-    public DefaultTokenProvider() {
-        keyWrapper = KeyProvider.getInstance().getKeyWrapper();
+    public KeyWrapper(String encoded, Key key, String id) {
+        this.encoded = encoded;
+        this.key = key;
+        this.id = id;
     }
 
-    @Override
-    public String generateToken() {
-        return null;
+    public KeyWrapper() {
     }
 
-    @Override
-    public String generateTokenFromClaims(Map claim) {
-
-        return null;
+    public String getEncoded() {
+        return encoded;
     }
 
-    @Override
-    public Claims getClaimsFromToken(String token) {
-        return null;
+    public void setEncoded(String encoded) {
+        this.encoded = encoded;
     }
 
-    @Override
-    public boolean validateToken(String token) {
-        return false;
+    public Key getKey() {
+        return key;
+    }
+
+    public void setKey(Key key) {
+        this.key = key;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

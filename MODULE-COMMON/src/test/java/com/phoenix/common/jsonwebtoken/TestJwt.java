@@ -82,7 +82,7 @@ public class TestJwt {
 
         Map<String, Object> headers = new HashMap<>();
         headers.put("type", "JWT");
-//        headers.put("kid", kid);
+        headers.put("kid", kid);
 
         Map<String, String> claims = new HashMap<>();
         claims.put("id", "123456789");
@@ -102,15 +102,8 @@ public class TestJwt {
 
         String jws = Jwts.builder()
                 .setHeader(headers)
-                .setIssuer("me")
-                .setSubject("Bob")
-                .setAudience("you")
-                .setExpiration(expiration) //a java.util.Date
-                .setNotBefore(notBefore) //a java.util.Date
-                .setIssuedAt(new Date()) // for example, now
-                .setId(IdGenerator.generate())
                 .setClaims(claims)
-                .signWith(key)
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
         System.out.println(jws);
@@ -136,5 +129,10 @@ public class TestJwt {
 
             // we *cannot* use the JWT as intended by its creator
         }
+    }
+
+    @Test
+    public void testLoadKey(){
+        KeyProvider.getInstance().getKeyWrapper();
     }
 }
