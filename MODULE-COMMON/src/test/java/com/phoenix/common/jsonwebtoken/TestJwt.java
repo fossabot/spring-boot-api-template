@@ -32,15 +32,18 @@ import com.phoenix.common.jsonwebtoken.jws.Jwts;
 import com.phoenix.common.jsonwebtoken.crypto.Keys;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.util.Base64;
+import com.phoenix.common.util.IdGenerator;
 import org.junit.Test;
 
 import javax.crypto.SecretKey;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TestJwt {
     @Test
     public void testGenerateKey() {
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-
         String secretString = Base64.encodeBytes(key.getEncoded());
 
         System.out.println(key);
@@ -62,6 +65,53 @@ public class TestJwt {
                 .signWith(key)          // (3)
 
                 .compact();             // (4)
+
+        System.out.println(jws);
+    }
+
+    @Test
+    public void createJwt() throws InvalidKeyException, java.security.InvalidKeyException {
+        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        String kid = Keys.createKeyId(key);
+
+        String secretString = Base64.encodeBytes(key.getEncoded());
+
+        System.out.println(secretString);
+        Date expiration = new Date();
+        Date notBefore = new Date();
+
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("type", "JWT");
+//        headers.put("kid", kid);
+
+        Map<String, String> claims = new HashMap<>();
+        claims.put("id", "123456789");
+
+
+
+//        String jws = Jwts.builder()
+//                .setIssuer("me")
+//                .setSubject("Bob")
+//                .setAudience("you")
+//                .setExpiration(expiration) //a java.util.Date
+//                .setNotBefore(notBefore) //a java.util.Date
+//                .setIssuedAt(new Date()) // for example, now
+//                .setId(IdGenerator.generate())
+//                .signWith(key)
+//                .compact(); //just an example id
+
+        String jws = Jwts.builder()
+                .setHeader(headers)
+                .setIssuer("me")
+                .setSubject("Bob")
+                .setAudience("you")
+                .setExpiration(expiration) //a java.util.Date
+                .setNotBefore(notBefore) //a java.util.Date
+                .setIssuedAt(new Date()) // for example, now
+                .setId(IdGenerator.generate())
+                .setClaims(claims)
+                .signWith(key)
+                .compact();
 
         System.out.println(jws);
     }

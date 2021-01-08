@@ -31,8 +31,8 @@ import org.junit.Test;
 public class TestIdGenerator {
     @Test
     public void testGenerateId() {
-        String id_1 = IdGenerator.generateId();
-        String id_2 = IdGenerator.generateId();
+        String id_1 = IdGenerator.generate();
+        String id_2 = IdGenerator.generate();
 
         System.out.println(id_1);
         System.out.println(id_2);

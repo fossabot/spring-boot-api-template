@@ -25,6 +25,8 @@
 
 package com.phoenix.common.jsonwebtoken.component;
 
+import com.phoenix.common.jsonwebtoken.jws.Jwts;
+
 import java.util.Map;
 
 /**

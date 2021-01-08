@@ -23,13 +23,18 @@
  *
  */
 
-package com.phoenix.common.util;
+package com.phoenix.common.jsonwebtoken;
 
-import java.util.UUID;
+import com.phoenix.common.jsonwebtoken.component.Claims;
 
-public class IdGenerator {
+public interface TokenProvider {
+    public String  generateToken();
 
-    public static String generate() {
-        return UUID.randomUUID().toString() + "-" + System.currentTimeMillis();
-    }
+    public String generateKey();
+
+    public String generateTokenFromClaims(Claims claims);
+
+    public Claims getClaimsFromToken(String token);
+
+    public boolean validateToken(String token);
 }

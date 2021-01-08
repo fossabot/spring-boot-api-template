@@ -305,7 +305,8 @@ public class DefaultJwtBuilder implements JwtBuilder {
         //String base64UrlEncodedHeader = base64UrlEncode(jwsHeader, "Unable to serialize header to json.");
         String base64UrlEncodedHeader = null;
         try {
-            base64UrlEncodedHeader = Base64.encodeBytes(serializer.serialize(jwsHeader));
+//            base64UrlEncodedHeader = Base64.encodeBytes(serializer.serialize(jwsHeader));
+            base64UrlEncodedHeader = Base64Url.encode(serializer.serialize(jwsHeader));
         } catch (SerializationException e) {
             e.printStackTrace();
         }
