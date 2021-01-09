@@ -41,12 +41,26 @@ public interface TokenProvider {
      */
     public Claims getClaimsFromToken(String token);
 
+    /**
+     * Validates if a token satisfies the following properties
+     * - Signature is not malformed
+     * - Token hasn't expired
+     * - Token is supported
+     * - Token has not recently been logged out.
+     */
     public boolean validateToken(String token);
 
     public String getSubjectFromToken(String token);
 
+    /**
+     * Return the jwt expiration for the client so that they can execute
+     * the refresh token logic appropriately
+     */
     public long getExpiryDuration();
 
+    /**
+     * Returns the token expiration date encapsulated within the token
+     */
     public Date getTokenExpiryFromToken(String token);
 
 }

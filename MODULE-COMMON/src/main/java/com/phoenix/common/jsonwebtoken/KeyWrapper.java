@@ -23,7 +23,7 @@
  *
  */
 
-package com.phoenix.common;
+package com.phoenix.common.jsonwebtoken;
 
 import java.security.Key;
 

@@ -25,7 +25,6 @@
 
 package com.phoenix.common.jsonwebtoken;
 
-import com.phoenix.common.KeyWrapper;
 import com.phoenix.common.jsonwebtoken.crypto.Keys;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.util.Base64;
@@ -34,7 +33,6 @@ import javax.crypto.SecretKey;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Objects;
 
 public final class KeyProvider {
@@ -50,26 +48,13 @@ public final class KeyProvider {
         String keyId = Keys.createKeyId(key);
 
         keyWrapper = new KeyWrapper(secretString, key, keyId);
-
-        try {
-            saveKey();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public KeyWrapper getKeyWrapper() {
         return keyWrapper;
     }
 
-    private void saveKey() throws IOException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(Objects.requireNonNull(classLoader.getResource("jws-key.txt")).getFile());
 
-        FileWriter myWriter = new FileWriter(file);
-        myWriter.write(keyWrapper.getEncoded());
-        myWriter.close();
-    }
 
     /**
      * Singleton instance.

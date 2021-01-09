@@ -33,9 +33,14 @@ import com.phoenix.common.jsonwebtoken.crypto.Keys;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.util.Base64;
 import com.phoenix.common.util.IdGenerator;
+import org.junit.Assert;
 import org.junit.Test;
 
 import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -88,7 +93,6 @@ public class TestJwt {
         claims.put("id", "123456789");
 
 
-
 //        String jws = Jwts.builder()
 //                .setIssuer("me")
 //                .setSubject("Bob")
@@ -132,7 +136,28 @@ public class TestJwt {
     }
 
     @Test
-    public void testLoadKey(){
+    public void testLoadKey() {
         KeyProvider.getInstance().getKeyWrapper();
+    }
+
+    @Test
+    public void testTranslateKey() throws NoSuchAlgorithmException, IOException {
+        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+
+        // get base64 encoded version of the key
+        String encodedKey = java.util.Base64.getEncoder().encodeToString(key.getEncoded());
+        String encoded =  Base64.encodeBytes(key.getEncoded());
+
+        // decode the base64 encoded string
+        byte[] decodedKey = java.util.Base64.getDecoder().decode(encodedKey);
+        byte[] decoded = Base64.decode(encoded);
+
+        SecretKey originalKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "HS512");
+
+        Assert.assertEquals(encodedKey,encoded);
+//        Assert.assertEquals(decodedKey,decoded);
+        Assert.assertEquals(key,originalKey);
+
+
     }
 }

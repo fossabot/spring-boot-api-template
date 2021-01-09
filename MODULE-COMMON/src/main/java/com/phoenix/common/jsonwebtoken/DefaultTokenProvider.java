@@ -25,7 +25,6 @@
 
 package com.phoenix.common.jsonwebtoken;
 
-import com.phoenix.common.KeyWrapper;
 import com.phoenix.common.exception.runtime.*;
 import com.phoenix.common.exception.security.InvalidKeyException;
 import com.phoenix.common.jsonwebtoken.component.Claims;
@@ -36,7 +35,6 @@ import com.phoenix.common.util.IdGenerator;
 
 import java.util.Date;
 import java.util.Map;
-import java.util.logging.Logger;
 
 public class DefaultTokenProvider implements TokenProvider {
 
@@ -69,9 +67,6 @@ public class DefaultTokenProvider implements TokenProvider {
         return jws;
     }
 
-    /**
-     * Returns Claims encapsulated within the token
-     */
     @Override
     public Claims getClaimsFromToken(String token) {
         Jws<Claims> jws = Jwts.parserBuilder()
@@ -81,9 +76,6 @@ public class DefaultTokenProvider implements TokenProvider {
         return jws.getBody();
     }
 
-    /**
-     * Returns subject encapsulated within the token
-     */
     @Override
     public String getSubjectFromToken(String token) {
         Jws<Claims> jws = Jwts.parserBuilder()
@@ -93,18 +85,11 @@ public class DefaultTokenProvider implements TokenProvider {
         return jws.getBody().getSubject();
     }
 
-    /**
-     * Return the jwt expiration for the client so that they can execute
-     * the refresh token logic appropriately
-     */
     @Override
     public long getExpiryDuration() {
         return JWT_EXPIRATION;
     }
 
-    /**
-     * Returns the token expiration date encapsulated within the token
-     */
     @Override
     public Date getTokenExpiryFromToken(String token) {
         Jws<Claims> jws = Jwts.parserBuilder()
@@ -115,13 +100,6 @@ public class DefaultTokenProvider implements TokenProvider {
         return jws.getBody().getExpiration();
     }
 
-    /**
-     * Validates if a token satisfies the following properties
-     * - Signature is not malformed
-     * - Token hasn't expired
-     * - Token is supported
-     * - Token has not recently been logged out.
-     */
     @Override
     public boolean validateToken(String token) {
         try {
