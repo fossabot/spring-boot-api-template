@@ -25,6 +25,7 @@
 
 package com.phoenix.common.jsonwebtoken.jws;
 
+import com.phoenix.common.jsonwebtoken.ClassIds;
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.jsonwebtoken.component.Header;
 import com.phoenix.common.jsonwebtoken.component.JwsHeader;
@@ -43,15 +44,6 @@ public final class Jwts {
 
     private static final Class[] MAP_ARG = new Class[]{Map.class};
 
-    private static final String DEFAULT_HEADER_CLASS = "com.phoenix.common.jsonwebtoken.component.DefaultHeader";
-    private static final String DEFAULT_JWS_HEADER_CLASS = "com.phoenix.common.jsonwebtoken.component.DefaultJwsHeader";
-    private static final String DEFAULT_CLAIMS_CLASS = "com.phoenix.common.jsonwebtoken.component.DefaultClaims";
-    private static final String DEFAULT_JWT_PARSER_CLASS = "com.phoenix.common.jsonwebtoken.parser.DefaultJwtParser";
-    private static final String DefaultJwtParserBuilder = "com.phoenix.common.jsonwebtoken.parser.DefaultJwtParserBuilder";
-    private static final String DefaultJwtBuilder = "com.phoenix.common.jsonwebtoken.jws.DefaultJwtBuilder";
-    private static final String DEFAULT_JWT_PARSER_BUILDER_CLASS = "com.phoenix.common.jsonwebtoken.parser.DefaultJwtParserBuilder";
-    private static final String DEFAULT_JWT_BUILDER_CLASS = "com.phoenix.common.jsonwebtoken.jws.DefaultJwtBuilder";
-
     private Jwts() {
     }
 
@@ -64,7 +56,7 @@ public final class Jwts {
      */
     public static Header header() {
 //        return Classes.newInstance("io.jsonwebtoken.impl.DefaultHeader");
-        return Classes.newInstance(DEFAULT_HEADER_CLASS);
+        return Classes.newInstance(ClassIds.DEFAULT_HEADER);
     }
 
     /**
@@ -76,7 +68,7 @@ public final class Jwts {
      */
     public static Header header(Map<String, Object> header) {
 //        return Classes.newInstance("io.jsonwebtoken.impl.DefaultHeader", MAP_ARG, header);
-        return Classes.newInstance(DEFAULT_HEADER_CLASS, MAP_ARG, header);
+        return Classes.newInstance(ClassIds.DEFAULT_HEADER, MAP_ARG, header);
     }
 
     /**
@@ -87,7 +79,7 @@ public final class Jwts {
      */
     public static JwsHeader jwsHeader() {
 //        return Classes.newInstance("io.jsonwebtoken.impl.DefaultJwsHeader");
-        return Classes.newInstance(DEFAULT_JWS_HEADER_CLASS);
+        return Classes.newInstance(ClassIds.DEFAULT_JWS_HEADER);
     }
 
     /**
@@ -100,7 +92,7 @@ public final class Jwts {
      */
     public static JwsHeader jwsHeader(Map<String, Object> header) {
 //        return Classes.newInstance("io.jsonwebtoken.impl.DefaultJwsHeader", MAP_ARG, header);
-        return Classes.newInstance(DEFAULT_JWS_HEADER_CLASS, MAP_ARG, header);
+        return Classes.newInstance(ClassIds.DEFAULT_JWS_HEADER, MAP_ARG, header);
     }
 
     /**
@@ -110,7 +102,7 @@ public final class Jwts {
      */
     public static Claims claims() {
 //        return Classes.newInstance("io.jsonwebtoken.impl.DefaultClaims");
-        return Classes.newInstance(DEFAULT_CLAIMS_CLASS);
+        return Classes.newInstance(ClassIds.DEFAULT_CLAIMS);
     }
 
     /**
@@ -121,7 +113,7 @@ public final class Jwts {
      */
     public static Claims claims(Map<String, Object> claims) {
 //        return Classes.newInstance("io.jsonwebtoken.impl.DefaultClaims", MAP_ARG, claims);
-        return Classes.newInstance(DEFAULT_CLAIMS_CLASS, MAP_ARG, claims);
+        return Classes.newInstance(ClassIds.DEFAULT_CLAIMS, MAP_ARG, claims);
     }
 
     /**
@@ -131,7 +123,7 @@ public final class Jwts {
      */
     public static JwtParserBuilder parserBuilder() {
 //        return Classes.newInstance("io.jsonwebtoken.impl.DefaultJwtParserBuilder");
-        return Classes.newInstance(DEFAULT_JWT_PARSER_BUILDER_CLASS);
+        return Classes.newInstance(ClassIds.DEFAULT_JWT_PARSER_BUILDER);
     }
 
     /**
@@ -143,6 +135,6 @@ public final class Jwts {
      */
     public static JwtBuilder builder() {
 //        return Classes.newInstance("io.jsonwebtoken.impl.DefaultJwtBuilder");
-        return Classes.newInstance(DEFAULT_JWT_BUILDER_CLASS);
+        return Classes.newInstance(ClassIds.DEFAULT_JWT_BUILDER);
     }
 }
