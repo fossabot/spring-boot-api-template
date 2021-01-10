@@ -22,30 +22,32 @@
  * SOFTWARE.
  */
 
-package com.phoenix.infrastructure.repositories;
+package com.phoenix.api.service;
 
-import org.springframework.context.ApplicationContext;
+import com.phoenix.infrastructure.entities.primary.UserEntity;
+import com.phoenix.infrastructure.repositories.primary.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.util.Optional;
 
-public class RepositoryImp {
-    private final ApplicationContext context;
+@Service
+public class DefaultUserDetailsService implements UserDetailsService {
+    private final UserRepository userRepository;
 
-    public RepositoryImp(ApplicationContext context) {
-        this.context = context;
+    public DefaultUserDetailsService(@Qualifier("UserRepository") UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    private DataSource getDataSource(String dataSourceName) {
-        return (DataSource) context.getBean(dataSourceName);
-    }
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Optional<UserEntity> optional = Optional.ofNullable(userRepository.findByEmail(email));
 
-    private Connection getConnection(DataSource dataSource) throws SQLException {
-        return dataSource.getConnection();
-    }
 
-    private void closeConnection(Connection connection) throws SQLException {
-        connection.close();
+        return null;
     }
 }

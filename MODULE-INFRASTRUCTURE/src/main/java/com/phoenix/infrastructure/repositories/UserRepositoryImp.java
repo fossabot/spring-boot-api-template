@@ -24,17 +24,66 @@
 
 package com.phoenix.infrastructure.repositories;
 
-import com.phoenix.infrastructure.entities.primary.UserEntity;
-import com.phoenix.infrastructure.repositories.primary.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
+import com.phoenix.domain.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 
-@Repository
-public class UserRepositoryImp extends RepositoryImp {
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
-    public UserRepositoryImp(ApplicationContext context, UserRepository userRepository) {
-        super(context);
+@Repository
+public class UserRepositoryImp {
+
+    private final EntityManager entityManager;
+
+    public UserRepositoryImp(@Qualifier("PrimaryEntityManager") EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
+    @Transactional
+    public User createUser(User user) {
+        String insertUserSql = "INSERT INTO user (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, CREATED_DATE, CREATED_BY, LAST_MODIFIED_DATE, LAST_MODIFIED_BY) VALUES (?, ?, ?, ?, ?, DEFAULT, null, DEFAULT, null)";
+
+        Query query = this.entityManager.createQuery(insertUserSql);
+
+        query.setParameter(1, user.getUsername());
+        query.setParameter(2, user.getEmail());
+        query.setParameter(3, user.getPassword());
+        query.setParameter(4, user.getFirstName());
+        query.setParameter(5, user.getLastName());
+
+        query.executeUpdate();
+
+        Set<String> roles = new HashSet<>();
+        List<String> list = new LinkedList<>();
+
+        StringBuilder insertUserRoleSqlBuilder = new StringBuilder();
+
+        insertUserRoleSqlBuilder.append("insert into user_role (user_id, role_id) select 1, id from role where NAME in (");
+
+        for (String role : roles) {
+            insertUserRoleSqlBuilder.append("'?',");
+            list.add(role);
+        }
+
+        insertUserRoleSqlBuilder.deleteCharAt(insertUserRoleSqlBuilder.length() - 1);
+
+        insertUserRoleSqlBuilder.append(")");
+
+        query = null;
+        query = this.entityManager.createQuery(insertUserRoleSqlBuilder.toString());
+
+        for (int i = 0; i < list.size(); i++) {
+            query.setParameter(i + 1, list.get(i));
+        }
+
+        query.executeUpdate();
+
+        return user;
     }
 }

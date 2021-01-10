@@ -26,6 +26,8 @@ package com.phoenix.infrastructure.repositories.primary;
 
 import com.phoenix.infrastructure.entities.primary.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository(value = "RoleRepository")
 public interface RoleRepository extends JpaRepository<RoleEntity, Long> {
 }

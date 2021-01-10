@@ -28,6 +28,7 @@ import com.phoenix.adapter.map.Mapper;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.domain.entity.User;
 import com.phoenix.infrastructure.entities.primary.UserEntity;
+import com.phoenix.infrastructure.repositories.primary.RoleRepository;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
 
 import java.util.Optional;
@@ -35,10 +36,12 @@ import java.util.Optional;
 public class UserRepositoryAdapter implements UserRepositoryPort {
     private final Mapper mapper;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public UserRepositoryAdapter(Mapper mapper, UserRepository userRepository) {
+    public UserRepositoryAdapter(Mapper mapper, UserRepository userRepository, RoleRepository roleRepository) {
         this.mapper = mapper;
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -58,5 +61,10 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     public Optional findByUsername(String username) {
         Optional<UserEntity> optional = Optional.ofNullable(userRepository.findByUsername(username));
         return optional;
+    }
+
+    @Override
+    public Optional<User> findUserByEmail(String email) {
+        return Optional.empty();
     }
 }

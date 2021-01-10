@@ -30,7 +30,34 @@ import com.phoenix.domain.entity.User;
 import java.util.Optional;
 
 public interface UserRepositoryPort {
+
+    /**
+     * Save User to database
+     * @param user :
+     * @return Optional of UserDB
+     */
     public Optional save(User user);
+
+
+    /**
+     * @param email:
+     * @return Optional of UserDB
+     */
     public Optional findByEmail(String email);
+
+
+    /**
+     * @param username:
+     * @return  Optional of UserDB
+     */
     public Optional findByUsername(String username);
+
+
+    /**
+     * @param email:
+     * @return Optional of Domain User
+     */
+    public Optional<User> findUserByEmail(String email);
+
+
 }

@@ -33,6 +33,7 @@ import com.phoenix.common.jsonwebtoken.KeyProvider;
 import com.phoenix.core.bussiness.CreateUserUseCase;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.core.port.security.PasswordEncoderPort;
+import com.phoenix.infrastructure.repositories.primary.RoleRepository;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
 
 public class SpringConfiguration {
@@ -41,9 +42,9 @@ public class SpringConfiguration {
     private final PasswordEncoderPort passwordEncoderPort;
 
 
-    public SpringConfiguration(UserRepository userRepository) {
+    public SpringConfiguration(UserRepository userRepository, RoleRepository roleRepository) {
         this.domainUserMapUserEntity = new DomainUserMapUserEntity();
-        this.userRepositoryPort = new UserRepositoryAdapter(domainUserMapUserEntity, userRepository);
+        this.userRepositoryPort = new UserRepositoryAdapter(domainUserMapUserEntity, userRepository, roleRepository);
 
         this.passwordEncoderPort = new PasswordEncoderAdapter();
 

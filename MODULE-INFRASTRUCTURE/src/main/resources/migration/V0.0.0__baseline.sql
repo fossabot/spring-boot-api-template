@@ -1,3 +1,5 @@
+# ========================= TABLE: USER =========================
+
 create table USER
 (
     id                 integer auto_increment,
@@ -20,6 +22,8 @@ create unique index USER_EMAIL_uindex
 create unique index USER_USERNAME_uindex
     on USER (USERNAME);
 
+# ========================= TABLE: USER =========================
+# ========================= TABLE: ROLE =========================
 
 create table ROLE
 (
@@ -31,6 +35,25 @@ create table ROLE
 
 create unique index ROLE_NAME_uindex
     on ROLE (NAME);
+
+# ========================= TABLE: ROLE =========================
+# ========================= TABLE: USER_ROLE =========================
+
+create table USER_ROLE
+(
+    USER_ID int null,
+    ROLE_ID int null,
+    constraint USER_ROLE_ROLE__fk
+        foreign key (ROLE_ID) references role (ID)
+            on delete cascade,
+    constraint USER_ROLE_USER__fk
+        foreign key (USER_ID) references user (id)
+            on delete cascade,
+    CONSTRAINT UNIQUE_USER_ROLE UNIQUE (USER_ID,ROLE_ID)
+);
+
+# ========================= TABLE: USER_ROLE =========================
+
 
 -- ----------------------------------------------
 

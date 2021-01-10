@@ -28,6 +28,7 @@ import com.phoenix.adapter.controller.AuthControllerAdapter;
 import com.phoenix.common.jsonwebtoken.KeyProvider;
 import com.phoenix.config.SpringConfiguration;
 import com.phoenix.core.bussiness.CreateUserUseCase;
+import com.phoenix.infrastructure.repositories.primary.RoleRepository;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -40,10 +41,14 @@ public class ApplicationConfig {
     @Qualifier("UserRepository")
     private final UserRepository userRepository;
 
+    @Qualifier("UserRepository")
+    private final RoleRepository roleRepository;
 
-    public ApplicationConfig(UserRepository userRepository) {
+
+    public ApplicationConfig(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
-        configuration = new SpringConfiguration(this.userRepository);
+        this.roleRepository = roleRepository;
+        configuration = new SpringConfiguration(this.userRepository, this.roleRepository);
     }
 
     @Bean(value = "CreateUserUseCaseBean")
