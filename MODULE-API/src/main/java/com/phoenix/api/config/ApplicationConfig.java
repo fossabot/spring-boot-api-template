@@ -22,44 +22,42 @@
  * SOFTWARE.
  */
 
-package com.phoenix.config;
+package com.phoenix.api.config;
 
 import com.phoenix.adapter.controller.AuthControllerAdapter;
-import com.phoenix.adapter.encrypt.PasswordEncoderAdapter;
-import com.phoenix.adapter.map.DomainUserMapUserEntity;
-import com.phoenix.adapter.map.Mapper;
-import com.phoenix.adapter.repository.UserRepositoryAdapter;
 import com.phoenix.common.jsonwebtoken.KeyProvider;
+import com.phoenix.config.SpringConfiguration;
 import com.phoenix.core.bussiness.CreateUserUseCase;
-import com.phoenix.core.port.repositories.UserRepositoryPort;
-import com.phoenix.core.port.security.PasswordEncoderPort;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-public class SpringConfiguration {
-    private final UserRepositoryPort userRepositoryPort;
-    private final Mapper domainUserMapUserEntity;
-    private final PasswordEncoderPort passwordEncoderPort;
+@Configuration
+public class ApplicationConfig {
+    private final SpringConfiguration configuration;
+
+    @Qualifier("UserRepository")
+    private final UserRepository userRepository;
 
 
-    public SpringConfiguration(UserRepository userRepository) {
-        this.domainUserMapUserEntity = new DomainUserMapUserEntity();
-        this.userRepositoryPort = new UserRepositoryAdapter(domainUserMapUserEntity, userRepository);
-
-        this.passwordEncoderPort = new PasswordEncoderAdapter();
-
-        System.out.println("-------------------------------------------------------------");
+    public ApplicationConfig(UserRepository userRepository) {
+        this.userRepository = userRepository;
+        configuration = new SpringConfiguration(this.userRepository);
     }
 
+    @Bean(value = "CreateUserUseCaseBean")
     public CreateUserUseCase createUserUseCase() {
-        return new CreateUserUseCase(this.userRepositoryPort, this.passwordEncoderPort);
+        return configuration.createUserUseCase();
     }
 
+    @Bean(value = "AuthControllerAdapterBean")
     public AuthControllerAdapter authControllerAdapter() {
-        return new AuthControllerAdapter(this.createUserUseCase());
+        return configuration.authControllerAdapter();
     }
 
-    public KeyProvider createKeyProvider(){
-        return KeyProvider.getInstance();
+    @Bean(value = "KeyProvider")
+    public KeyProvider keyProvider() {
+        return configuration.createKeyProvider();
     }
-
 }

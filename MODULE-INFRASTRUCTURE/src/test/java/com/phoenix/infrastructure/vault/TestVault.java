@@ -22,36 +22,28 @@
  * SOFTWARE.
  */
 
-package com.phoenix.api.config;
+package com.phoenix.infrastructure.vault;
 
-import com.phoenix.adapter.controller.AuthControllerAdapter;
-import com.phoenix.config.SpringConfiguration;
-import com.phoenix.core.bussiness.CreateUserUseCase;
-import com.phoenix.infrastructure.repositories.primary.UserRepository;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.junit.Test;
+import org.springframework.vault.authentication.TokenAuthentication;
+import org.springframework.vault.client.VaultEndpoint;
+import org.springframework.vault.core.VaultTemplate;
 
-@Configuration
-public class UseCaseConfig {
-    private final SpringConfiguration configuration;
+import java.util.HashMap;
+import java.util.Map;
 
-    @Qualifier("UserRepository")
-    private final UserRepository userRepository;
+public class TestVault {
+    @Test
+    public void testUnitVault() {
+        VaultEndpoint endpoint = VaultEndpoint.create("127.0.0.1", 8200);
+        endpoint.setScheme("http");
 
+        VaultTemplate vaultTemplate = new VaultTemplate(endpoint,
+                new TokenAuthentication("00000000-0000-0000-0000-000000000000"));
 
-    public UseCaseConfig(UserRepository userRepository) {
-        this.userRepository = userRepository;
-        configuration = new SpringConfiguration(this.userRepository);
-    }
+        VaultPayload vaultPayload = new VaultPayload("2");
 
-    @Bean(value = "CreateUserUseCaseBean")
-    public CreateUserUseCase createUserUseCase() {
-        return configuration.createUserUseCase();
-    }
+        vaultTemplate.write("secret/first0", vaultPayload);
 
-    @Bean(value = "AuthControllerAdapterBean")
-    public AuthControllerAdapter authControllerAdapter(){
-        return configuration.authControllerAdapter();
     }
 }
