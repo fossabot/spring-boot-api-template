@@ -20,51 +20,30 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.core.port.repositories;
+package com.phoenix.api.filter;
 
+import lombok.extern.log4j.Log4j;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.phoenix.domain.entity.User;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-import java.util.Optional;
-
-public interface UserRepositoryPort {
-
+@Log4j
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
     /**
-     * Save User to database, just insert to user table (without user_role table)
-     *
-     * @param user :
-     * @return Optional of UserDB
+     * Filter the incoming request for a valid token in the request header
      */
-    public Optional save(User user);
-
-
-    /**
-     * @param email:
-     * @return Optional of UserDB
-     */
-    public Optional findByEmail(String email);
-
-
-    /**
-     * @param username:
-     * @return Optional of UserDB
-     */
-    public Optional findByUsername(String username);
-
-
-    /**
-     * @param email:
-     * @return Optional of Domain User
-     */
-    public Optional<User> findUserByEmail(String email);
-
-
-    /**
-     * create a new user. insert to 2 table: user + user_role
-     * @param user:
-     * @return
-     */
-    public Optional<User> createUser(User user);
+    @Override
+    protected void doFilterInternal(HttpServletRequest httpServletRequest,
+                                    HttpServletResponse httpServletResponse,
+                                    FilterChain filterChain) throws ServletException, IOException {
+        log.info("Filter the incoming request for a valid token in the request header");
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
+    }
 }

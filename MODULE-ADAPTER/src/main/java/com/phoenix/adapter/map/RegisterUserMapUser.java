@@ -26,17 +26,32 @@ package com.phoenix.adapter.map;
 
 import com.phoenix.domain.builder.UserBuilder;
 import com.phoenix.domain.entity.User;
+import com.phoenix.domain.enums.Role;
 import com.phoenix.domain.payload.RegisterUser;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
 
     @Override
     public User convert(RegisterUser registerUser) {
-        return UserBuilder.anUser()
+        UserBuilder userBuilder = UserBuilder.anUser()
                 .withUsername(registerUser.getUsername())
                 .withEmail(registerUser.getEmail())
-                .withPassword(registerUser.getPassword())
-                .build();
+                .withPassword(registerUser.getPassword());
+
+        Set<String> roles = new HashSet<>();
+
+        if (registerUser.isAdmin()) {
+            roles.add(Role.ADMIN.toString());
+        } else {
+            roles.add(Role.USER.toString());
+        }
+
+        userBuilder.withRoles(roles);
+
+        return userBuilder.build();
     }
 
     @Override

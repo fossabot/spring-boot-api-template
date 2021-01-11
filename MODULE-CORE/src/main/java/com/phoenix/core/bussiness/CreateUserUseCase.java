@@ -61,7 +61,7 @@ public class CreateUserUseCase {
         user.setPassword(password);
 
         //3. Lưu user vào db.
-        Optional optional = userRepository.save(user);
+        Optional optional = userRepository.createUser(user);
 
         if (optional.isEmpty()) {
             throw new Exception("ERROR");

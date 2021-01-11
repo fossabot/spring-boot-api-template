@@ -22,49 +22,11 @@
  * SOFTWARE.
  */
 
-package com.phoenix.core.port.repositories;
+package com.phoenix.api.security;
 
+import com.phoenix.common.crypto.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.phoenix.domain.entity.User;
+public class DefaultBcryptPasswordEncoder extends BCryptPasswordEncoder implements PasswordEncoder {
 
-import java.util.Optional;
-
-public interface UserRepositoryPort {
-
-    /**
-     * Save User to database, just insert to user table (without user_role table)
-     *
-     * @param user :
-     * @return Optional of UserDB
-     */
-    public Optional save(User user);
-
-
-    /**
-     * @param email:
-     * @return Optional of UserDB
-     */
-    public Optional findByEmail(String email);
-
-
-    /**
-     * @param username:
-     * @return Optional of UserDB
-     */
-    public Optional findByUsername(String username);
-
-
-    /**
-     * @param email:
-     * @return Optional of Domain User
-     */
-    public Optional<User> findUserByEmail(String email);
-
-
-    /**
-     * create a new user. insert to 2 table: user + user_role
-     * @param user:
-     * @return
-     */
-    public Optional<User> createUser(User user);
 }

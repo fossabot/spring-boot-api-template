@@ -20,12 +20,13 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.api.security;
+package com.phoenix.domain.enums;
 
-import com.phoenix.common.crypto.BCryptPasswordEncoder;
-
-public class CustomPasswordEncoder extends BCryptPasswordEncoder{
-
+public enum Role {
+    ADMIN,
+    USER,
+    GUEST
 }

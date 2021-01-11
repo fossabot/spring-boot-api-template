@@ -24,32 +24,36 @@
 
 package com.phoenix.infrastructure.repositories;
 
+import com.phoenix.infrastructure.config.PersistenceUnitsName;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import com.phoenix.domain.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-@Repository
+@Repository(value = "UserRepositoryImp")
 public class UserRepositoryImp {
 
+    @PersistenceContext(unitName = PersistenceUnitsName.PRIMARY_PERSISTENCE_UNIT_NAME)
     private final EntityManager entityManager;
 
     public UserRepositoryImp(@Qualifier("PrimaryEntityManager") EntityManager entityManager) {
         this.entityManager = entityManager;
+        this.entityManager.getTransaction();
     }
 
     @Transactional
     public User createUser(User user) {
-        String insertUserSql = "INSERT INTO user (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, CREATED_DATE, CREATED_BY, LAST_MODIFIED_DATE, LAST_MODIFIED_BY) VALUES (?, ?, ?, ?, ?, DEFAULT, null, DEFAULT, null)";
+        String insertUserSql = "INSERT INTO user (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, CREATED_DATE, CREATED_BY, LAST_MODIFIED_DATE, LAST_MODIFIED_BY) VALUE (?, ?, ?, ?, ?, DEFAULT, null, DEFAULT, null)";
 
-        Query query = this.entityManager.createQuery(insertUserSql);
+        Query query = this.entityManager.createNativeQuery(insertUserSql);
 
         query.setParameter(1, user.getUsername());
         query.setParameter(2, user.getEmail());
@@ -59,15 +63,18 @@ public class UserRepositoryImp {
 
         query.executeUpdate();
 
-        Set<String> roles = new HashSet<>();
-        List<String> list = new LinkedList<>();
-
+        Set<String> roles = user.getRoles();
         StringBuilder insertUserRoleSqlBuilder = new StringBuilder();
 
-        insertUserRoleSqlBuilder.append("insert into user_role (user_id, role_id) select 1, id from role where NAME in (");
+        if (roles == null || roles.isEmpty()) {
+            return user;
+        }
+
+        insertUserRoleSqlBuilder.append("insert into user_role (user_id, role_id) select user.id, role.id from role, user where (user.email = ? or user.USERNAME = ?) and role.NAME in (");
+        List<String> list = new LinkedList<>();
 
         for (String role : roles) {
-            insertUserRoleSqlBuilder.append("'?',");
+            insertUserRoleSqlBuilder.append("?,");
             list.add(role);
         }
 
@@ -76,10 +83,13 @@ public class UserRepositoryImp {
         insertUserRoleSqlBuilder.append(")");
 
         query = null;
-        query = this.entityManager.createQuery(insertUserRoleSqlBuilder.toString());
+        query = this.entityManager.createNativeQuery(insertUserRoleSqlBuilder.toString());
+
+        query.setParameter(1, user.getEmail());
+        query.setParameter(2, user.getUsername());
 
         for (int i = 0; i < list.size(); i++) {
-            query.setParameter(i + 1, list.get(i));
+            query.setParameter(i + 3, list.get(i));
         }
 
         query.executeUpdate();
