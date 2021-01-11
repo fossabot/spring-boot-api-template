@@ -38,10 +38,7 @@ import java.util.Objects;
 public final class KeyProvider {
     private final KeyWrapper keyWrapper;
 
-    /**
-     * Private constructor.
-     */
-    private KeyProvider() {
+    public KeyProvider() {
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
         String secretString = Base64.encodeBytes(key.getEncoded());
@@ -54,21 +51,4 @@ public final class KeyProvider {
         return keyWrapper;
     }
 
-
-
-    /**
-     * Singleton instance.
-     *
-     * @return Singleton instance
-     */
-    public static KeyProvider getInstance() {
-        return KeyProviderHelper.INSTANCE;
-    }
-
-    /**
-     * Provides the lazy-loaded Singleton instance.
-     */
-    private static class KeyProviderHelper {
-        private static final KeyProvider INSTANCE = new KeyProvider();
-    }
 }

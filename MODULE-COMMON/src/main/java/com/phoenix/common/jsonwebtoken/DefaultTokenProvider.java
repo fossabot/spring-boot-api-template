@@ -38,11 +38,11 @@ import java.util.Map;
 
 public class DefaultTokenProvider implements TokenProvider {
 
-    private KeyWrapper keyWrapper;
+    private final KeyWrapper keyWrapper;
     private long JWT_EXPIRATION = 604800000L;
 
-    public DefaultTokenProvider() {
-        keyWrapper = KeyProvider.getInstance().getKeyWrapper();
+    public DefaultTokenProvider(KeyProvider keyProvider) {
+        this.keyWrapper = keyProvider.getKeyWrapper();
     }
 
     @Override

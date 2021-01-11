@@ -44,7 +44,6 @@ public class UserRepositoryImp {
 
     public UserRepositoryImp(@Qualifier("PrimaryEntityManager") EntityManager entityManager) {
         this.entityManager = entityManager;
-        this.entityManager.getTransaction();
     }
 
     /**

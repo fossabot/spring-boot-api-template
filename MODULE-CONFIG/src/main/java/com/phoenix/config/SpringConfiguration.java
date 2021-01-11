@@ -29,7 +29,9 @@ import com.phoenix.adapter.encrypt.PasswordEncoderAdapter;
 import com.phoenix.adapter.map.DomainUserMapUserEntity;
 import com.phoenix.adapter.map.Mapper;
 import com.phoenix.adapter.repository.UserRepositoryAdapter;
+import com.phoenix.common.jsonwebtoken.DefaultTokenProvider;
 import com.phoenix.common.jsonwebtoken.KeyProvider;
+import com.phoenix.common.jsonwebtoken.TokenProvider;
 import com.phoenix.core.bussiness.CreateUserUseCase;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.core.port.security.PasswordEncoderPort;
@@ -60,8 +62,12 @@ public class SpringConfiguration {
         return new AuthControllerAdapter(this.createUserUseCase());
     }
 
-    public KeyProvider createKeyProvider(){
-        return KeyProvider.getInstance();
+    public KeyProvider createKeyProvider() {
+        return new KeyProvider();
+    }
+
+    public TokenProvider createTokenProvider(KeyProvider keyProvider) {
+        return new DefaultTokenProvider(keyProvider);
     }
 
 }

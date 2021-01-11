@@ -26,6 +26,7 @@ package com.phoenix.api.config;
 
 import com.phoenix.adapter.controller.AuthControllerAdapter;
 import com.phoenix.common.jsonwebtoken.KeyProvider;
+import com.phoenix.common.jsonwebtoken.TokenProvider;
 import com.phoenix.config.SpringConfiguration;
 import com.phoenix.core.bussiness.CreateUserUseCase;
 import com.phoenix.infrastructure.repositories.UserRepositoryImp;
@@ -65,5 +66,10 @@ public class ApplicationConfig {
     @Bean(value = "KeyProvider")
     public KeyProvider keyProvider() {
         return configuration.createKeyProvider();
+    }
+
+    @Bean(value = "TokenProvider")
+    public TokenProvider tokenProvider() {
+        return configuration.createTokenProvider(this.keyProvider());
     }
 }

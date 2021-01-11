@@ -136,11 +136,6 @@ public class TestJwt {
     }
 
     @Test
-    public void testLoadKey() {
-        KeyProvider.getInstance().getKeyWrapper();
-    }
-
-    @Test
     public void testTranslateKey() throws NoSuchAlgorithmException, IOException {
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 

@@ -24,8 +24,12 @@
 
 package com.phoenix.api.service;
 
+import com.phoenix.api.security.DefaultUserDetails;
+import com.phoenix.domain.entity.User;
 import com.phoenix.infrastructure.entities.primary.UserEntity;
+import com.phoenix.infrastructure.repositories.UserRepositoryImp;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
+import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,18 +40,22 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@Log4j
 public class DefaultUserDetailsService implements UserDetailsService {
-    private final UserRepository userRepository;
+    private final UserRepositoryImp userRepositoryImp;
 
-    public DefaultUserDetailsService(@Qualifier("UserRepository") UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public DefaultUserDetailsService(@Qualifier("UserRepositoryImp") UserRepositoryImp userRepositoryImp) {
+        this.userRepositoryImp = userRepositoryImp;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<UserEntity> optional = Optional.ofNullable(userRepository.findByEmail(email));
+        Optional<User> optional = Optional.ofNullable(userRepositoryImp.findUserByEmailOrUsername(email));
+        log.info("Fetched user : " + optional + " by " + email);
 
-
-        return null;
+        return optional.map(DefaultUserDetails::new)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException("Couldn't find a matching user email in the database for " + email)
+                );
     }
 }
