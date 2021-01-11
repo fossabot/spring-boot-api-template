@@ -41,16 +41,6 @@ public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
                 .withEmail(registerUser.getEmail())
                 .withPassword(registerUser.getPassword());
 
-        Set<String> roles = new HashSet<>();
-
-        if (registerUser.isAdmin()) {
-            roles.add(Role.ADMIN.toString());
-        } else {
-            roles.add(Role.USER.toString());
-        }
-
-        userBuilder.withRoles(roles);
-
         return userBuilder.build();
     }
 

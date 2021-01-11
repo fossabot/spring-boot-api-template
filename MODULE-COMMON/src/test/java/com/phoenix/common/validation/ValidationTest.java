@@ -24,31 +24,65 @@
 
 package com.phoenix.common.validation;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ValidationTest {
     @Test
     public void testValidEmail() {
 //        https://howtodoinjava.com/java/regex/java-regex-validate-email-address/
-        List<String> emails = new ArrayList();
-        emails.add("user@domain.com");
-        emails.add("user@domain.co.in");
-        emails.add("user.name@domain.com");
-        emails.add("user_name@domain.com");
-        emails.add("username@yahoo.corporate.in");
+        List<String> validEmails = new ArrayList();
+        validEmails.add("user@domain.com");
+        validEmails.add("user@domain.co.in");
+        validEmails.add("user.name@domain.com");
+        validEmails.add("user_name@domain.com");
+        validEmails.add("username@yahoo.corporate.in");
 
+        for (String email : validEmails) {
+            Assert.assertTrue(Validation.isValidEmail(email));
+        }
+
+
+        List<String> invalidEmails = new ArrayList();
         //Invalid emails
-        emails.add(".username@yahoo.com");
-        emails.add("username@yahoo.com.");
-        emails.add("username@yahoo..com");
-        emails.add("username@yahoo.c");
-        emails.add("username@yahoo.corporate");
+        invalidEmails.add(".username@yahoo.com");
+        invalidEmails.add("username@yahoo.com.");
+        invalidEmails.add("username@yahoo..com");
+        invalidEmails.add("username@yahoo.c");
+        invalidEmails.add("username@yahoo.corporate");
 
-        for (String email : emails) {
-            System.out.println(email + " : " + Validation.isValidEmail(email));
+        for (String email : invalidEmails) {
+            Assert.assertFalse(Validation.isValidEmail(email));
+        }
+    }
+
+    @Test
+    public void testValidUsername(){
+        List<String> validUsernames = new LinkedList<>();
+
+        validUsernames.add("dangdinhtai1gmailcom");
+        validUsernames.add("dangdinhtai1gmailcom");
+        validUsernames.add("aaaaaaaa");
+        validUsernames.add("aaaaaa_a_a");
+        validUsernames.add("aaaaaa_a_a");
+        validUsernames.add("usernae");
+
+        for (String username : validUsernames) {
+            Assert.assertTrue(Validation.isValidUsername(username));
+        }
+
+
+        List<String> inValidUsernames = new LinkedList<>();
+
+        inValidUsernames.add("");
+        inValidUsernames.add(null);
+
+        for (String username : inValidUsernames) {
+            Assert.assertFalse(Validation.isValidUsername(username));
         }
     }
 }

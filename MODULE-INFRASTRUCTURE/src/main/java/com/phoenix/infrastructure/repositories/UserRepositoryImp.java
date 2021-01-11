@@ -24,6 +24,7 @@
 
 package com.phoenix.infrastructure.repositories;
 
+import com.phoenix.domain.builder.UserBuilder;
 import com.phoenix.infrastructure.config.PersistenceUnitsName;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
@@ -33,10 +34,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Repository(value = "UserRepositoryImp")
 public class UserRepositoryImp {
@@ -49,6 +47,24 @@ public class UserRepositoryImp {
         this.entityManager.getTransaction();
     }
 
+    /**
+     * INSERT INTO user
+     * (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, CREATED_DATE, CREATED_BY, LAST_MODIFIED_DATE, LAST_MODIFIED_BY)
+     * VALUE
+     * (?, ?, ?, ?, ?, DEFAULT, null, DEFAULT, null);
+     * <p>
+     * ------------------------------------------------------------------------------------------------------------------
+     * <p>
+     * insert into user_role
+     * (user_id, role_id)
+     * select
+     * user.id, role.id
+     * from
+     * role, user
+     * where
+     * (user.email = ? or user.USERNAME = ?)
+     * and role.NAME in (? ... ? );
+     */
     @Transactional
     public User createUser(User user) {
         String insertUserSql = "INSERT INTO user (USERNAME, EMAIL, PASSWORD, FIRST_NAME, LAST_NAME, CREATED_DATE, CREATED_BY, LAST_MODIFIED_DATE, LAST_MODIFIED_BY) VALUE (?, ?, ?, ?, ?, DEFAULT, null, DEFAULT, null)";
@@ -95,5 +111,53 @@ public class UserRepositoryImp {
         query.executeUpdate();
 
         return user;
+    }
+
+    /**
+     * select u.id, u.USERNAME, u.EMAIL, u.PASSWORD, u.FIRST_NAME, u.LAST_NAME, GROUP_CONCAT(r.NAME) roles
+     * from user u,
+     * role r,
+     * user_role ur
+     * where u.id = ur.USER_ID
+     * and r.id = ur.ROLE_ID
+     * and (u.USERNAME = ? or u.EMAIL = ?)
+     */
+    public User findUserByEmailOrUsername(String s) {
+        String sql = "select u.id, u.USERNAME, u.EMAIL, u.PASSWORD, u.FIRST_NAME, u.LAST_NAME, GROUP_CONCAT(r.NAME) roles from user u, role r, user_role ur where u.id = ur.USER_ID and r.id = ur.ROLE_ID and (u.USERNAME = ? or u.EMAIL = ?);";
+
+        Query query = this.entityManager.createNativeQuery(sql);
+
+        query.setParameter(1, s);
+        query.setParameter(2, s);
+
+        List<Object[]> queryResultList = query.getResultList();
+
+        UserBuilder userBuilder = UserBuilder.anUser();
+
+        Set<String> roles = new HashSet<>();
+
+        for (Object[] record : queryResultList) {
+            userBuilder
+                    .withId(Long.parseLong(record[0].toString()))
+                    .withUsername(record[1].toString())
+                    .withEmail(record[2].toString());
+
+            if (record[3] != null) {
+                userBuilder.withFirstName(record[3].toString());
+            }
+
+            if (record[4] != null) {
+                userBuilder.withLastName(record[4].toString());
+            }
+
+            String[] tmp = record[5].toString().split(",");
+            roles.addAll(Arrays.asList(tmp));
+
+            userBuilder.withRoles(roles);
+
+            break;
+        }
+
+        return userBuilder.build();
     }
 }

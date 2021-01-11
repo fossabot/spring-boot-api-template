@@ -32,8 +32,11 @@ import com.phoenix.common.validation.Validation;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.core.port.security.PasswordEncoderPort;
 import com.phoenix.domain.entity.User;
+import com.phoenix.domain.enums.Role;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public class CreateUserUseCase {
 
@@ -56,6 +59,9 @@ public class CreateUserUseCase {
         //0. Validate registerUser
         validate(user);
 
+        //1. Chuẩn hóa lại thông tin user
+        user = updateUser(user);
+
         //2. Mã hóa mật khẩu
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
@@ -77,6 +83,8 @@ public class CreateUserUseCase {
     private void validate(User user) {
         if (user == null)
             throw new UserValidationException("User should not be null");
+        if (user.getUsername() != null && !Validation.isValidUsername(user.getUsername()))
+            throw new UserValidationException(user.getUsername() + " is invalid.");
         if (ValidateString.isBlankOrNull(user.getEmail()))
             throw new UserValidationException("Email should not be null.");
         if (!Validation.isValidEmail(user.getEmail()))
@@ -87,5 +95,21 @@ public class CreateUserUseCase {
             throw new UserAlreadyExistsException(user.getEmail() + " is already exist.");
         if (userRepository.findByUsername(user.getUsername()).isPresent())
             throw new UserAlreadyExistsException("Username: " + user.getUsername() + " is already exist.");
+    }
+
+
+    private User updateUser(User user) {
+        if (user.getUsername() == null) {
+            String username = user.getEmail().split("@")[0];
+            user.setUsername(username);
+        }
+
+        Set<String> roles = new HashSet<>();
+        roles.add(Role.USER.toString());
+        roles.add(Role.GUEST.toString());
+
+        user.setRoles(roles);
+
+        return user;
     }
 }
