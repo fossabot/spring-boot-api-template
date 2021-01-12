@@ -63,11 +63,12 @@ public class DefaultTokenProvider implements TokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
 
-        Map<String, String> headers = new HashMap<>();
+        Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
         headers.put("kid", keyWrapper.getId());
 
         return Jwts.builder()
+                .setHeader(headers)
                 .setId(IdGenerator.generate()) //jti
                 .setExpiration(expiryDate) //set ngày hết hạn token
                 .setIssuedAt(now) // set thời gian tạo token
