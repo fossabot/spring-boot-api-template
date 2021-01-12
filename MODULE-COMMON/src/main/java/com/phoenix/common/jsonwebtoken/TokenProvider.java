@@ -36,6 +36,8 @@ public interface TokenProvider {
 
     public String generateTokenFromClaims(Map claims) throws InvalidKeyException, java.security.InvalidKeyException;
 
+    public String generateTokenFromClaims(Map claims, long expiration) throws InvalidKeyException, java.security.InvalidKeyException;
+
     /**
      * Returns Claims encapsulated within the token
      */

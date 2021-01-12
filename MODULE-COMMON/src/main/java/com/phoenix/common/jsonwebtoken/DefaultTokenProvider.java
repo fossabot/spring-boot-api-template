@@ -39,13 +39,14 @@ import java.util.Map;
 public class DefaultTokenProvider implements TokenProvider {
 
     private final KeyWrapper keyWrapper;
-    private long JWT_EXPIRATION = 604800000L;
+    private long DEFAULT_EXPIRATION = 604800000L;
 
     public DefaultTokenProvider(KeyProvider keyProvider) {
         this.keyWrapper = keyProvider.getKeyWrapper();
     }
 
     @Override
+    @Deprecated
     public String generateToken() {
 
         return null;
@@ -53,8 +54,13 @@ public class DefaultTokenProvider implements TokenProvider {
 
     @Override
     public String generateTokenFromClaims(Map claim) throws InvalidKeyException, java.security.InvalidKeyException {
+        return generateTokenFromClaims(claim, DEFAULT_EXPIRATION);
+    }
+
+    @Override
+    public String generateTokenFromClaims(Map claim, long expiration) throws InvalidKeyException, java.security.InvalidKeyException {
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + JWT_EXPIRATION);
+        Date expiryDate = new Date(now.getTime() + expiration);
 
         String jws = Jwts.builder()
                 .setId(IdGenerator.generate()) //jti
@@ -87,7 +93,7 @@ public class DefaultTokenProvider implements TokenProvider {
 
     @Override
     public long getExpiryDuration() {
-        return JWT_EXPIRATION;
+        return DEFAULT_EXPIRATION;
     }
 
     @Override
