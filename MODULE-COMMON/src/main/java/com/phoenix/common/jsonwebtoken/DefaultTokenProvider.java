@@ -34,6 +34,7 @@ import com.phoenix.common.jsonwebtoken.jws.Jwts;
 import com.phoenix.common.util.IdGenerator;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 public class DefaultTokenProvider implements TokenProvider {
@@ -61,6 +62,10 @@ public class DefaultTokenProvider implements TokenProvider {
     public String generateTokenFromClaims(Map claim, long expiration) throws InvalidKeyException, java.security.InvalidKeyException {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("typ", "JWT");
+        headers.put("kid", keyWrapper.getId());
 
         return Jwts.builder()
                 .setId(IdGenerator.generate()) //jti
