@@ -25,6 +25,7 @@
 package com.phoenix.config;
 
 import com.phoenix.adapter.controller.AuthControllerAdapter;
+import com.phoenix.adapter.security.AuthenticationManagerAdapter;
 import com.phoenix.adapter.security.PasswordEncoderAdapter;
 import com.phoenix.adapter.map.DomainUserMapUserEntity;
 import com.phoenix.adapter.map.Mapper;
@@ -37,14 +38,19 @@ import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.core.port.security.PasswordEncoderPort;
 import com.phoenix.infrastructure.repositories.UserRepositoryImp;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
+import org.springframework.security.authentication.AuthenticationManager;
 
 public class SpringConfiguration {
     private final UserRepositoryPort userRepositoryPort;
     private final Mapper domainUserMapUserEntity;
     private final PasswordEncoderPort passwordEncoderPort;
+    private final AuthenticationManager authenticationManager;
 
 
-    public SpringConfiguration(UserRepository userRepository, UserRepositoryImp userRepositoryImp) {
+    public SpringConfiguration(UserRepository userRepository,
+                               UserRepositoryImp userRepositoryImp,
+                               AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
         this.domainUserMapUserEntity = new DomainUserMapUserEntity();
         this.userRepositoryPort = new UserRepositoryAdapter(domainUserMapUserEntity, userRepository, userRepositoryImp);
 
@@ -69,4 +75,7 @@ public class SpringConfiguration {
         return new DefaultTokenProvider(keyProvider);
     }
 
+    public AuthenticationManagerAdapter createAuthenticationManagerAdapter() {
+        return new AuthenticationManagerAdapter(this.authenticationManager);
+    }
 }

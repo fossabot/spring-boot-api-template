@@ -25,6 +25,7 @@
 package com.phoenix.api.config;
 
 import com.phoenix.adapter.controller.AuthControllerAdapter;
+import com.phoenix.adapter.security.AuthenticationManagerAdapter;
 import com.phoenix.common.jsonwebtoken.KeyProvider;
 import com.phoenix.common.jsonwebtoken.TokenProvider;
 import com.phoenix.config.SpringConfiguration;
@@ -34,22 +35,28 @@ import com.phoenix.infrastructure.repositories.primary.UserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 
 @Configuration
 public class ApplicationConfig {
     private final SpringConfiguration configuration;
 
-    @Qualifier("UserRepository")
     private final UserRepository userRepository;
 
-    @Qualifier("UserRepositoryImp")
     private final UserRepositoryImp userRepositoryImp;
 
+    private final AuthenticationManager authenticationManager;
 
-    public ApplicationConfig(UserRepository userRepository, UserRepositoryImp userRepositoryImp) {
+
+    public ApplicationConfig(@Qualifier("UserRepository") UserRepository userRepository,
+                             @Qualifier("UserRepositoryImp") UserRepositoryImp userRepositoryImp,
+                             @Qualifier("DefaultAuthenticationManager") AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.userRepositoryImp = userRepositoryImp;
-        configuration = new SpringConfiguration(this.userRepository, this.userRepositoryImp);
+        configuration = new SpringConfiguration(this.userRepository, this.userRepositoryImp,
+                this.authenticationManager);
     }
 
     @Bean(value = "CreateUserUseCaseBean")
@@ -70,5 +77,10 @@ public class ApplicationConfig {
     @Bean(value = "TokenProvider")
     public TokenProvider tokenProvider() {
         return configuration.createTokenProvider(this.keyProvider());
+    }
+
+    @Bean(value = "AuthenticationManagerAdapter")
+    public AuthenticationManagerAdapter authenticationManagerAdapter(){
+        return configuration.createAuthenticationManagerAdapter();
     }
 }

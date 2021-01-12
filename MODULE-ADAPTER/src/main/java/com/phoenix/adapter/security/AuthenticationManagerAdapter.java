@@ -26,10 +26,19 @@
 package com.phoenix.adapter.security;
 
 import com.phoenix.core.port.security.AuthenticationManagerPort;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 
 public class AuthenticationManagerAdapter implements AuthenticationManagerPort {
+    private final AuthenticationManager authenticationManager;
+
+    public AuthenticationManagerAdapter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = authenticationManager;
+    }
+
     @Override
     public void authenticate(String username, String password) {
-
+        this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
     }
 }

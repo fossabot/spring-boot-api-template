@@ -24,33 +24,88 @@
 
 package com.phoenix.core.bussiness;
 
+import com.phoenix.common.jsonwebtoken.Scope;
 import com.phoenix.common.jsonwebtoken.TokenProvider;
 import com.phoenix.common.exception.runtime.UserValidationException;
+import com.phoenix.common.jsonwebtoken.component.Claims;
+import com.phoenix.common.jsonwebtoken.component.DefaultClaims;
+import com.phoenix.common.util.IdGenerator;
 import com.phoenix.common.validation.ValidateString;
+import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.core.port.security.AuthenticationManagerPort;
+import com.phoenix.domain.entity.User;
+import com.phoenix.domain.model.AccessToken;
 import com.phoenix.domain.payload.LoginUser;
+
+import java.util.Date;
+import java.util.Optional;
 
 public class SignInUseCase {
     private final AuthenticationManagerPort authenticationManager;
     private final TokenProvider tokenProvider;
+    private final UserRepositoryPort userRepositoryPort;
 
     public SignInUseCase(AuthenticationManagerPort authenticationManager,
-                         TokenProvider tokenProvider) {
+                         TokenProvider tokenProvider,
+                         UserRepositoryPort userRepositoryPort) {
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
+        this.userRepositoryPort = userRepositoryPort;
     }
 
-    public String execute(LoginUser user) throws Exception {
+    public String execute(LoginUser loginUser) throws Exception {
         // validate input
-        validate(user);
+        validate(loginUser);
 
-        // Xác thực user.
-        authenticationManager.authenticate(user.getUsername(), user.getPassword());
+        // Xác thực loginUser.
+        authenticationManager.authenticate(loginUser.getUsername(), loginUser.getPassword());
 
-        //Tạo token
-        String token = tokenProvider.generateToken();
+        Optional<User> optional = userRepositoryPort.findUserByEmailOrUsername(loginUser.getUsername());
 
-        return token;
+        if (optional.isPresent()) {
+            User user = optional.get();
+            long expiration = tokenProvider.getExpiryDuration();
+            Date now = new Date();
+            String accessTokenScope = Scope.ACCESS.toString();
+            String accessTokenId = IdGenerator.generate();
+
+            Claims claims = new DefaultClaims();
+
+
+            claims.setId(accessTokenId);
+            claims.setExpiration(new Date(now.getTime() + expiration));
+            claims.setIssuedAt(now);
+            claims.setSubject(String.valueOf(user.getId()));
+            claims.put("username", user.getUsername());
+            claims.put("email", user.getEmail());
+            claims.put("scope", accessTokenScope);
+
+            String accessToken = tokenProvider.generateTokenFromClaims(claims);
+
+            String refreshTokenScope = Scope.REFRESH.toString();
+            claims.setExpiration(new Date(now.getTime() + expiration * 2));
+            String refreshTokenId = IdGenerator.generate();
+            claims.put("scope", refreshTokenScope);
+            claims.setId(refreshTokenId);
+
+            String refreshToken = tokenProvider.generateTokenFromClaims(claims, expiration * 2);
+
+            AccessToken token = new AccessToken();
+
+            token.setAccessToken(accessToken);
+            token.setTokenId(accessTokenId);
+            token.setTokenType("BEARER");
+            token.setRefreshToken(refreshToken);
+            token.setNotBeforePolicy("0");
+            token.setScope(accessTokenScope);
+            token.setExpiresIn("");
+            token.setRefreshExpiresIn("");
+
+            return accessToken;
+        } else {
+
+            return null;
+        }
     }
 
     private void validate(LoginUser user) {
@@ -61,4 +116,5 @@ public class SignInUseCase {
         if (!ValidateString.isNullOrNotBlank(user.getEmail()))
             throw new UserValidationException("Email can be null but not blank.");
     }
+
 }

@@ -63,8 +63,8 @@ public class UserRepositoryAdapter implements UserRepositoryPort {
     }
 
     @Override
-    public Optional<User> findUserByEmail(String email) {
-        return Optional.empty();
+    public Optional<User> findUserByEmailOrUsername(String email) {
+        return Optional.ofNullable(userRepositoryImp.findUserByEmailOrUsername(email));
     }
 
     @Override

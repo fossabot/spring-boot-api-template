@@ -38,6 +38,14 @@
             <artifactId>MODULE-INFRASTRUCTURE</artifactId>
             <version>0.0.0</version>
         </dependency><!-- =========== module =========== -->
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.4.2</version>
+            <scope>compile</scope>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

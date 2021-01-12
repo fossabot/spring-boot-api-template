@@ -20,51 +20,12 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.core.port.repositories;
+package com.phoenix.common.jsonwebtoken;
 
-
-import com.phoenix.domain.entity.User;
-
-import java.util.Optional;
-
-public interface UserRepositoryPort {
-
-    /**
-     * Save User to database, just insert to user table (without user_role table)
-     *
-     * @param user :
-     * @return Optional of UserDB
-     */
-    public Optional save(User user);
-
-
-    /**
-     * @param email:
-     * @return Optional of UserDB
-     */
-    public Optional findByEmail(String email);
-
-
-    /**
-     * @param username:
-     * @return Optional of UserDB
-     */
-    public Optional findByUsername(String username);
-
-
-    /**
-     * @param email:
-     * @return Optional of Domain User
-     */
-    public Optional<User> findUserByEmailOrUsername(String email);
-
-
-    /**
-     * create a new user. insert to 2 table: user + user_role
-     * @param user:
-     * @return
-     */
-    public Optional<User> createUser(User user);
+public enum Scope {
+    ACCESS,
+    REFRESH
 }
