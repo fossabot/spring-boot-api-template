@@ -39,8 +39,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
 @Log4j
+@Service(value = "DefaultUserDetailsService")
 public class DefaultUserDetailsService implements UserDetailsService {
     private final UserRepositoryImp userRepositoryImp;
 

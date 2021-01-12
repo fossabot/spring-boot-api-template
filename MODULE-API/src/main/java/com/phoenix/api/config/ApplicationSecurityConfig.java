@@ -28,6 +28,7 @@ package com.phoenix.api.config;
 import com.phoenix.api.filter.JwtAuthenticationFilter;
 import com.phoenix.api.security.DefaultBcryptPasswordEncoder;
 import com.phoenix.api.security.JwtAuthenticationEntryPoint;
+import com.phoenix.common.jsonwebtoken.TokenProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,6 +37,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -50,14 +52,21 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         prePostEnabled = true)
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final TokenProvider tokenProvider;
+    private final UserDetailsService userDetailsService;
 
-    public ApplicationSecurityConfig(@Qualifier("JwtAuthenticationEntryPoint") JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint) {
+    public ApplicationSecurityConfig(
+            @Qualifier("JwtAuthenticationEntryPoint") JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+            @Qualifier(value = "TokenProvider") TokenProvider tokenProvider,
+            @Qualifier("DefaultUserDetailsService") UserDetailsService userDetailsService) {
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.tokenProvider = tokenProvider;
+        this.userDetailsService = userDetailsService;
     }
 
     @Bean(name = "JwtAuthenticationFilter")
-    public JwtAuthenticationFilter jwtAuthenticationFilter(){
-        return new JwtAuthenticationFilter();
+    public JwtAuthenticationFilter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(tokenProvider, userDetailsService);
     }
 
     @Bean(name = "PasswordEncoder")

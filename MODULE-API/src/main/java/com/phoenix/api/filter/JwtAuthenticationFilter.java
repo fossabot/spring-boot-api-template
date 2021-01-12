@@ -25,7 +25,16 @@
 
 package com.phoenix.api.filter;
 
+import com.phoenix.common.jsonwebtoken.TokenProvider;
+import com.phoenix.common.jsonwebtoken.component.Claims;
+import com.phoenix.common.lang.Strings;
 import lombok.extern.log4j.Log4j;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -36,6 +45,15 @@ import java.io.IOException;
 
 @Log4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
+    private final TokenProvider tokenProvider;
+    private final UserDetailsService userDetailsService;
+
+    public JwtAuthenticationFilter(TokenProvider tokenProvider, UserDetailsService userDetailsService) {
+        this.tokenProvider = tokenProvider;
+        this.userDetailsService = userDetailsService;
+    }
+
     /**
      * Filter the incoming request for a valid token in the request header
      */
@@ -44,6 +62,38 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException {
         log.info("Filter the incoming request for a valid token in the request header");
+
+        //0. get token from request
+        String jwt = getTokenFromRequest(httpServletRequest);
+
+        if (Strings.hasLength(jwt) && tokenProvider.validateToken(jwt)) {
+            String username = getUsernameFromToken(jwt);
+
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+
+            UsernamePasswordAuthenticationToken authenticationToken
+                    = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        }
+
         filterChain.doFilter(httpServletRequest, httpServletResponse);
+    }
+
+    private String getTokenFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+
+        if (Strings.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+
+        return bearerToken;
+    }
+
+    private String getUsernameFromToken(String token) {
+        Claims claims = tokenProvider.getClaimsFromToken(token);
+
+        return (String) claims.get("username");
+
     }
 }
