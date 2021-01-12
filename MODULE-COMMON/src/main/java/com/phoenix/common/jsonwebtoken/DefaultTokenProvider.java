@@ -39,7 +39,7 @@ import java.util.Map;
 public class DefaultTokenProvider implements TokenProvider {
 
     private final KeyWrapper keyWrapper;
-    private long DEFAULT_EXPIRATION = 604800000L;
+    private final long DEFAULT_EXPIRATION = 604800000L;
 
     public DefaultTokenProvider(KeyProvider keyProvider) {
         this.keyWrapper = keyProvider.getKeyWrapper();
@@ -62,7 +62,7 @@ public class DefaultTokenProvider implements TokenProvider {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + expiration);
 
-        String jws = Jwts.builder()
+        return Jwts.builder()
                 .setId(IdGenerator.generate()) //jti
                 .setExpiration(expiryDate) //set ngày hết hạn token
                 .setIssuedAt(now) // set thời gian tạo token
@@ -70,7 +70,6 @@ public class DefaultTokenProvider implements TokenProvider {
                 .signWith(keyWrapper.getKey(), SignatureAlgorithm.HS256) //Kí với key và thuật toán HS256
                 .compact();
 
-        return jws;
     }
 
     @Override

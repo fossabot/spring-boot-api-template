@@ -25,25 +25,26 @@
 package com.phoenix.adapter.controller;
 
 import com.phoenix.adapter.map.RegisterUserMapUser;
-import com.phoenix.core.bussiness.CreateUserUseCase;
+import com.phoenix.core.bussiness.SignUpUseCase;
 import com.phoenix.domain.entity.User;
+import com.phoenix.domain.model.AccessToken;
 import com.phoenix.domain.payload.RegisterUser;
 import com.phoenix.domain.response.ApiResponse;
 import com.phoenix.domain.response.HttpStatus;
 import com.phoenix.domain.response.ResponseType;
 
 public class AuthControllerAdapter {
-    private final CreateUserUseCase createUserUseCase;
+    private final SignUpUseCase signUpUseCase;
 
-    public AuthControllerAdapter(CreateUserUseCase createUserUseCase) {
-        this.createUserUseCase = createUserUseCase;
+    public AuthControllerAdapter(SignUpUseCase signUpUseCase) {
+        this.signUpUseCase = signUpUseCase;
     }
 
     public ApiResponse createUser(RegisterUser registerUser) {
         try {
             RegisterUserMapUser mapping = new RegisterUserMapUser();
 
-            User domainUser = createUserUseCase.execute(mapping.convert(registerUser));
+            User domainUser = signUpUseCase.execute(mapping.convert(registerUser));
 
 
             ApiResponse<User> userApiResponse = new ApiResponse<User>(
@@ -61,5 +62,7 @@ public class AuthControllerAdapter {
         }
     }
 
-
+    public ApiResponse<AccessToken> login(){
+        return null;
+    }
 }

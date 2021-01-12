@@ -25,18 +25,17 @@
 package com.phoenix.config;
 
 import com.phoenix.adapter.controller.AuthControllerAdapter;
-import com.phoenix.adapter.encrypt.PasswordEncoderAdapter;
+import com.phoenix.adapter.security.PasswordEncoderAdapter;
 import com.phoenix.adapter.map.DomainUserMapUserEntity;
 import com.phoenix.adapter.map.Mapper;
 import com.phoenix.adapter.repository.UserRepositoryAdapter;
 import com.phoenix.common.jsonwebtoken.DefaultTokenProvider;
 import com.phoenix.common.jsonwebtoken.KeyProvider;
 import com.phoenix.common.jsonwebtoken.TokenProvider;
-import com.phoenix.core.bussiness.CreateUserUseCase;
+import com.phoenix.core.bussiness.SignUpUseCase;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.core.port.security.PasswordEncoderPort;
 import com.phoenix.infrastructure.repositories.UserRepositoryImp;
-import com.phoenix.infrastructure.repositories.primary.RoleRepository;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
 
 public class SpringConfiguration {
@@ -54,8 +53,8 @@ public class SpringConfiguration {
         System.out.println("-------------------------------------------------------------");
     }
 
-    public CreateUserUseCase createUserUseCase() {
-        return new CreateUserUseCase(this.userRepositoryPort, this.passwordEncoderPort);
+    public SignUpUseCase createUserUseCase() {
+        return new SignUpUseCase(this.userRepositoryPort, this.passwordEncoderPort);
     }
 
     public AuthControllerAdapter authControllerAdapter() {

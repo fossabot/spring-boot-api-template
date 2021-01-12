@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package com.phoenix.adapter.encrypt;
+package com.phoenix.adapter.security;
 
 import com.phoenix.common.crypto.BCryptPasswordEncoder;
 import com.phoenix.core.port.security.PasswordEncoderPort;

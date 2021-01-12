@@ -38,12 +38,12 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class CreateUserUseCase {
+public class SignUpUseCase {
 
     private final UserRepositoryPort userRepository;
     private final PasswordEncoderPort passwordEncoder;
 
-    public CreateUserUseCase(UserRepositoryPort userRepository, PasswordEncoderPort passwordEncoder) {
+    public SignUpUseCase(UserRepositoryPort userRepository, PasswordEncoderPort passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -60,7 +60,7 @@ public class CreateUserUseCase {
         validate(user);
 
         //1. Chuẩn hóa lại thông tin user
-        user = updateUser(user);
+        user = normalizeUser(user);
 
         //2. Mã hóa mật khẩu
         String password = passwordEncoder.encode(user.getPassword());
@@ -98,7 +98,7 @@ public class CreateUserUseCase {
     }
 
 
-    private User updateUser(User user) {
+    private User normalizeUser(User user) {
         if (user.getUsername() == null) {
             String username = user.getEmail().split("@")[0];
             user.setUsername(username);

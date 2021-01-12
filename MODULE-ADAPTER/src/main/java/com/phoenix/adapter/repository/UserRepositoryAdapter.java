@@ -29,7 +29,6 @@ import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.domain.entity.User;
 import com.phoenix.infrastructure.entities.primary.UserEntity;
 import com.phoenix.infrastructure.repositories.UserRepositoryImp;
-import com.phoenix.infrastructure.repositories.primary.RoleRepository;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
 
 import java.util.Optional;

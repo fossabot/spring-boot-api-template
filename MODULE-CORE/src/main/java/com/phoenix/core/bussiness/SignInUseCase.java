@@ -30,12 +30,12 @@ import com.phoenix.common.validation.ValidateString;
 import com.phoenix.core.port.security.AuthenticationManagerPort;
 import com.phoenix.domain.payload.LoginUser;
 
-public class LoginUseCase {
+public class SignInUseCase {
     private final AuthenticationManagerPort authenticationManager;
     private final TokenProvider tokenProvider;
 
-    public LoginUseCase(AuthenticationManagerPort authenticationManager,
-                        TokenProvider tokenProvider) {
+    public SignInUseCase(AuthenticationManagerPort authenticationManager,
+                         TokenProvider tokenProvider) {
         this.authenticationManager = authenticationManager;
         this.tokenProvider = tokenProvider;
     }

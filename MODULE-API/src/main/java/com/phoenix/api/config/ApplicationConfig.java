@@ -28,9 +28,8 @@ import com.phoenix.adapter.controller.AuthControllerAdapter;
 import com.phoenix.common.jsonwebtoken.KeyProvider;
 import com.phoenix.common.jsonwebtoken.TokenProvider;
 import com.phoenix.config.SpringConfiguration;
-import com.phoenix.core.bussiness.CreateUserUseCase;
+import com.phoenix.core.bussiness.SignUpUseCase;
 import com.phoenix.infrastructure.repositories.UserRepositoryImp;
-import com.phoenix.infrastructure.repositories.primary.RoleRepository;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -54,7 +53,7 @@ public class ApplicationConfig {
     }
 
     @Bean(value = "CreateUserUseCaseBean")
-    public CreateUserUseCase createUserUseCase() {
+    public SignUpUseCase createUserUseCase() {
         return configuration.createUserUseCase();
     }
 

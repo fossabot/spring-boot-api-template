@@ -23,7 +23,13 @@
  *
  */
 
-package com.phoenix.adapter.controller;
+package com.phoenix.adapter.security;
 
-public interface AuthController {
+import com.phoenix.core.port.security.AuthenticationManagerPort;
+
+public class AuthenticationManagerAdapter implements AuthenticationManagerPort {
+    @Override
+    public void authenticate(String username, String password) {
+
+    }
 }
