@@ -35,8 +35,8 @@ import com.phoenix.infrastructure.repositories.primary.UserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 
 @Configuration
 public class ApplicationConfig {
@@ -51,7 +51,7 @@ public class ApplicationConfig {
 
     public ApplicationConfig(@Qualifier("UserRepository") UserRepository userRepository,
                              @Qualifier("UserRepositoryImp") UserRepositoryImp userRepositoryImp,
-                             @Qualifier("DefaultAuthenticationManager") AuthenticationManager authenticationManager) {
+                             @Qualifier("DefaultAuthenticationManager") @Lazy AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.userRepositoryImp = userRepositoryImp;
@@ -61,7 +61,7 @@ public class ApplicationConfig {
 
     @Bean(value = "CreateUserUseCaseBean")
     public SignUpUseCase createUserUseCase() {
-        return configuration.createUserUseCase();
+        return configuration.signUpUseCase();
     }
 
     @Bean(value = "AuthControllerAdapterBean")
@@ -76,7 +76,7 @@ public class ApplicationConfig {
 
     @Bean(value = "TokenProvider")
     public TokenProvider tokenProvider() {
-        return configuration.createTokenProvider(this.keyProvider());
+        return configuration.createTokenProvider();
     }
 
     @Bean(value = "AuthenticationManagerAdapter")

@@ -25,9 +25,11 @@
 package com.phoenix.adapter.controller;
 
 import com.phoenix.adapter.map.RegisterUserMapUser;
+import com.phoenix.core.bussiness.SignInUseCase;
 import com.phoenix.core.bussiness.SignUpUseCase;
 import com.phoenix.domain.entity.User;
 import com.phoenix.domain.model.AccessToken;
+import com.phoenix.domain.payload.LoginUser;
 import com.phoenix.domain.payload.RegisterUser;
 import com.phoenix.domain.response.ApiResponse;
 import com.phoenix.domain.response.HttpStatus;
@@ -35,12 +37,14 @@ import com.phoenix.domain.response.ResponseType;
 
 public class AuthControllerAdapter {
     private final SignUpUseCase signUpUseCase;
+    private final SignInUseCase signInUseCase;
 
-    public AuthControllerAdapter(SignUpUseCase signUpUseCase) {
+    public AuthControllerAdapter(SignUpUseCase signUpUseCase, SignInUseCase signInUseCase) {
         this.signUpUseCase = signUpUseCase;
+        this.signInUseCase = signInUseCase;
     }
 
-    public ApiResponse createUser(RegisterUser registerUser) {
+    public ApiResponse signUp(RegisterUser registerUser) {
         try {
             RegisterUserMapUser mapping = new RegisterUserMapUser();
 
@@ -62,7 +66,23 @@ public class AuthControllerAdapter {
         }
     }
 
-    public ApiResponse<AccessToken> login(){
-        return null;
+    public ApiResponse signIn(LoginUser user) {
+        try {
+            AccessToken accessToken = this.signInUseCase.execute(user);
+
+            ApiResponse<AccessToken> apiResponse = new ApiResponse<AccessToken>(
+                    String.valueOf(HttpStatus.CREATED.value()),
+                    ResponseType.INFO, accessToken,
+                    "Enums.Message.RESOURCE_CREATED.value()");
+
+            return apiResponse;
+        } catch (Exception e) {
+            e.printStackTrace();
+            ApiResponse<Exception> exceptionApiResponse = new ApiResponse<>(
+                    String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
+                    ResponseType.EXCEPTION, null,
+                    e.getMessage());
+            return exceptionApiResponse;
+        }
     }
 }

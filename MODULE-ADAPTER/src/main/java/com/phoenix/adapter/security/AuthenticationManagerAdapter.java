@@ -26,6 +26,7 @@
 package com.phoenix.adapter.security;
 
 import com.phoenix.core.port.security.AuthenticationManagerPort;
+import com.phoenix.core.port.security.PasswordEncoderPort;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 

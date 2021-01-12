@@ -29,6 +29,7 @@ import com.phoenix.common.jsonwebtoken.TokenProvider;
 import com.phoenix.common.exception.runtime.UserValidationException;
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.jsonwebtoken.component.DefaultClaims;
+import com.phoenix.common.lang.Strings;
 import com.phoenix.common.util.IdGenerator;
 import com.phoenix.common.validation.ValidateString;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
@@ -53,7 +54,7 @@ public class SignInUseCase {
         this.userRepositoryPort = userRepositoryPort;
     }
 
-    public String execute(LoginUser loginUser) throws Exception {
+    public AccessToken execute(LoginUser loginUser) throws Exception {
         // validate input
         validate(loginUser);
 
@@ -101,7 +102,7 @@ public class SignInUseCase {
             token.setExpiresIn("");
             token.setRefreshExpiresIn("");
 
-            return accessToken;
+            return token;
         } else {
 
             return null;
@@ -111,10 +112,12 @@ public class SignInUseCase {
     private void validate(LoginUser user) {
         if (user == null)
             throw new UserValidationException("User should not be null");
-        if (ValidateString.isBlankOrNull(user.getEmail()))
-            throw new UserValidationException("Email should not be null.");
+        if (!ValidateString.isNullOrNotBlank(user.getUsername()))
+            throw new UserValidationException("Username can be null but not blank.");
         if (!ValidateString.isNullOrNotBlank(user.getEmail()))
             throw new UserValidationException("Email can be null but not blank.");
+        if(!Strings.hasLength(user.getEmail()) && !Strings.hasLength(user.getUsername()))
+            throw new UserValidationException("Username and email must not be concurrently empty.");
     }
 
 }

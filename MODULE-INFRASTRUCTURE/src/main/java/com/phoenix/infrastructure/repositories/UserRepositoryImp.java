@@ -122,7 +122,7 @@ public class UserRepositoryImp {
      * and (u.USERNAME = ? or u.EMAIL = ?)
      */
     public User findUserByEmailOrUsername(String s) {
-        String sql = "select u.id, u.USERNAME, u.EMAIL, u.PASSWORD, u.FIRST_NAME, u.LAST_NAME, GROUP_CONCAT(r.NAME) roles from user u, role r, user_role ur where u.id = ur.USER_ID and r.id = ur.ROLE_ID and (u.USERNAME = ? or u.EMAIL = ?);";
+        String sql = "select u.id, u.USERNAME, u.EMAIL, u.PASSWORD, u.FIRST_NAME, u.LAST_NAME, GROUP_CONCAT(r.NAME) roles from user u, role r, user_role ur where u.id = ur.USER_ID and r.id = ur.ROLE_ID and (u.USERNAME = ? or u.EMAIL = ?)";
 
         Query query = this.entityManager.createNativeQuery(sql);
 
@@ -139,17 +139,18 @@ public class UserRepositoryImp {
             userBuilder
                     .withId(Long.parseLong(record[0].toString()))
                     .withUsername(record[1].toString())
-                    .withEmail(record[2].toString());
+                    .withEmail(record[2].toString())
+                    .withPassword(record[3].toString());
 
-            if (record[3] != null) {
+            if (record[4] != null) {
                 userBuilder.withFirstName(record[3].toString());
             }
 
-            if (record[4] != null) {
+            if (record[5] != null) {
                 userBuilder.withLastName(record[4].toString());
             }
 
-            String[] tmp = record[5].toString().split(",");
+            String[] tmp = record[6].toString().split(",");
             roles.addAll(Arrays.asList(tmp));
 
             userBuilder.withRoles(roles);

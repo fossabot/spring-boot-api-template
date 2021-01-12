@@ -33,6 +33,7 @@ import com.phoenix.adapter.repository.UserRepositoryAdapter;
 import com.phoenix.common.jsonwebtoken.DefaultTokenProvider;
 import com.phoenix.common.jsonwebtoken.KeyProvider;
 import com.phoenix.common.jsonwebtoken.TokenProvider;
+import com.phoenix.core.bussiness.SignInUseCase;
 import com.phoenix.core.bussiness.SignUpUseCase;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.core.port.security.PasswordEncoderPort;
@@ -44,38 +45,45 @@ public class SpringConfiguration {
     private final UserRepositoryPort userRepositoryPort;
     private final Mapper domainUserMapUserEntity;
     private final PasswordEncoderPort passwordEncoderPort;
-    private final AuthenticationManager authenticationManager;
+    private final KeyProvider keyProvider;
+    private final AuthenticationManagerAdapter authenticationManager;
 
 
     public SpringConfiguration(UserRepository userRepository,
                                UserRepositoryImp userRepositoryImp,
                                AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
+        this.passwordEncoderPort = new PasswordEncoderAdapter();
+        this.keyProvider = new KeyProvider();
+
+        this.authenticationManager = new AuthenticationManagerAdapter(authenticationManager);
         this.domainUserMapUserEntity = new DomainUserMapUserEntity();
         this.userRepositoryPort = new UserRepositoryAdapter(domainUserMapUserEntity, userRepository, userRepositoryImp);
 
-        this.passwordEncoderPort = new PasswordEncoderAdapter();
 
         System.out.println("-------------------------------------------------------------");
     }
 
-    public SignUpUseCase createUserUseCase() {
+    public SignUpUseCase signUpUseCase() {
         return new SignUpUseCase(this.userRepositoryPort, this.passwordEncoderPort);
     }
 
     public AuthControllerAdapter authControllerAdapter() {
-        return new AuthControllerAdapter(this.createUserUseCase());
+        return new AuthControllerAdapter(this.signUpUseCase(), this.signInUseCase());
     }
 
     public KeyProvider createKeyProvider() {
-        return new KeyProvider();
+        return this.keyProvider;
     }
 
-    public TokenProvider createTokenProvider(KeyProvider keyProvider) {
-        return new DefaultTokenProvider(keyProvider);
+    public TokenProvider createTokenProvider() {
+        return new DefaultTokenProvider(this.keyProvider);
     }
 
     public AuthenticationManagerAdapter createAuthenticationManagerAdapter() {
-        return new AuthenticationManagerAdapter(this.authenticationManager);
+        return this.authenticationManager;
+    }
+
+    public SignInUseCase signInUseCase() {
+        return new SignInUseCase(this.authenticationManager, this.createTokenProvider(), this.userRepositoryPort);
     }
 }
