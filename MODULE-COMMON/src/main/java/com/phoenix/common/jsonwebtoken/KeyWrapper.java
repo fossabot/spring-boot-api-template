@@ -25,9 +25,10 @@
 
 package com.phoenix.common.jsonwebtoken;
 
+import java.io.Serializable;
 import java.security.Key;
 
-public class KeyWrapper {
+public class KeyWrapper implements Serializable {
     private String encoded;
     private Key key;
     private String id;
@@ -63,5 +64,29 @@ public class KeyWrapper {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof KeyWrapper)) return false;
+
+        KeyWrapper wrapper = (KeyWrapper) o;
+
+        return getId().equals(wrapper.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getId().hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "KeyWrapper{" +
+                "encoded='" + encoded + '\'' +
+                ", key=" + key +
+                ", id='" + id + '\'' +
+                '}';
     }
 }

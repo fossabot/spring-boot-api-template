@@ -51,11 +51,11 @@ public class DefaultUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<User> optional = Optional.ofNullable(userRepositoryImp.findUserByEmailOrUsername(email));
-        log.info("Fetched user : " + optional + " by " + email);
+        log.info("Fetched user by " + email);
 
         return optional.map(DefaultUserDetails::new)
                 .orElseThrow(() ->
-                        new UsernameNotFoundException("Couldn't find a matching user email in the database for " + email)
+                        new UsernameNotFoundException("Couldn't find a matching user email/username in the database for " + email)
                 );
     }
 }

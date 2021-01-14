@@ -20,35 +20,11 @@
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
+ *
  */
 
-package com.phoenix.common.validation;
+package com.phoenix.api.config;
 
-/**
- * Các hàm để validate chuỗi.
- */
-public class ValidateString {
-
-    /**
-     * @param str: chuỗi cần kiểm tra
-     * @return: true if the string is empty or contains only white space codepoints or null, otherwise false
-     */
-    public static boolean isBlankOrNull(String str) {
-        if(str == null){
-            return true;
-        }
-        return str.isBlank();
-    }
-
-    /**
-     * @param s : chuỗi cần kiểm tra
-     * @return true nếu chuỗi s là null hoặc không blank. Còn lại trả về false
-     */
-    public static boolean isNullOrNotBlank(String s) {
-        if (s == null) {
-            return true;
-        }
-
-        return !s.isBlank();
-    }
+public abstract class ApplicationConstant {
+    public static final String KEY_FILE = "key.dat";
 }

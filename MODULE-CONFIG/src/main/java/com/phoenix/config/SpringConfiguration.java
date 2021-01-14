@@ -41,6 +41,9 @@ import com.phoenix.infrastructure.repositories.UserRepositoryImp;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * File cấu hình để chỉ ra mối liên hệ giữa các đối tượng
  * map các port và adapter lại với nhau tại đây.
@@ -54,9 +57,11 @@ public class SpringConfiguration {
 
     public SpringConfiguration(UserRepository userRepository,
                                UserRepositoryImp userRepositoryImp,
-                               AuthenticationManager authenticationManager) {
+                               AuthenticationManager authenticationManager,
+                               File keyFile
+                               ) throws IOException, ClassNotFoundException {
         this.passwordEncoderPort = new PasswordEncoderAdapter();
-        this.keyProvider = new KeyProvider();
+        this.keyProvider = new KeyProvider(keyFile);
 
         this.authenticationManager = new AuthenticationManagerAdapter(authenticationManager);
         Mapper domainUserMapUserEntity = new DomainUserMapUserEntity();

@@ -27,7 +27,7 @@ package com.phoenix.core.bussiness;
 import com.phoenix.common.exception.runtime.EmailValidationException;
 import com.phoenix.common.exception.runtime.UserAlreadyExistsException;
 import com.phoenix.common.exception.runtime.UserValidationException;
-import com.phoenix.common.validation.ValidateString;
+import com.phoenix.common.lang.Strings;
 import com.phoenix.common.validation.Validation;
 import com.phoenix.core.port.repositories.UserRepositoryPort;
 import com.phoenix.core.port.security.PasswordEncoderPort;
@@ -85,11 +85,11 @@ public class SignUpUseCase {
             throw new UserValidationException("User should not be null");
         if (user.getUsername() != null && !Validation.isValidUsername(user.getUsername()))
             throw new UserValidationException(user.getUsername() + " is invalid.");
-        if (ValidateString.isBlankOrNull(user.getEmail()))
+        if (Strings.isBlankOrNull(user.getEmail()))
             throw new UserValidationException("Email should not be null.");
         if (!Validation.isValidEmail(user.getEmail()))
             throw new EmailValidationException(user.getEmail() + " is invalid.");
-        if (!ValidateString.isNullOrNotBlank(user.getEmail()))
+        if (!Strings.isNullOrNotBlank(user.getEmail()))
             throw new UserValidationException("Email can be null but not blank.");
         if (userRepository.findByEmail(user.getEmail()).isPresent())
             throw new UserAlreadyExistsException(user.getEmail() + " is already exist.");

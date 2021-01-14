@@ -36,32 +36,28 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
+
+import java.io.File;
+import java.io.IOException;
 
 @Configuration
 public class ApplicationConfig {
     private final SpringConfiguration configuration;
 
-    private final UserRepository userRepository;
-
-    private final UserRepositoryImp userRepositoryImp;
-
-    private final AuthenticationManager authenticationManager;
-
 
     public ApplicationConfig(@Qualifier("UserRepository") UserRepository userRepository,
                              @Qualifier("UserRepositoryImp") UserRepositoryImp userRepositoryImp,
-                             @Qualifier("DefaultAuthenticationManager") @Lazy AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.userRepositoryImp = userRepositoryImp;
-        configuration = new SpringConfiguration(this.userRepository, this.userRepositoryImp,
-                this.authenticationManager);
-    }
+                             @Qualifier("DefaultAuthenticationManager") @Lazy AuthenticationManager authenticationManager
+    ) throws IOException, ClassNotFoundException {
+        File file = new ClassPathResource(ApplicationConstant.KEY_FILE).getFile();
 
-    @Bean(value = "CreateUserUseCaseBean")
-    public SignUpUseCase createUserUseCase() {
-        return configuration.signUpUseCase();
+        configuration = new SpringConfiguration(
+                userRepository,
+                userRepositoryImp,
+                authenticationManager,
+                file);
     }
 
     @Bean(value = "AuthControllerAdapterBean")
@@ -80,7 +76,7 @@ public class ApplicationConfig {
     }
 
     @Bean(value = "AuthenticationManagerAdapter")
-    public AuthenticationManagerAdapter authenticationManagerAdapter(){
+    public AuthenticationManagerAdapter authenticationManagerAdapter() {
         return configuration.createAuthenticationManagerAdapter();
     }
 }

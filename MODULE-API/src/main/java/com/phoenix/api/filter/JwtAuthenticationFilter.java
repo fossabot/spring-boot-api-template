@@ -27,6 +27,7 @@ package com.phoenix.api.filter;
 
 import com.phoenix.api.Application;
 import com.phoenix.api.config.ApplicationUrls;
+import com.phoenix.common.jsonwebtoken.Scope;
 import com.phoenix.common.jsonwebtoken.TokenProvider;
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.lang.Strings;
@@ -44,6 +45,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 @Log4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -58,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        if(request.getRequestURI().contains(ApplicationUrls.AUTH_PREFIX))
+        if (request.getRequestURI().contains(ApplicationUrls.AUTH_PREFIX))
             return true;
         return false;
     }
@@ -72,20 +76,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         String path = httpServletRequest.getRequestURI();
         String ip = httpServletRequest.getRemoteAddr();
-        log.info(String.format("Incoming request to URI: %s from IP: %s",path,ip));
+        log.info(String.format("Incoming request to URI: %s from IP: %s", path, ip));
 
         //0. get token from request
         String jwt = getTokenFromRequest(httpServletRequest);
 
         if (Strings.hasLength(jwt) && tokenProvider.validateToken(jwt)) {
-            String username = getUsernameFromToken(jwt);
+            Set<String> scope = getScopeFromToken(jwt);
+            if (scope.contains(Scope.ACCESS.toString())) {
+                String username = getUsernameFromToken(jwt);
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-            UsernamePasswordAuthenticationToken authenticationToken
-                    = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                UsernamePasswordAuthenticationToken authenticationToken
+                        = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
-            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            } else {
+                log.error("This is not a access token");
+            }
         } else {
             log.error("Failed to set user authentication in security context: ");
         }
@@ -108,5 +117,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         return (String) claims.get("username");
 
+    }
+
+    private Set<String> getScopeFromToken(String token) {
+        Claims claims = tokenProvider.getClaimsFromToken(token);
+        Set<String> scope = new HashSet<>();
+
+        String stringScope = (String) claims.get("scope");
+
+        scope.addAll(Arrays.asList(stringScope.split(" ")));
+
+        return scope;
     }
 }

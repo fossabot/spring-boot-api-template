@@ -30,25 +30,44 @@ import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.util.Base64;
 
 import javax.crypto.SecretKey;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.Objects;
 
 public final class KeyProvider {
     private final KeyWrapper keyWrapper;
 
-    public KeyProvider() {
-        SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    public KeyProvider(File keyFile) throws IOException, ClassNotFoundException {
+        if (keyFile.length() <= 0) {
+            SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+            String secretString = Base64.encodeBytes(key.getEncoded());
+            String keyId = Keys.createKeyId(key);
+            keyWrapper = new KeyWrapper(secretString, key, keyId);
 
-        String secretString = Base64.encodeBytes(key.getEncoded());
-        String keyId = Keys.createKeyId(key);
-
-        keyWrapper = new KeyWrapper(secretString, key, keyId);
+            saveKey(keyFile);
+        } else {
+            keyWrapper = (KeyWrapper) loadKey(keyFile);
+        }
     }
 
     public KeyWrapper getKeyWrapper() {
         return keyWrapper;
+    }
+
+    private void saveKey(File file) throws IOException {
+        FileOutputStream fileOut = new FileOutputStream(file);
+        ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+        objectOut.writeObject(this.keyWrapper);
+        objectOut.close();
+        System.out.println("The Object  was succesfully written to a file");
+    }
+
+    private Object loadKey(File file) throws IOException, ClassNotFoundException {
+        FileInputStream fileIn = new FileInputStream(file);
+        ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+        Object obj = objectIn.readObject();
+        System.out.println("The Object has been read from the file");
+        objectIn.close();
+        return obj;
     }
 
 }

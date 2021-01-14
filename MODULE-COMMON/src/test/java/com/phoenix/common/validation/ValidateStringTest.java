@@ -24,24 +24,25 @@
 
 package com.phoenix.common.validation;
 
+import com.phoenix.common.lang.Strings;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class ValidateStringTest {
     @Test
     public void testIsBlank(){
-        Assert.assertTrue(ValidateString.isBlankOrNull(""));
-        Assert.assertFalse(ValidateString.isBlankOrNull("abc"));
-        Assert.assertFalse(ValidateString.isBlankOrNull("abc cdf"));
-        Assert.assertFalse(ValidateString.isBlankOrNull("     cdf"));
+        Assert.assertTrue(Strings.isBlankOrNull(""));
+        Assert.assertFalse(Strings.isBlankOrNull("abc"));
+        Assert.assertFalse(Strings.isBlankOrNull("abc cdf"));
+        Assert.assertFalse(Strings.isBlankOrNull("     cdf"));
     }
 
     @Test
     public void testIsNullOrNotBlank(){
-        Assert.assertFalse(ValidateString.isNullOrNotBlank(""));
-        Assert.assertTrue(ValidateString.isNullOrNotBlank("abc"));
-        Assert.assertTrue(ValidateString.isNullOrNotBlank("abc cdf"));
-        Assert.assertTrue(ValidateString.isNullOrNotBlank("     cdf"));
-        Assert.assertTrue(ValidateString.isNullOrNotBlank(null));
+        Assert.assertFalse(Strings.isNullOrNotBlank(""));
+        Assert.assertTrue(Strings.isNullOrNotBlank("abc"));
+        Assert.assertTrue(Strings.isNullOrNotBlank("abc cdf"));
+        Assert.assertTrue(Strings.isNullOrNotBlank("     cdf"));
+        Assert.assertTrue(Strings.isNullOrNotBlank(null));
     }
 }

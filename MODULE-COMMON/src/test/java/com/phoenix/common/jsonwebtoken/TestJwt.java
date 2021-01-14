@@ -39,7 +39,7 @@ import org.junit.Test;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
+import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.HashMap;
@@ -136,23 +136,47 @@ public class TestJwt {
     }
 
     @Test
-    public void testTranslateKey() throws NoSuchAlgorithmException, IOException {
+    public void testSaveKey() {
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
 
-        // get base64 encoded version of the key
-        String encodedKey = java.util.Base64.getEncoder().encodeToString(key.getEncoded());
-        String encoded =  Base64.encodeBytes(key.getEncoded());
+        String secretString = Base64.encodeBytes(key.getEncoded());
+        String keyId = Keys.createKeyId(key);
 
-        // decode the base64 encoded string
-        byte[] decodedKey = java.util.Base64.getDecoder().decode(encodedKey);
-        byte[] decoded = Base64.decode(encoded);
+        KeyWrapper keyWrapper = new KeyWrapper(secretString, key, keyId);
 
-        SecretKey originalKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "HS512");
+        writeObjectToFile(keyWrapper);
+        KeyWrapper wrapper = (KeyWrapper) readObjectFromFile("J:\\spring-boot-api-template\\MODULE-COMMON\\src\\main\\resources\\test.dat");
 
-        Assert.assertEquals(encodedKey,encoded);
-//        Assert.assertEquals(decodedKey,decoded);
-        Assert.assertEquals(key,originalKey);
+        System.out.println(keyWrapper);
+        System.out.println(wrapper);
+        System.out.println(keyWrapper.equals(wrapper));
+    }
 
+    private void writeObjectToFile(Object serObj) {
+        try {
+            FileOutputStream fileOut = new FileOutputStream("J:\\spring-boot-api-template\\MODULE-COMMON\\src\\main\\resources\\test.dat");
+            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
+            objectOut.writeObject(serObj);
+            objectOut.close();
+            System.out.println("The Object  was succesfully written to a file");
 
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public Object readObjectFromFile(String filepath) {
+        try {
+            FileInputStream fileIn = new FileInputStream(filepath);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+            Object obj = objectIn.readObject();
+            System.out.println("The Object has been read from the file");
+            objectIn.close();
+            return obj;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 }
