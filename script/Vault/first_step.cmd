@@ -1,0 +1,3 @@
+set VAULT_ADDR=http://127.0.0.1:8200
+set VAULT_DEV+ROOT_TOKEN_ID=s.qncAfhUhLSc9wDGI3bcU2FBw
+

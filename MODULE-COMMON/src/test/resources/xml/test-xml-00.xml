@@ -1,0 +1,19 @@
+<?xml version = "1.0"?>
+<config id="hikariConfig">
+    <property name="datasource.url" value=""/>
+    <property name="datasource.username" value=""/>
+    <property name="datasource.password" value=""/>
+    <property name="datasource.hikari.maximumPoolSize" value=""/>
+    <property name="datasource.hikari.dataSourceProperties" properties="yes">
+        <prop name="datasource.hikari.data-source-properties.cachePrepStmts" value=""/>
+        <prop name="datasource.hikari.data-source-properties.prepStmtCacheSize" value=""/>
+        <prop name="datasource.hikari.data-source-properties.prepStmtCacheSqlLimit" value=""/>
+        <prop name="datasource.hikari.data-source-properties.useServerPrepStmts" value=""/>
+        <prop name="datasource.hikari.data-source-properties.useLocalSessionState" value=""/>
+        <prop name="datasource.hikari.data-source-properties.rewriteBatchedStatements" value=""/>
+        <prop name="datasource.hikari.data-source-properties.cacheResultSetMetadata" value=""/>
+        <prop name="datasource.hikari.data-source-properties.cacheServerConfiguration" value=""/>
+        <prop name="datasource.hikari.data-source-properties.elideSetAutoCommits" value=""/>
+        <prop name="datasource.hikari.data-source-properties.maintainTimeStats" value=""/>
+    </property>
+</config>

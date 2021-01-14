@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.phoenix</groupId>
+    <artifactId>spring-boot-api-template</artifactId>
+    <packaging>pom</packaging>
+    <version>0.2.0</version>
+    <modules>
+        <module>MODULE-CORE</module>
+        <module>MODULE-COMMON</module>
+        <module>MODULE-API</module>
+        <module>MODULE-DOMAIN</module>
+        <module>MODULE-CONFIG</module>
+        <module>MODULE-ADAPTER</module>
+        <module>MODULE-INFRASTRUCTURE</module>
+    </modules>
+
+    <properties>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+    </properties>
+    
+</project>

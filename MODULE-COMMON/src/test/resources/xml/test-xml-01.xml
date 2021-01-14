@@ -1,0 +1,37 @@
+<?xml version = "1.0"?>
+<config>
+    <data-source id="primary">
+        <property name="DataSource" value="" description="primaryDataSource"/>
+        <property name="EntityManager" value="" description="primaryEntityManager"/>
+        <property name="EntityManager.PersistenceUnitName" value="" description=""/>
+        <property name="EntityManager.PackagesToScan" value="" description=""/>
+        <property name="EntityManagerFactory" value="" description=""/>
+        <property name="PlatformTransactionManager" value="" description=""/>
+    </data-source>
+
+    <connection-pool id="hikari">
+        <property name="datasource.url" value="" description=""/>
+        <property name="datasource.username" value="" description=""/>
+        <property name="datasource.password" value="" description=""/>
+        <property name="datasource.hikari.maximumPoolSize" value="" description=""/>
+        <property name="datasource.hikari.dataSourceProperties" properties="yes">
+            <prop name="datasource.hikari.data-source-properties.cachePrepStmts" value="" description=""/>
+            <prop name="datasource.hikari.data-source-properties.prepStmtCacheSize" value="" description=""/>
+            <prop name="datasource.hikari.data-source-properties.prepStmtCacheSqlLimit" value="" description=""/>
+            <prop name="datasource.hikari.data-source-properties.useServerPrepStmts" value="" description=""/>
+            <prop name="datasource.hikari.data-source-properties.useLocalSessionState" value="" description=""/>
+            <prop name="datasource.hikari.data-source-properties.rewriteBatchedStatements" value="" description=""/>
+            <prop name="datasource.hikari.data-source-properties.cacheResultSetMetadata" value="" description=""/>
+            <prop name="datasource.hikari.data-source-properties.cacheServerConfiguration" value="" description=""/>
+            <prop name="datasource.hikari.data-source-properties.elideSetAutoCommits" value="" description=""/>
+            <prop name="datasource.hikari.data-source-properties.maintainTimeStats" value="" description=""/>
+        </property>
+    </connection-pool>
+
+    <jpa>
+        <property name="hibernate.dialect" value="" description=""/>
+        <property name="hibernate.show.sql" value="" description=""/>
+        <property name="hibernate.hbm2ddl.auto" value="" description=""/>
+    </jpa>
+
+</config>
