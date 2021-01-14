@@ -1,5 +1,7 @@
 package com.phoenix.common.util;
 
+import org.apache.log4j.Logger;
+
 /**
  * <p>Encodes and decodes to and from Base64 notation.</p>
  * <p>Homepage: <a href="http://iharder.net/base64">http://iharder.net/base64</a>.</p>
@@ -34,6 +36,7 @@ package com.phoenix.common.util;
  * @version 2.3.7
  */
 public class Base64 {
+    private static Logger logger = Logger.getLogger(Base64.class);
 
     /* ********  P U B L I C   F I E L D S  ******** */
 
@@ -1189,9 +1192,10 @@ public class Base64 {
                 }   // end try
                 catch (java.io.IOException e) {
                     if (e.getMessage().equals("Unsupported compression method")) {
-                        System.out.println("Base64 decoding: Ignoring GZIP header and just returning originally-decoded bytes."); // Better to log as debug, but jboss logging not available in the module :/
+                        logger.info("Base64 decoding: Ignoring GZIP header and just returning originally-decoded bytes."); // Better to log as debug, but jboss logging not available in the module :/
                     } else {
-                        e.printStackTrace();
+                        //e.printStackTrace();
+                        logger.error(e.getMessage(), e);
                     }
 
                     // Just return originally-decoded bytes
@@ -1199,15 +1203,15 @@ public class Base64 {
                 finally {
                     try {
                         baos.close();
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                     try {
                         gzis.close();
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                     try {
                         bais.close();
-                    } catch (Exception e) {
+                    } catch (Exception ignored) {
                     }
                 }   // end finally
 

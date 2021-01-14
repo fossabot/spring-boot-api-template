@@ -28,12 +28,13 @@ package com.phoenix.common.jsonwebtoken;
 import com.phoenix.common.jsonwebtoken.crypto.Keys;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.util.Base64;
+import org.apache.log4j.Logger;
 
 import javax.crypto.SecretKey;
 import java.io.*;
-import java.util.Objects;
 
 public final class KeyProvider {
+    private Logger logger = Logger.getLogger(KeyProvider.class);
     private final KeyWrapper keyWrapper;
 
     public KeyProvider(File keyFile) throws IOException, ClassNotFoundException {
@@ -54,19 +55,21 @@ public final class KeyProvider {
     }
 
     private void saveKey(File file) throws IOException {
-        FileOutputStream fileOut = new FileOutputStream(file);
-        ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-        objectOut.writeObject(this.keyWrapper);
-        objectOut.close();
-        System.out.println("The Object  was succesfully written to a file");
+        FileOutputStream fileOutputStream = new FileOutputStream(file);
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+        objectOutputStream.writeObject(this.keyWrapper);
+        objectOutputStream.close();
+        //System.out.println("The Object  was succesfully written to a file");
+        logger.info("The Key was successfully written to a file");
     }
 
     private Object loadKey(File file) throws IOException, ClassNotFoundException {
-        FileInputStream fileIn = new FileInputStream(file);
-        ObjectInputStream objectIn = new ObjectInputStream(fileIn);
-        Object obj = objectIn.readObject();
-        System.out.println("The Object has been read from the file");
-        objectIn.close();
+        FileInputStream fileInputStream = new FileInputStream(file);
+        ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+        Object obj = objectInputStream.readObject();
+        //System.out.println("The Object has been read from the file");
+        logger.info("The Key has been read from the file");
+        objectInputStream.close();
         return obj;
     }
 

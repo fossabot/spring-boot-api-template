@@ -34,8 +34,8 @@ public class TestIdGenerator {
         String id_1 = IdGenerator.generate();
         String id_2 = IdGenerator.generate();
 
-        System.out.println(id_1);
-        System.out.println(id_2);
+        System.out.println(id_1);//NOPMD
+        System.out.println(id_2);//NOPMD
 
         Assert.assertNotEquals(id_1, id_2);
     }

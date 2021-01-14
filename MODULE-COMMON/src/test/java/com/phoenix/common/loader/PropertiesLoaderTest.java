@@ -26,7 +26,6 @@ package com.phoenix.common.loader;
 
 import org.junit.Test;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -48,10 +47,10 @@ public class PropertiesLoaderTest {
 
             // get property by name
             System.out.println(properties.getProperty("username"));
-            System.out.println(properties.getProperty("password"));
-
+            System.out.println(properties.getProperty("password"));//NOPMD
+//NOPMD
         } catch (IOException e) {
-            e.printStackTrace();
+            e.printStackTrace();//NOPMD
         } finally {
             // close objects
             try {
@@ -59,7 +58,7 @@ public class PropertiesLoaderTest {
                     inputStream.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace();//NOPMD
             }
         }
     }

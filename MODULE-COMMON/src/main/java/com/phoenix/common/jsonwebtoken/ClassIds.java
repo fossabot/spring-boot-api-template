@@ -24,7 +24,7 @@
 
 package com.phoenix.common.jsonwebtoken;
 
-public abstract class ClassIds {
+public final class ClassIds {
     public static final String DEFAULT_HEADER = "com.phoenix.common.jsonwebtoken.component.DefaultHeader";
     public static final String DEFAULT_JWS_HEADER = "com.phoenix.common.jsonwebtoken.component.DefaultJwsHeader";
     public static final String DEFAULT_CLAIMS = "com.phoenix.common.jsonwebtoken.component.DefaultClaims";

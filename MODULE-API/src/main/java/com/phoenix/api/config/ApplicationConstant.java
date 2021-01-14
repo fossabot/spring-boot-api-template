@@ -25,6 +25,6 @@
 
 package com.phoenix.api.config;
 
-public abstract class ApplicationConstant {
+public final class ApplicationConstant {
     public static final String KEY_FILE = "key.dat";
 }

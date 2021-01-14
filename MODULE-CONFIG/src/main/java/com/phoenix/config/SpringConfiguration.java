@@ -25,11 +25,11 @@
 package com.phoenix.config;
 
 import com.phoenix.adapter.controller.AuthControllerAdapter;
-import com.phoenix.adapter.security.AuthenticationManagerAdapter;
-import com.phoenix.adapter.security.PasswordEncoderAdapter;
 import com.phoenix.adapter.map.DomainUserMapUserEntity;
 import com.phoenix.adapter.map.Mapper;
 import com.phoenix.adapter.repository.UserRepositoryAdapter;
+import com.phoenix.adapter.security.AuthenticationManagerAdapter;
+import com.phoenix.adapter.security.PasswordEncoderAdapter;
 import com.phoenix.common.jsonwebtoken.DefaultTokenProvider;
 import com.phoenix.common.jsonwebtoken.KeyProvider;
 import com.phoenix.common.jsonwebtoken.TokenProvider;
@@ -59,16 +59,13 @@ public class SpringConfiguration {
                                UserRepositoryImp userRepositoryImp,
                                AuthenticationManager authenticationManager,
                                File keyFile
-                               ) throws IOException, ClassNotFoundException {
+    ) throws IOException, ClassNotFoundException {
         this.passwordEncoderPort = new PasswordEncoderAdapter();
         this.keyProvider = new KeyProvider(keyFile);
 
         this.authenticationManager = new AuthenticationManagerAdapter(authenticationManager);
         Mapper domainUserMapUserEntity = new DomainUserMapUserEntity();
         this.userRepositoryPort = new UserRepositoryAdapter(domainUserMapUserEntity, userRepository, userRepositoryImp);
-
-
-        System.out.println("-------------------------------------------------------------");
     }
 
     //=======================================================

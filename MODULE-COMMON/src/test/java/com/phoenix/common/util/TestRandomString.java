@@ -30,6 +30,6 @@ import org.junit.Test;
 public class TestRandomString {
     @Test
     public void testRandom(){
-        System.out.println(RandomString.randomCode(1));
+        System.out.println(RandomString.randomCode(1));//NOPMD
     }
 }

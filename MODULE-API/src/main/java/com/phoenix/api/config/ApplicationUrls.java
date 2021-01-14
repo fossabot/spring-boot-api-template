@@ -25,7 +25,7 @@
 
 package com.phoenix.api.config;
 
-public abstract class ApplicationUrls {
+public final class ApplicationUrls {
     /**
      * public url matchers
      */

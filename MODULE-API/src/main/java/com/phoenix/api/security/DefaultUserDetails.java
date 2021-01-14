@@ -46,7 +46,7 @@ public class DefaultUserDetails implements UserDetails {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
 
         for (String role : user.getRoles()) {
-            authorities.add(new SimpleGrantedAuthority(role));
+            authorities.add(new SimpleGrantedAuthority(role));//NOPMD
         }
         return authorities;
     }

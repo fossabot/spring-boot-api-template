@@ -25,13 +25,12 @@
 
 package com.phoenix.common.lang;
 
+import com.phoenix.common.exception.runtime.InstantiationException;
 import com.phoenix.common.exception.runtime.UnknownClassException;
 
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-
-import com.phoenix.common.exception.runtime.InstantiationException;
 
 /**
  * @since 0.1

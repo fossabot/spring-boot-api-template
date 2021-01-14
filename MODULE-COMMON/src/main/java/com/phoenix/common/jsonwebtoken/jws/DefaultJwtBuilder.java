@@ -29,22 +29,24 @@ import com.phoenix.common.exception.ioe.SerializationException;
 import com.phoenix.common.exception.security.InvalidKeyException;
 import com.phoenix.common.jsonwebtoken.common.GsonSerializer;
 import com.phoenix.common.jsonwebtoken.common.Serializer;
-import com.phoenix.common.jsonwebtoken.compression.CompressionCodec;
 import com.phoenix.common.jsonwebtoken.component.*;
+import com.phoenix.common.jsonwebtoken.compression.CompressionCodec;
+import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.jsonwebtoken.signature.DefaultJwtSigner;
 import com.phoenix.common.jsonwebtoken.signature.JwtSigner;
-import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 import com.phoenix.common.lang.Assert;
 import com.phoenix.common.lang.Collections;
 import com.phoenix.common.lang.Strings;
-import com.phoenix.common.util.Base64;
 import com.phoenix.common.util.Base64Url;
+import org.apache.log4j.Logger;
 
 import java.security.Key;
 import java.util.Date;
 import java.util.Map;
 
 public class DefaultJwtBuilder implements JwtBuilder {
+
+    private Logger logger = Logger.getLogger(DefaultJwtBuilder.class);
 
     private Header header;
     private Claims claims;
@@ -308,7 +310,8 @@ public class DefaultJwtBuilder implements JwtBuilder {
 //            base64UrlEncodedHeader = Base64.encodeBytes(serializer.serialize(jwsHeader));
             base64UrlEncodedHeader = Base64Url.encode(serializer.serialize(jwsHeader));
         } catch (SerializationException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
 
         byte[] bytes;

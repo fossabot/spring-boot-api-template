@@ -24,9 +24,6 @@
 
 package com.phoenix.infrastructure.entities.primary;
 
-import com.phoenix.infrastructure.entities.AuditEntity;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
 
 @Entity

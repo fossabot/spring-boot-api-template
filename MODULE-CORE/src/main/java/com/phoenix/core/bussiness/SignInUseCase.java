@@ -24,9 +24,9 @@
 
 package com.phoenix.core.bussiness;
 
+import com.phoenix.common.exception.runtime.UserValidationException;
 import com.phoenix.common.jsonwebtoken.Scope;
 import com.phoenix.common.jsonwebtoken.TokenProvider;
-import com.phoenix.common.exception.runtime.UserValidationException;
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.jsonwebtoken.component.DefaultClaims;
 import com.phoenix.common.lang.Strings;

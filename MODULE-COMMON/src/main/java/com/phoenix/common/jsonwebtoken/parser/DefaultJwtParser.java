@@ -28,7 +28,9 @@ import com.phoenix.common.exception.ioe.DeserializationException;
 import com.phoenix.common.exception.runtime.*;
 import com.phoenix.common.exception.security.InvalidKeyException;
 import com.phoenix.common.exception.security.WeakKeyException;
-import com.phoenix.common.jsonwebtoken.common.*;
+import com.phoenix.common.jsonwebtoken.common.Clock;
+import com.phoenix.common.jsonwebtoken.common.DefaultClock;
+import com.phoenix.common.jsonwebtoken.common.Deserializer;
 import com.phoenix.common.jsonwebtoken.component.*;
 import com.phoenix.common.jsonwebtoken.compression.CompressionCodec;
 import com.phoenix.common.jsonwebtoken.compression.CompressionCodecResolver;
@@ -40,6 +42,7 @@ import com.phoenix.common.jsonwebtoken.validator.DefaultJwtSignatureValidator;
 import com.phoenix.common.jsonwebtoken.validator.JwtSignatureValidator;
 import com.phoenix.common.lang.*;
 import com.phoenix.common.util.Base64Url;
+import org.apache.log4j.Logger;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
@@ -47,6 +50,8 @@ import java.util.Date;
 import java.util.Map;
 
 public class DefaultJwtParser implements JwtParser {
+
+    private Logger logger = Logger.getLogger(DefaultJwtParser.class);
 
     private static final int MILLISECONDS_PER_SECOND = 1000;
 
@@ -262,7 +267,9 @@ public class DefaultJwtParser implements JwtParser {
                 algorithm.assertValidVerificationKey(key); //since 0.10.0: https://github.com/jwtk/jjwt/issues/334
                 validator = createSignatureValidator(algorithm, key);
             } catch (WeakKeyException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
+                logger.error(e.getMessage(), e);
+
             } catch (InvalidKeyException | IllegalArgumentException e) {
                 String algName = algorithm.getValue();
                 String msg = "The parsed JWT indicates it was signed with the " + algName + " signature " +
@@ -370,14 +377,14 @@ public class DefaultJwtParser implements JwtParser {
                 }
             }
 
-            InvalidClaimException invalidClaimException = null;
+            InvalidClaimException invalidClaimException = null;//NOPMD
 
             if (actualClaimValue == null) {
 
                 String msg = String.format(ClaimJwtException.MISSING_EXPECTED_CLAIM_MESSAGE_TEMPLATE,
                         expectedClaimName, expectedClaimValue);
 
-                invalidClaimException = new MissingClaimException(header, claims, msg);
+                invalidClaimException = new MissingClaimException(header, claims, msg);//NOPMD
 
             } else if (!expectedClaimValue.equals(actualClaimValue)) {
 

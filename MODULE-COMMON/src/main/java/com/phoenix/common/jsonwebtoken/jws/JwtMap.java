@@ -29,12 +29,7 @@ import com.phoenix.common.lang.Assert;
 import com.phoenix.common.lang.DateFormats;
 
 import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class JwtMap implements Map<String, Object> {
 

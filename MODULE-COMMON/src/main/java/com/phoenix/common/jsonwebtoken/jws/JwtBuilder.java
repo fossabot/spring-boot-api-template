@@ -26,10 +26,10 @@
 package com.phoenix.common.jsonwebtoken.jws;
 
 import com.phoenix.common.jsonwebtoken.common.Serializer;
-import com.phoenix.common.jsonwebtoken.compression.CompressionCodec;
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.jsonwebtoken.component.ClaimsMutator;
 import com.phoenix.common.jsonwebtoken.component.Header;
+import com.phoenix.common.jsonwebtoken.compression.CompressionCodec;
 import com.phoenix.common.jsonwebtoken.crypto.Keys;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
 

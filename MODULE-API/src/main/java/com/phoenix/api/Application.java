@@ -19,7 +19,7 @@ public class Application {
 
         builder.headless(false);
 
-        ConfigurableApplicationContext context = builder.run(args);
+        ConfigurableApplicationContext context = builder.run(args);//NOPMD
 
 
 //        System.out.println();

@@ -45,7 +45,7 @@ import java.util.Date;
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class AuditEntity<U> {
+public abstract class AuditEntity<U> {//NOPMD
     @CreatedBy
     @Column(name = "CREATED_BY")
     protected U createdBy;

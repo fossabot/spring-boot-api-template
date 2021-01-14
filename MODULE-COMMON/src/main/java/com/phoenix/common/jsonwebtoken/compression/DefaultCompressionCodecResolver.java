@@ -28,10 +28,9 @@ package com.phoenix.common.jsonwebtoken.compression;
 import com.phoenix.common.exception.runtime.CompressionException;
 import com.phoenix.common.jsonwebtoken.component.Header;
 import com.phoenix.common.lang.Assert;
-import com.phoenix.common.lang.Services;
 import com.phoenix.common.lang.Strings;
 
-import java.util.*;
+import java.util.Map;
 
 /**
  * Default implementation of {@link CompressionCodecResolver} that supports the following:

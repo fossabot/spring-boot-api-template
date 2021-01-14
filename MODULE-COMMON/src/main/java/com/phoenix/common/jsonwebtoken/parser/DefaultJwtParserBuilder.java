@@ -24,7 +24,10 @@
 
 package com.phoenix.common.jsonwebtoken.parser;
 
-import com.phoenix.common.jsonwebtoken.common.*;
+import com.phoenix.common.jsonwebtoken.common.Clock;
+import com.phoenix.common.jsonwebtoken.common.DefaultClock;
+import com.phoenix.common.jsonwebtoken.common.Deserializer;
+import com.phoenix.common.jsonwebtoken.common.GsonDeserializer;
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.jsonwebtoken.component.DefaultClaims;
 import com.phoenix.common.jsonwebtoken.compression.CompressionCodecResolver;
@@ -32,8 +35,8 @@ import com.phoenix.common.jsonwebtoken.compression.DefaultCompressionCodecResolv
 import com.phoenix.common.jsonwebtoken.jws.JwtParser;
 import com.phoenix.common.jsonwebtoken.signature.SigningKeyResolver;
 import com.phoenix.common.lang.Assert;
-import com.phoenix.common.lang.Services;
 import com.phoenix.common.util.Base64;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.security.Key;
@@ -41,6 +44,8 @@ import java.util.Date;
 import java.util.Map;
 
 public class DefaultJwtParserBuilder implements JwtParserBuilder {
+
+    private static Logger logger = Logger.getLogger(DefaultJwtParserBuilder.class);
 
     private static final int MILLISECONDS_PER_SECOND = 1000;
 
@@ -155,7 +160,8 @@ public class DefaultJwtParserBuilder implements JwtParserBuilder {
         try {
             this.keyBytes = Base64.decode(base64EncodedSecretKey);
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         return this;
     }

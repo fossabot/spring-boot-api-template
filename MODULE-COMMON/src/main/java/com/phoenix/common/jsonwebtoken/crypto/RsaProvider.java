@@ -27,13 +27,7 @@ package com.phoenix.common.jsonwebtoken.crypto;
 import com.phoenix.common.exception.runtime.SignatureException;
 import com.phoenix.common.lang.Assert;
 
-import java.security.InvalidAlgorithmParameterException;
-import java.security.Key;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.Signature;
+import java.security.*;
 import java.security.spec.MGF1ParameterSpec;
 import java.security.spec.PSSParameterSpec;
 import java.util.HashMap;

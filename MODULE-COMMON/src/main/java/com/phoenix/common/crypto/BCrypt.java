@@ -437,7 +437,7 @@ public class BCrypt {
      * @param sign_ext_bug true to implement the 2x bug
      * @param safety bit 16 is set when the safety measure is requested
      */
-    private void key(byte key[], boolean sign_ext_bug, int safety) {
+    private void key(byte key[], boolean sign_ext_bug, int safety) {//NOPMD
         int i;
         int koffp[] = { 0 };
         int lr[] = { 0, 0 };
@@ -607,7 +607,7 @@ public class BCrypt {
      * @param salt the salt to hash with (perhaps generated using BCrypt.gensalt)
      * @return the hashed password
      */
-    public static String hashpw(byte passwordb[], String salt) {
+    public static String hashpw(byte[] passwordb, String salt) {
         BCrypt B;
         String real_salt;
         byte saltb[], hashed[];

@@ -24,11 +24,15 @@
 
 package com.phoenix.common.crypto;
 
+import org.apache.log4j.Logger;
+
 import java.security.SecureRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BCryptPasswordEncoder {
+    private Logger logger = Logger.getLogger(BCryptPasswordEncoder.class);
+
     private Pattern BCRYPT_PATTERN = Pattern.compile("\\A\\$2(a|y|b)?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}");
 
     private final int strength;
@@ -113,11 +117,13 @@ public class BCryptPasswordEncoder {
             throw new IllegalArgumentException("rawPassword cannot be null");
         }
         if (encodedPassword == null || encodedPassword.length() == 0) {
-            System.out.println("Empty encoded password");
+            //System.out.println("Empty encoded password");
+            logger.info("Empty encoded password");
             return false;
         }
         if (!this.BCRYPT_PATTERN.matcher(encodedPassword).matches()) {
-            System.out.println("Encoded password does not look like BCrypt");
+            //System.out.println("Encoded password does not look like BCrypt");
+            logger.info("Encoded password does not look like BCrypt");
             return false;
         }
         return BCrypt.checkpw(rawPassword.toString(), encodedPassword);
@@ -125,7 +131,8 @@ public class BCryptPasswordEncoder {
 
     public boolean upgradeEncoding(String encodedPassword) {
         if (encodedPassword == null || encodedPassword.length() == 0) {
-            System.out.println("Empty encoded password");
+            //System.out.println("Empty encoded password");
+            logger.info("Empty encoded password");
             return false;
         }
         Matcher matcher = this.BCRYPT_PATTERN.matcher(encodedPassword);

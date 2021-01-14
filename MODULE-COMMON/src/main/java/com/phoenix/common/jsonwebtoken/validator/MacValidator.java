@@ -24,8 +24,8 @@
 
 package com.phoenix.common.jsonwebtoken.validator;
 
-import com.phoenix.common.jsonwebtoken.signature.MacSigner;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
+import com.phoenix.common.jsonwebtoken.signature.MacSigner;
 
 import java.security.Key;
 import java.security.MessageDigest;

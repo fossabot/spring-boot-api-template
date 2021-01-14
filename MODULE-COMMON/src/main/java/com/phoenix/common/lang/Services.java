@@ -28,9 +28,9 @@ package com.phoenix.common.lang;
 import com.phoenix.common.exception.runtime.UnavailableImplementationException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.ServiceLoader;
-import java.util.Collections;
 
 import static com.phoenix.common.lang.Collections.arrayToList;
 

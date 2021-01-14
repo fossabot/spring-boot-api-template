@@ -61,8 +61,6 @@ public class PrimaryPersistenceConfig {
     private static final String HIKARICP_CONFIG_FILE = "primary-hikaricp.properties";
     private static final String JPA_CONFIG_FILE = "primary-jpa.properties";
     private static final String[] PACKAGES_TO_SCAN = {"com.phoenix.*"};
-    private static final String PERSISTENCE_UNIT_NAME = "PRIMARY";
-    private final Properties jpaProperties;
 
     public PrimaryPersistenceConfig() throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
@@ -70,7 +68,7 @@ public class PrimaryPersistenceConfig {
 
         FileInputStream fileInputStream = new FileInputStream(configFile);
 
-        this.jpaProperties = new Properties();
+        Properties jpaProperties = new Properties();
 
         jpaProperties.load(fileInputStream);
     }

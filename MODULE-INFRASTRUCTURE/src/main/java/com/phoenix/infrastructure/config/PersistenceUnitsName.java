@@ -25,6 +25,6 @@
 
 package com.phoenix.infrastructure.config;
 
-public abstract class PersistenceUnitsName {
+public final class PersistenceUnitsName {
     public static final String PRIMARY_PERSISTENCE_UNIT_NAME = "PRIMARY";
 }

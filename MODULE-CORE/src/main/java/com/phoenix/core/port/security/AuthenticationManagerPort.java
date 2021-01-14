@@ -24,8 +24,6 @@
 
 package com.phoenix.core.port.security;
 
-import java.util.Optional;
-
 public interface AuthenticationManagerPort {
     void authenticate(String username, String password);
 }

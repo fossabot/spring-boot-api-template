@@ -26,11 +26,8 @@ package com.phoenix.api.service;
 
 import com.phoenix.api.security.DefaultUserDetails;
 import com.phoenix.domain.entity.User;
-import com.phoenix.infrastructure.entities.primary.UserEntity;
 import com.phoenix.infrastructure.repositories.UserRepositoryImp;
-import com.phoenix.infrastructure.repositories.primary.UserRepository;
 import lombok.extern.log4j.Log4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

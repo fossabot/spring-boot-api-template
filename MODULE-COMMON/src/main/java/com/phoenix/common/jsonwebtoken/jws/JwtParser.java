@@ -25,7 +25,10 @@
 
 package com.phoenix.common.jsonwebtoken.jws;
 
-import com.phoenix.common.exception.runtime.*;
+import com.phoenix.common.exception.runtime.ExpiredJwtException;
+import com.phoenix.common.exception.runtime.MalformedJwtException;
+import com.phoenix.common.exception.runtime.SignatureException;
+import com.phoenix.common.exception.runtime.UnsupportedJwtException;
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.jsonwebtoken.component.Header;
 

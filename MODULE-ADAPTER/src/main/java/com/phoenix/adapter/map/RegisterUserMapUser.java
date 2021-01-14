@@ -26,11 +26,7 @@ package com.phoenix.adapter.map;
 
 import com.phoenix.domain.builder.UserBuilder;
 import com.phoenix.domain.entity.User;
-import com.phoenix.domain.enums.Role;
 import com.phoenix.domain.payload.RegisterUser;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class RegisterUserMapUser implements Mapper<RegisterUser, User> {
 

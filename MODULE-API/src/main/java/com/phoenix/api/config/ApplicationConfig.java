@@ -29,7 +29,6 @@ import com.phoenix.adapter.security.AuthenticationManagerAdapter;
 import com.phoenix.common.jsonwebtoken.KeyProvider;
 import com.phoenix.common.jsonwebtoken.TokenProvider;
 import com.phoenix.config.SpringConfiguration;
-import com.phoenix.core.bussiness.SignUpUseCase;
 import com.phoenix.infrastructure.repositories.UserRepositoryImp;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
 import org.springframework.beans.factory.annotation.Qualifier;

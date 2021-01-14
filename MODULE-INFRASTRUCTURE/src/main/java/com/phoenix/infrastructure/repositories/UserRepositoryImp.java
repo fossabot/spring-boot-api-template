@@ -25,10 +25,10 @@
 package com.phoenix.infrastructure.repositories;
 
 import com.phoenix.domain.builder.UserBuilder;
+import com.phoenix.domain.entity.User;
 import com.phoenix.infrastructure.config.PersistenceUnitsName;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import com.phoenix.domain.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;

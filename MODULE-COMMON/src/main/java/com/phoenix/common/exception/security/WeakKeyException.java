@@ -25,8 +25,6 @@
 
 package com.phoenix.common.exception.security;
 
-import com.phoenix.common.exception.security.InvalidKeyException;
-
 /**
  * @since 0.10.0
  */

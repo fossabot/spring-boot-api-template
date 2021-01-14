@@ -26,15 +26,11 @@ package com.phoenix.common.jsonwebtoken.validator;
 
 import com.phoenix.common.exception.runtime.SignatureException;
 import com.phoenix.common.jsonwebtoken.crypto.RsaProvider;
-import com.phoenix.common.jsonwebtoken.signature.RsaSigner;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
+import com.phoenix.common.jsonwebtoken.signature.RsaSigner;
 import com.phoenix.common.lang.Assert;
 
-import java.security.InvalidKeyException;
-import java.security.Key;
-import java.security.MessageDigest;
-import java.security.PublicKey;
-import java.security.Signature;
+import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 

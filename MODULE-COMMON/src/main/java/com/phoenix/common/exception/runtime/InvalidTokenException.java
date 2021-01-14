@@ -27,14 +27,7 @@ package com.phoenix.common.exception.runtime;
 
 public class InvalidTokenException extends RuntimeException {
 
-    private final String tokenType;
-    private final String token;
-    private final String message;
-
     public InvalidTokenException(String tokenType, String token, String message) {
         super(String.format("%s: [%s] token: [%s] ", message, tokenType, token));
-        this.tokenType = tokenType;
-        this.token = token;
-        this.message = message;
     }
 }

@@ -27,20 +27,18 @@ package com.phoenix.common.jsonwebtoken;
 import com.phoenix.common.exception.runtime.JwtException;
 import com.phoenix.common.exception.security.InvalidKeyException;
 import com.phoenix.common.jsonwebtoken.component.Claims;
-import com.phoenix.common.jsonwebtoken.jws.Jws;
-import com.phoenix.common.jsonwebtoken.jws.Jwts;
 import com.phoenix.common.jsonwebtoken.crypto.Keys;
 import com.phoenix.common.jsonwebtoken.crypto.SignatureAlgorithm;
+import com.phoenix.common.jsonwebtoken.jws.Jws;
+import com.phoenix.common.jsonwebtoken.jws.Jwts;
 import com.phoenix.common.util.Base64;
-import com.phoenix.common.util.IdGenerator;
-import org.junit.Assert;
 import org.junit.Test;
 
 import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.*;
-import java.security.NoSuchAlgorithmException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,8 +51,8 @@ public class TestJwt {
 
         System.out.println(key);
         System.out.println(secretString);
-    }
-
+    }//NOPMD
+//NOPMD
     @Test
     public void createJws() throws InvalidKeyException, java.security.InvalidKeyException {
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
@@ -63,7 +61,7 @@ public class TestJwt {
 
         System.out.println(secretString);
 
-        String jws = Jwts.builder() // (1)
+        String jws = Jwts.builder() // (1)//NOPMD
 
                 .setSubject("Bob")      // (2)
 
@@ -73,7 +71,7 @@ public class TestJwt {
 
         System.out.println(jws);
     }
-
+//NOPMD
     @Test
     public void createJwt() throws InvalidKeyException, java.security.InvalidKeyException {
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
@@ -83,9 +81,9 @@ public class TestJwt {
 
         System.out.println(secretString);
         Date expiration = new Date();
-        Date notBefore = new Date();
-
-        Map<String, Object> headers = new HashMap<>();
+        Date notBefore = new Date();//NOPMD
+//NOPMD
+        Map<String, Object> headers = new HashMap<>();//NOPMD
         headers.put("type", "JWT");
         headers.put("kid", kid);
 
@@ -112,7 +110,7 @@ public class TestJwt {
 
         System.out.println(jws);
     }
-
+//NOPMD
     @Test
     public void testReadJws() {
         Jws<Claims> jws;
@@ -127,9 +125,9 @@ public class TestJwt {
 
             System.out.println(jws.getHeader());
             System.out.println(jws.getBody());
-            System.out.println(jws.getSignature());
-            // we can safely trust the JWT
-        } catch (JwtException ex) {       // (5)
+            System.out.println(jws.getSignature());//NOPMD
+            // we can safely trust the JWT//NOPMD
+        } catch (JwtException ex) {       // (5)//NOPMD
 
             // we *cannot* use the JWT as intended by its creator
         }
@@ -149,9 +147,9 @@ public class TestJwt {
 
         System.out.println(keyWrapper);
         System.out.println(wrapper);
-        System.out.println(keyWrapper.equals(wrapper));
-    }
-
+        System.out.println(keyWrapper.equals(wrapper));//NOPMD
+    }//NOPMD
+//NOPMD
     private void writeObjectToFile(Object serObj) {
         try {
             FileOutputStream fileOut = new FileOutputStream("J:\\spring-boot-api-template\\MODULE-COMMON\\src\\main\\resources\\test.dat");
@@ -160,8 +158,8 @@ public class TestJwt {
             objectOut.close();
             System.out.println("The Object  was succesfully written to a file");
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception ex) {//NOPMD
+            ex.printStackTrace();//NOPMD
         }
     }
 
@@ -172,10 +170,10 @@ public class TestJwt {
             Object obj = objectIn.readObject();
             System.out.println("The Object has been read from the file");
             objectIn.close();
-            return obj;
+            return obj;//NOPMD
 
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ex.printStackTrace();//NOPMD
             return null;
         }
     }

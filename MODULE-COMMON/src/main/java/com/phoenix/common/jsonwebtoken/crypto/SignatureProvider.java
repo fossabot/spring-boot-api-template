@@ -32,7 +32,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.Signature;
 
-abstract class SignatureProvider {
+abstract class SignatureProvider {//NOPMD
 
     /**
      * JJWT's default SecureRandom number generator.  This RNG is initialized using the JVM default as follows:

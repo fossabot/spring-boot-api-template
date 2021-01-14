@@ -24,8 +24,8 @@
 
 package com.phoenix.common.jsonwebtoken.crypto;
 
-import com.phoenix.common.exception.security.InvalidKeyException;
 import com.phoenix.common.exception.runtime.SignatureException;
+import com.phoenix.common.exception.security.InvalidKeyException;
 import com.phoenix.common.exception.security.WeakKeyException;
 
 import javax.crypto.SecretKey;
@@ -432,7 +432,11 @@ public enum SignatureAlgorithm {
                 int size = rsaKey.getModulus().bitLength();
                 if (size < this.minKeyLength) {
 
-                    String section = name().startsWith("P") ? "3.5" : "3.3";
+                    String section;
+                    if (name().startsWith("P"))
+                        section = "3.5";
+                    else
+                        section = "3.3";
 
                     String msg = "The " + keyType(signing) + " key's size is " + size + " bits which is not secure " +
                             "enough for the " + name() + " algorithm.  The JWT JWA Specification (RFC 7518, Section " +

@@ -25,8 +25,6 @@
 
 package com.phoenix.common.exception.ioe;
 
-import com.phoenix.common.exception.ioe.CodecException;
-
 public class DecodingException extends CodecException {
 
     public DecodingException(String message) {

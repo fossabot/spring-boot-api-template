@@ -27,7 +27,6 @@ package com.phoenix.common.loader;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -35,9 +34,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Properties;
 
 public class XmlLoaderTest {
     private Element getRootElement(String fileName) throws ParserConfigurationException, IOException, SAXException {
@@ -51,7 +48,7 @@ public class XmlLoaderTest {
         System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
 
         return doc.getDocumentElement();
-    }
+    }//NOPMD
 
     @Test
     public void testParse() throws IOException, SAXException, ParserConfigurationException {
@@ -72,16 +69,16 @@ public class XmlLoaderTest {
             System.out.println("Name : "
                     + property.getAttribute("name") + ", value: " + property.getAttribute("value"));
         }
-
+//NOPMD
         System.out.println("============================================================================");
 
         for (int i = 0; i < connectionPoolProps.getLength(); i++) {
-            Element property = (Element) connectionPoolProps.item(i);
+            Element property = (Element) connectionPoolProps.item(i);//NOPMD
 
             System.out.println("Name : "
                     + property.getAttribute("name") + ", value: " + property.getAttribute("value"));
 
-            NodeList props = property.getElementsByTagName("prop");
+            NodeList props = property.getElementsByTagName("prop");//NOPMD
 
             for (int j = 0; j < props.getLength(); j++) {
                 Element prop = (Element) props.item(j);
@@ -89,17 +86,17 @@ public class XmlLoaderTest {
                 System.out.println("Name : "
                         + prop.getAttribute("name") + ", value: " + prop.getAttribute("value"));
             }
-        }
+        }//NOPMD
 
         System.out.println("============================================================================");
 
         for (int i = 0; i < jpaProps.getLength(); i++) {
-            Element property = (Element) jpaProps.item(i);
+            Element property = (Element) jpaProps.item(i);//NOPMD
 
             System.out.println("Name : "
                     + property.getAttribute("name") + ", value: " + property.getAttribute("value"));
         }
-
+//NOPMD
     }
 
 }

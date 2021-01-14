@@ -29,20 +29,18 @@ import com.phoenix.common.jsonwebtoken.common.GsonSerializer;
 import com.phoenix.common.jsonwebtoken.common.Serializer;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 public class TestBase64 {
     @Test
     public void testBase64EncodeBytes(){
         String secret = "sajkdnaskda,smd,sadkas;;d";
         System.out.println(Base64.encodeBytes(secret.getBytes()));
         System.out.println(Base64Url.encode(secret.getBytes()));
-    }
-
+    }//NOPMD
+//NOPMD
     @Test
     public void testBase64UrlEncodeObject() throws SerializationException {
         Serializer<String> serializer = new GsonSerializer<>();
         String a = "1";
         System.out.println(new String(serializer.serialize(a)));
     }
-}
+}//NOPMD
