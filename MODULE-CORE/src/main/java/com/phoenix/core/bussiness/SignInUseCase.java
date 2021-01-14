@@ -95,7 +95,7 @@ public class SignInUseCase {
 
             token.setAccessToken(accessToken);
             token.setTokenId(accessTokenId);
-            token.setTokenType("BEARER");
+            token.setTokenType("Bearer");
             token.setRefreshToken(refreshToken);
             token.setNotBeforePolicy("0");
             token.setScope(accessTokenScope);
