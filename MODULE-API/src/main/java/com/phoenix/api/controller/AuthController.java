@@ -25,14 +25,17 @@
 package com.phoenix.api.controller;
 
 import com.phoenix.adapter.controller.AuthControllerAdapter;
+import com.phoenix.api.config.ApplicationUrls;
 import com.phoenix.domain.payload.LoginUser;
 import com.phoenix.domain.payload.RegisterUser;
 import com.phoenix.domain.response.ApiResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(ApplicationUrls.AUTH_PREFIX)
 public class AuthController {
     private final AuthControllerAdapter authController;
 
@@ -40,13 +43,13 @@ public class AuthController {
         this.authController = authController;
     }
 
-    @PostMapping("/users")
-    public ApiResponse signUp(@RequestBody RegisterUser registerUser){
+    @PostMapping(ApplicationUrls.SIGN_UP)
+    public ApiResponse signUp(@RequestBody RegisterUser registerUser) {
         return authController.signUp(registerUser);
     }
 
-    @PostMapping("/auth")
-    public ApiResponse signIn(@RequestBody LoginUser loginUser){
+    @PostMapping(ApplicationUrls.SIGN_IN)
+    public ApiResponse signIn(@RequestBody LoginUser loginUser) {
         return authController.signIn(loginUser);
     }
 }

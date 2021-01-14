@@ -49,6 +49,8 @@ public abstract class ApplicationUrls {
 
             };
 
-    public static final String AUTH_URL = "";
+    public static final String AUTH_PREFIX = "/auth";
+    public static final String SIGN_IN = "/sign-in";
+    public static final String SIGN_UP = "/sign-up";
 
 }

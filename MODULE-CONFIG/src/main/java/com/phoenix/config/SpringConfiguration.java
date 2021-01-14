@@ -41,9 +41,12 @@ import com.phoenix.infrastructure.repositories.UserRepositoryImp;
 import com.phoenix.infrastructure.repositories.primary.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 
+/**
+ * File cấu hình để chỉ ra mối liên hệ giữa các đối tượng
+ * map các port và adapter lại với nhau tại đây.
+ */
 public class SpringConfiguration {
     private final UserRepositoryPort userRepositoryPort;
-    private final Mapper domainUserMapUserEntity;
     private final PasswordEncoderPort passwordEncoderPort;
     private final KeyProvider keyProvider;
     private final AuthenticationManagerAdapter authenticationManager;
@@ -56,20 +59,36 @@ public class SpringConfiguration {
         this.keyProvider = new KeyProvider();
 
         this.authenticationManager = new AuthenticationManagerAdapter(authenticationManager);
-        this.domainUserMapUserEntity = new DomainUserMapUserEntity();
+        Mapper domainUserMapUserEntity = new DomainUserMapUserEntity();
         this.userRepositoryPort = new UserRepositoryAdapter(domainUserMapUserEntity, userRepository, userRepositoryImp);
 
 
         System.out.println("-------------------------------------------------------------");
     }
 
-    public SignUpUseCase signUpUseCase() {
-        return new SignUpUseCase(this.userRepositoryPort, this.passwordEncoderPort);
-    }
+    //=======================================================
+    //                   CONTROLLER
+    //=======================================================
 
     public AuthControllerAdapter authControllerAdapter() {
         return new AuthControllerAdapter(this.signUpUseCase(), this.signInUseCase());
     }
+
+    //=======================================================
+    //                   USE CASE
+    //=======================================================
+
+    public SignUpUseCase signUpUseCase() {
+        return new SignUpUseCase(this.userRepositoryPort, this.passwordEncoderPort);
+    }
+
+    public SignInUseCase signInUseCase() {
+        return new SignInUseCase(this.authenticationManager, this.createTokenProvider(), this.userRepositoryPort);
+    }
+
+    //=======================================================
+    //                   DEPENDENCY
+    //=======================================================
 
     public KeyProvider createKeyProvider() {
         return this.keyProvider;
@@ -83,7 +102,5 @@ public class SpringConfiguration {
         return this.authenticationManager;
     }
 
-    public SignInUseCase signInUseCase() {
-        return new SignInUseCase(this.authenticationManager, this.createTokenProvider(), this.userRepositoryPort);
-    }
+
 }

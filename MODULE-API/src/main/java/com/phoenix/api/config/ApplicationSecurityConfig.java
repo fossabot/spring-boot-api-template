@@ -100,19 +100,22 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        String authPattern = "/**" + ApplicationUrls.AUTH_PREFIX + "/**";
+
         http.cors().and()
                 .csrf()
                 .disable()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers(authPattern).permitAll()
                 .antMatchers(ApplicationUrls.PUBLIC_MATCHERS).permitAll()
                 .antMatchers(ApplicationUrls.SWAGGER_MATCHERS).permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+
     }
 }

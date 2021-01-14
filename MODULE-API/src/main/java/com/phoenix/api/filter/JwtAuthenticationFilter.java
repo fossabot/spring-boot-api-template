@@ -25,6 +25,8 @@
 
 package com.phoenix.api.filter;
 
+import com.phoenix.api.Application;
+import com.phoenix.api.config.ApplicationUrls;
 import com.phoenix.common.jsonwebtoken.TokenProvider;
 import com.phoenix.common.jsonwebtoken.component.Claims;
 import com.phoenix.common.lang.Strings;
@@ -54,6 +56,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.userDetailsService = userDetailsService;
     }
 
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        if(request.getRequestURI().contains(ApplicationUrls.AUTH_PREFIX))
+            return true;
+        return false;
+    }
+
     /**
      * Filter the incoming request for a valid token in the request header
      */
@@ -61,7 +70,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest,
                                     HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException {
-        log.info("Filter the incoming request for a valid token in the request header");
+        String path = httpServletRequest.getRequestURI();
+        String ip = httpServletRequest.getRemoteAddr();
+        log.info(String.format("Incoming request to URI: %s from IP: %s",path,ip));
 
         //0. get token from request
         String jwt = getTokenFromRequest(httpServletRequest);
